@@ -1,0 +1,6 @@
+# Adding .env into ignore makes sure you do not commit sensitive information
+# This part is used for the password strategy
+.env
+*.pyc
+__pycache__
+redis-data

@@ -1,0 +1,53 @@
+# this is when application grows and you want to have multiple compose files
+include:
+  - path: ./infra.yaml
+
+services:
+  # web service is built from Dockerfile, maps port 8000 on host to port 5000 where flask listens by default
+  web:
+    build: .
+    ports:
+      - "${APP_PORT}:5000"
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+    # add this to ensure web starts only after redis is healthy
+    # if web and redis loads simulataneously, web may fail and crash
+    depends_on:
+      redis:
+        condition: service_healthy
+    develop:
+      watch:
+        # watches the project directory . on host
+        # when a change is detected copy to into /code and restart container
+        - action: sync+restart
+          path: .
+          target: /code
+        # triggers a full image rebuilde when requirements.txt changes, since it is used in Dockerfile to install dependencies
+        - action: rebuild
+          path: requirements.txt
+
+  # redis uses a public Redis image from Docker Hub, no ports are mapped to host since web service connects to it via docker network
+  redis:
+    image: redis:alpine
+    # mounts named volume to /data
+    volumes:
+      - redis-data:/data
+    # correlates to depends_on above
+    healthcheck:
+      # runs redis-cli ping command to check if redis is healthy
+      test: ["CMD", "redis-cli", "ping"]
+      # runs check every 5s
+      interval: 5s
+      # gives check 3s to respond
+      timeout: 3s
+      # allowed failures before marking as unhealthy
+      retries: 5
+      # wait 10s before starting health check
+      start_period: 10s
+
+# add volumes to register with Docker and persists between compose down and up
+# otherwise, each shut down Redis resets its data and web loses all data in Redis
+volumes:
+  # path where Redis writes data to disk
+  redis-data:
