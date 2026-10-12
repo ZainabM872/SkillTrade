@@ -1,9 +1,10 @@
 import os
 import redis
-from flask import Flask
+from flask import Flask, render_template
 
 # Create a Flask app and configure Redis connection
-app = Flask(__name__)
+# By default flask looks for static: change name to folder name
+app = Flask(__name__, static_folder="css-styles")
 # Create a Redis client and store in cache variable
 cache = redis.Redis(
     # os.getenv() gets an environment variable
@@ -15,7 +16,5 @@ cache = redis.Redis(
 )
 
 @app.route("/")
-def hello():
-    # Increment the "hits" key in Redis and return the count
-    count = cache.incr("hits")
-    return f"Hello from Compose Watch! I have been seen {count} time(s).\n"
+def loginpage():
+    return render_template('logindesktop.html')
