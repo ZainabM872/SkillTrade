@@ -66,7 +66,7 @@ something new. */
   left: 824px;
   top: 194px;
 
-  background: #ffffff;
+  background: #f7f8fc;
   border-radius: 16px;
 }
 
@@ -96,4 +96,165 @@ something new. */
   font-size: 15px;
   line-height: 145%;
   color: #667085;
+}
+
+/* Email address */
+.emailtext {
+  position: absolute;
+  width: 408px;
+  height: 20px;
+  left: 36px;
+  top: 136px;
+
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 145%;
+
+  color: #101828;
+}
+
+/* Field / Email address */
+.emailbox {
+  position: absolute;
+  width: 408px;
+  height: 52px;
+  left: 36px;
+  top: 164px;
+
+  background: #ffffff;
+  border: 1px solid #e4e7ec;
+  border-radius: 12px;
+}
+
+/* sara@example.com */
+.emailfield {
+  position: absolute;
+  width: 376px;
+  height: 20.3px;
+  left: 16px;
+  top: 15px;
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 145%;
+
+  color: #101828;
+}
+
+/* Password */
+.passtext {
+  position: absolute;
+  width: 408px;
+  height: 20px;
+  left: 36px;
+  top: 244px;
+
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 145%;
+
+  color: #101828;
+}
+
+/* Field / Password */
+.passbox {
+  position: absolute;
+  width: 408px;
+  height: 52px;
+  left: 36px;
+  top: 272px;
+
+  background: #ffffff;
+  border: 1px solid #e4e7ec;
+  border-radius: 12px;
+}
+
+/* •••••••••••• */
+.passfield {
+  position: absolute;
+  width: 376px;
+  height: 20.3px;
+  left: 16px;
+  top: 15px;
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 145%;
+
+  color: #101828;
+}
+
+/* → Reset password / Forgot password? */
+.resetpass {
+  position: absolute;
+  width: 180px;
+  height: 20px;
+  left: 268px;
+  top: 332px;
+
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 145%;
+
+  color: #5b5bef;
+}
+
+/* Auto layout */
+.signupsection {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+
+  position: absolute;
+  width: 408px;
+  height: 48px;
+  left: 36px;
+  top: 386px;
+
+  background: #5b5bef;
+  border-radius: 14px;
+}
+
+/* Button */
+.loginbutton {
+  width: 41px;
+  height: 17px;
+
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+
+  color: #ffffff;
+}
+
+/* New to SkillTrade? */
+.signuptext {
+  position: absolute;
+  width: 180px;
+  height: 20.3px;
+  left: 74px;
+  top: 465px;
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 145%;
+
+  color: #667085;
+}
+
+/* → Sign up / Create an account */
+.createaccount {
+  position: absolute;
+  width: 180px;
+  height: 20.3px;
+  left: 235px;
+  top: 465px;
+
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 145%;
+
+  color: #5b5bef;
 }
