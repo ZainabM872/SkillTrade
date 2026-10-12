@@ -1,6 +1,8 @@
 # syntax=docker/dockerfile:1
 
 # Build an image with the Python 3.12 image
+# This can be any image system
+# The one used in getting started guide is the 'python:3.12-alpine' image
 FROM python:3.12-alpine
 
 # Set the working directory to `/code`
