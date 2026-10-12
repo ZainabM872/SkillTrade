@@ -5,7 +5,11 @@ include:
 services:
   # web service is built from Dockerfile, maps port 8000 on host to port 5000 where flask listens by default
   web:
-    build: .
+    build:
+      # to use the parent directory of docker-compose (the docker file is in root folder)
+      context: ..
+      # use the dockerfile at the root directory
+      dockerfile: Dockerfile
     ports:
       - "${APP_PORT}:5000"
     environment:
@@ -13,6 +17,10 @@ services:
       - REDIS_PORT=${REDIS_PORT}
     # add this to ensure web starts only after redis is healthy
     # if web and redis loads simulataneously, web may fail and crash
+    # volumes lead to the UI design
+    volumes:
+      - ../templates:/code/templates
+      - ../css-styles:/code/css-styles
     depends_on:
       redis:
         condition: service_healthy
