@@ -1,0 +1,99 @@
+/* YOUR NEXT CHAPTER */
+.nextchapter {
+  position: absolute;
+  width: 520px;
+  height: 20px;
+  left: 112px;
+  top: 222px;
+
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 145%;
+
+  color: #5b5bef;
+}
+
+/* Come curious.
+Leave with
+something new. */
+.leftintro1 {
+  position: absolute;
+  width: 620px;
+  height: 92.8px;
+  left: 112px;
+  top: 260px;
+
+  font-weight: 700;
+  font-size: 52px;
+  line-height: 115%;
+  color: #101828;
+}
+
+/* Your skills, your people, your next “I can do that.” */
+.leftintro2 {
+  position: absolute;
+  width: 500px;
+  height: 26.1px;
+  left: 112px;
+  top: 510px;
+
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 145%;
+  color: #667085;
+}
+
+/* → Intro · Discover / ↻ Replay introduction */
+.replay {
+  position: absolute;
+  width: 300px;
+  height: 20.3px;
+  left: 112px;
+  top: 600px;
+
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 145%;
+
+  color: #5b5bef;
+}
+
+/* Card */
+.logincard {
+  position: absolute;
+  width: 480px;
+  height: 570px;
+  left: 824px;
+  top: 194px;
+
+  background: #ffffff;
+  border-radius: 16px;
+}
+
+/* Welcome to SkillTrade */
+.welcometext {
+  position: absolute;
+  width: 408px;
+  height: 37.7px;
+  left: 36px;
+  top: 34px;
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 145%;
+
+  color: #101828;
+}
+
+/* Log in to keep learning. */
+.keeplearningtext {
+  position: absolute;
+  width: 408px;
+  height: 21.75px;
+  left: 36px;
+  top: 81px;
+
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 145%;
+  color: #667085;
+}
