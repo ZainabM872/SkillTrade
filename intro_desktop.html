@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>SkillTrade — First Steps</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f2fb;
+      color: #22243e;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 25px 5%;
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: bold;
+      color: #7354df;
+    }
+
+    .chapter {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px 10%;
+      box-sizing: border-box;
+    }
+
+    h1, h2 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .description {
+      font-size: 18px;
+      line-height: 1.6;
+      max-width: 450px;
+      color: #6c6c85;
+    }
+
+    button {
+      padding: 10px 18px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="brand">SkillTrade</div>
+    <button id="skip">Skip intro</button>
+  </header>
+
+  <main>
+
+    <!-- Discover skills -->
+    <section class="chapter" id="discover">
+      <div class="copy">
+        <p>A little curiosity goes a long way</p>
+
+        <h1>
+          That thing you<br>
+          always wanted<br>
+          to learn.
+        </h1>
+
+        <p class="description">
+          Someone nearby can teach you. Discover skills,
+          meet your people, and try something new.
+        </p>
+      </div>
+    </section>
+
+    <!-- Share skills -->
+    <section class="chapter" id="share">
+      <div class="copy">
+        <p>You have something to share</p>
+
+        <h2>
+          Be a learner.<br>
+          Be a teacher.<br>
+          Be both.
+        </h2>
+
+        <p class="description">
+          The things you know can open doors for someone else.
+          Share a skill, then learn one in return.
+        </p>
+      </div>
+    </section>
+
+    <!-- Skill points -->
+    <section class="chapter" id="points">
+      <div class="copy">
+        <p>Good things come back around</p>
+
+        <h2>
+          Give a skill.<br>
+          Get possibilities.
+        </h2>
+
+        <p class="description">
+          Teach to earn skill points. Use your points to book
+          sessions and keep your curiosity going.
+        </p>
+      </div>
+    </section>
+
+    <!-- Login -->
+    <section class="chapter" id="login">
+      <div class="copy">
+        <p>Your next chapter</p>
+
+        <h2>
+          Come curious.<br>
+          Leave with<br>
+          something new.
+        </h2>
+
+        <p class="description">
+          Your skills, your people, your next "I can do that."
+        </p>
+      </div>
+
+      <div class="login-wrap">
+        <h3>Welcome to SkillTrade</h3>
+        <p>Log in to keep learning.</p>
+
+        <form>
+          <label for="email">Email address</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="you@example.com"
+          >
+
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+          >
+
+          <button type="button">Log in</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>
