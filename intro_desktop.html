@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f5f2fb">
+  <meta name="description" content="Discover, share, and trade skills with SkillTrade.">
 
   <title>SkillTrade — First Steps</title>
 
@@ -34,8 +35,7 @@
       overflow-x: hidden;
     }
 
-    button,
-    input {
+    button, input {
       font: inherit;
     }
 
@@ -47,33 +47,57 @@
     /* Header */
 
     header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
       padding: 26px 5vw;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      z-index: 20;
     }
 
     .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       font-family: Manrope, sans-serif;
-      font-size: 21px;
       font-weight: 800;
+      font-size: 21px;
       letter-spacing: -.8px;
+    }
+
+    .mark {
+      width: 34px;
+      height: 34px;
+      background: var(--purple);
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      color: white;
+    }
+
+    .mark svg {
+      width: 23px;
+      height: 23px;
     }
 
     .skip {
       background: transparent;
-      color: var(--navy);
+      color: inherit;
       border: 1px solid #8b83a53a;
       padding: 11px 18px;
       border-radius: 100px;
       font-size: 14px;
     }
 
-    /* Main sections */
+    /* Sections */
 
     .chapter {
-      min-height: 100vh;
       min-height: 100svh;
+      position: relative;
+      z-index: 2;
       display: flex;
       align-items: center;
       padding: 110px 10vw;
@@ -104,8 +128,7 @@
       background: currentColor;
     }
 
-    h1,
-    h2 {
+    h1, h2 {
       font-family: Manrope, sans-serif;
       font-size: clamp(44px, 5.7vw, 86px);
       line-height: 1.06;
@@ -126,40 +149,173 @@
       max-width: 370px;
     }
 
+    /* Scroll hint */
+
+    .hint {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 38px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .scroll-symbol {
+      width: 21px;
+      height: 31px;
+      border: 1px solid #aaa1bc;
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .scroll-symbol::after {
+      content: '';
+      width: 3px;
+      height: 6px;
+      background: var(--purple);
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      border-radius: 4px;
+    }
+
+    /* Visuals */
+
     .visual {
       width: 44%;
+      position: relative;
       min-height: 410px;
       display: flex;
       align-items: center;
       justify-content: center;
+      perspective: 1000px;
     }
-
-    /* Placeholder visuals */
-
-    .placeholder {
-      width: 280px;
-      min-height: 240px;
-      border: 1px dashed #c7b8e8;
-      border-radius: 24px;
-      background: #eee8fc75;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      text-align: center;
-      color: var(--purple);
-      font-size: 14px;
-    }
-
-    /* Shared card styles */
 
     .tile {
       background: #ffffffed;
       border: 1px solid #fff;
+      box-shadow: 0 24px 75px #4f347016,
+                  0 3px 10px #4f347008;
       border-radius: 24px;
-      box-shadow:
-        0 24px 75px #4f347016,
-        0 3px 10px #4f347008;
+    }
+
+    /* Discover section */
+
+    .skill {
+      width: 280px;
+      padding: 18px;
+      transform: rotate(-7deg);
+      position: relative;
+    }
+
+    .skill-top {
+      height: 145px;
+      border-radius: 15px;
+      background: #eee7fc;
+      display: grid;
+      place-items: center;
+      color: var(--purple);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .skill-top svg {
+      width: 90px;
+      height: 90px;
+      stroke-width: 1.1;
+    }
+
+    .skill-top::after {
+      content: '';
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border: 1px solid #d1bff2;
+      border-radius: 50%;
+      transform: translate(45px, 80px);
+    }
+
+    .tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: #786595;
+      margin: 20px 0 6px;
+    }
+
+    .skill h3 {
+      font-family: Manrope, sans-serif;
+      font-size: 22px;
+      margin: 0 0 10px;
+      letter-spacing: -.7px;
+    }
+
+    .details {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .pill {
+      background: #eee8fb;
+      padding: 8px 12px;
+      border-radius: 100px;
+      color: var(--purple);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .float-tag {
+      position: absolute;
+      right: -35px;
+      top: -15px;
+      background: white;
+      border-radius: 100px;
+      padding: 13px 18px;
+      box-shadow: 0 10px 35px #48346814;
+      font-size: 13px;
+      transform: rotate(7deg);
+    }
+
+    .mini-tile {
+      position: absolute;
+      width: 190px;
+      padding: 18px;
+      bottom: 6px;
+      right: -30px;
+      transform: rotate(9deg);
+    }
+
+    .mini-tile b {
+      display: block;
+      font-size: 15px;
+      margin: 10px 0;
+    }
+
+    .mini-tile span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .icon {
+      width: 37px;
+      height: 37px;
+      background: #f1eafd;
+      color: var(--purple);
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+    }
+
+    .icon svg {
+      width: 23px;
+      height: 23px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     /* Share section */
@@ -173,7 +329,121 @@
       );
     }
 
-    /* Login */
+    .trade-stack {
+      width: 315px;
+      position: relative;
+    }
+
+    .trade-card {
+      padding: 24px;
+      transform: rotate(-5deg);
+      margin-bottom: 20px;
+    }
+
+    .trade-card:last-child {
+      transform: rotate(5deg);
+      margin-left: 35px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .avatar {
+      border-radius: 50%;
+      width: 46px;
+      height: 46px;
+      background: #e8ddfb;
+      display: grid;
+      place-items: center;
+      font-weight: 600;
+      color: #7857bd;
+    }
+
+    .trade-card h3 {
+      font-size: 17px;
+      margin: 0 0 5px;
+    }
+
+    .trade-card p {
+      font-size: 13px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .trade-card .pill {
+      display: inline-block;
+      margin-top: 20px;
+    }
+
+    .connector {
+      display: grid;
+      place-items: center;
+      background: var(--purple);
+      width: 54px;
+      height: 54px;
+      border: 6px solid var(--paper);
+      border-radius: 50%;
+      color: white;
+      position: absolute;
+      top: 115px;
+      left: 130px;
+      z-index: 3;
+      font-size: 24px;
+    }
+
+    /* Points section */
+
+    .points {
+      width: 280px;
+      height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #fff, #eae0ff);
+      box-shadow: inset 0 0 0 12px #ffffff80,
+                  0 35px 70px #5a379f20;
+      transform: rotate(-8deg);
+    }
+
+    .points b {
+      font-family: Manrope, sans-serif;
+      font-size: 76px;
+      letter-spacing: -5px;
+      color: var(--purple);
+    }
+
+    .points span {
+      font-size: 14px;
+      color: #7b64a1;
+    }
+
+    .point-label {
+      position: absolute;
+      bottom: 34px;
+      right: 0;
+      background: #fff;
+      border-radius: 18px;
+      padding: 17px 22px;
+      box-shadow: 0 15px 40px #442b7214;
+      font-size: 13px;
+    }
+
+    .point-label b {
+      display: block;
+      margin-top: 5px;
+      font-size: 17px;
+    }
+
+    /* Login section */
+
+    .final {
+      min-height: 110svh;
+    }
 
     .login-wrap {
       width: 420px;
@@ -222,9 +492,11 @@
       font-weight: 600;
       margin-top: 24px;
       box-shadow: 0 8px 20px #7354df25;
+      transition: transform .2s, background .2s;
     }
 
     .primary:hover {
+      transform: translateY(-2px);
       background: #6240d2;
     }
 
@@ -236,18 +508,34 @@
       line-height: 1.5;
     }
 
-    /* Smaller screens */
+    .small-note {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 20px;
+    }
+
+    /* Mobile layout */
 
     @media (max-width: 760px) {
       header {
         padding: 20px 24px;
       }
 
+      .brand {
+        font-size: 19px;
+      }
+
+      .skip {
+        font-size: 12px;
+        padding: 9px 13px;
+      }
+
       .chapter {
         flex-direction: column;
         justify-content: center;
         gap: 24px;
-        padding: 80px 28px;
+        padding: 110px 28px 95px;
       }
 
       .copy {
@@ -255,22 +543,96 @@
         max-width: 470px;
       }
 
-      h1,
-      h2 {
+      h1, h2 {
         font-size: 48px;
         letter-spacing: -2.5px;
+        margin-bottom: 16px;
+      }
+
+      .eyebrow {
+        font-size: 10px;
         margin-bottom: 16px;
       }
 
       .description {
         font-size: 16px;
         line-height: 1.6;
+        max-width: 350px;
       }
 
       .visual {
         width: 100%;
         min-height: 300px;
         max-width: 390px;
+      }
+
+      .skill {
+        width: 225px;
+        padding: 14px;
+      }
+
+      .skill-top {
+        height: 106px;
+      }
+
+      .skill h3 {
+        font-size: 18px;
+      }
+
+      .float-tag {
+        right: -24px;
+        font-size: 11px;
+        padding: 10px 13px;
+      }
+
+      .mini-tile {
+        width: 148px;
+        right: -18px;
+        bottom: -20px;
+        padding: 13px;
+      }
+
+      .mini-tile b {
+        font-size: 13px;
+      }
+
+      .mini-tile span {
+        font-size: 11px;
+      }
+
+      .hint {
+        margin-top: 20px;
+      }
+
+      .trade-stack {
+        width: 270px;
+      }
+
+      .trade-card {
+        padding: 20px;
+      }
+
+      .connector {
+        top: 108px;
+        left: 111px;
+      }
+
+      .points {
+        width: 235px;
+        height: 235px;
+      }
+
+      .points b {
+        font-size: 66px;
+      }
+
+      .point-label {
+        bottom: 0;
+        right: 0;
+      }
+
+      .final {
+        gap: 26px;
       }
 
       .login-wrap {
@@ -281,11 +643,6 @@
       .final .visual {
         min-height: 0;
       }
-
-      .placeholder {
-        width: 100%;
-        min-height: 200px;
-      }
     }
   </style>
 </head>
@@ -293,14 +650,23 @@
 <body>
 
   <header>
-    <div class="brand">SkillTrade</div>
+    <div class="brand">
+      <span class="mark">
+        <svg viewBox="0 0 32 32" fill="none"
+             stroke="currentColor" stroke-width="2">
+          <path d="M6 11h20M22 7l4 4-4 4M26 21H6M10 17l-4 4 4 4"/>
+        </svg>
+      </span>
+      SkillTrade
+    </div>
+
     <button class="skip" id="skip">Skip intro</button>
   </header>
 
   <main>
 
     <!-- Discover skills -->
-    <section class="chapter" id="discover">
+    <section class="chapter" id="discover" aria-label="Discover skills">
       <div class="copy">
         <div class="eyebrow">
           A little curiosity goes a long way
@@ -316,17 +682,52 @@
           Someone nearby can teach you. Discover skills,
           meet your people, and try something new.
         </p>
+
+        <div class="hint">
+          <span class="scroll-symbol" aria-hidden="true"></span>
+          Scroll to explore
+        </div>
       </div>
 
       <div class="visual">
-        <div class="placeholder">
-          Discover new skills
+        <div class="skill tile">
+          <div class="float-tag">
+            Your next “I did that.”
+          </div>
+
+          <div class="skill-top">
+            <svg viewBox="0 0 100 100"
+                 fill="none" stroke="currentColor">
+              <path d="M24 73V27h30v46M54 38h22v35M18 73h64M34 37h9M34 48h9M34 59h9M64 48h4M64 59h4"/>
+            </svg>
+          </div>
+
+          <div class="tag">Explore a new skill</div>
+          <h3>Photography basics</h3>
+
+          <div class="details">
+            <span>Beginner friendly</span>
+            <span>In person</span>
+          </div>
+        </div>
+
+        <div class="mini-tile tile">
+          <div class="icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M9 18V5l10-2v13M9 8l10-2"/>
+              <ellipse cx="6" cy="18" rx="3" ry="2"/>
+              <ellipse cx="16" cy="16" rx="3" ry="2"/>
+            </svg>
+          </div>
+
+          <b>Your first guitar chords</b>
+          <span>One session. A new beginning.</span>
         </div>
       </div>
     </section>
 
     <!-- Share skills -->
-    <section class="chapter" id="share">
+    <section class="chapter" id="share" aria-label="Share your skills">
       <div class="copy">
         <div class="eyebrow">
           You have something to share
@@ -345,14 +746,46 @@
       </div>
 
       <div class="visual">
-        <div class="placeholder">
-          Share what you know
+        <div class="trade-stack">
+          <div class="tile trade-card">
+            <div class="row">
+              <div class="avatar">You</div>
+
+              <div>
+                <h3>What you can teach</h3>
+                <p>A skill you love sharing</p>
+              </div>
+            </div>
+
+            <span class="pill">Share what you know</span>
+          </div>
+
+          <div class="connector" aria-hidden="true">⇄</div>
+
+          <div class="tile trade-card">
+            <div class="row">
+              <div class="icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="m12 3 2.5 6 6.5 3-6.5 3-2.5 6-2.5-6L3 12l6.5-3Z"/>
+                </svg>
+              </div>
+
+              <div>
+                <h3>What you want to learn</h3>
+                <p>Something you’ve been curious about</p>
+              </div>
+            </div>
+
+            <span class="pill">
+              Make room for something new
+            </span>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Skill points -->
-    <section class="chapter" id="points">
+    <section class="chapter" id="points" aria-label="How skill points work">
       <div class="copy">
         <div class="eyebrow">
           Good things come back around
@@ -368,20 +801,26 @@
           sessions and keep your curiosity going.
         </p>
 
-        <span class="description">
+        <span class="small-note">
           Each listing shows its skill-point cost before you book.
         </span>
       </div>
 
       <div class="visual">
-        <div class="placeholder">
-          Skill points
+        <div class="points">
+          <b>✧</b>
+          <span>Skill points</span>
+        </div>
+
+        <div class="point-label">
+          Your next step
+          <b>Find it. Book it. Learn it.</b>
         </div>
       </div>
     </section>
 
     <!-- Login -->
-    <section class="chapter final" id="login">
+    <section class="chapter final" id="login" aria-label="Login">
       <div class="copy">
         <div class="eyebrow">
           Your next chapter
@@ -394,7 +833,7 @@
         </h2>
 
         <p class="description">
-          Your skills, your people, your next "I can do that."
+          Your skills, your people, your next “I can do that.”
         </p>
       </div>
 
