@@ -1,24 +1,12 @@
 services:
-  web:
-    build:
-      context: ..
-      dockerfile: Dockerfile.dev
-    ports:
-      - "3000:3000"
-    volumes:
-      - ../webui:/app
-      - webui_node_modules:/app/node_modules
-    environment:
-      NODE_ENV: development
-      stdin_open: true
-      tty: true
-      command: npm start
   prod:
     build:
       context: ..
       dockerfile: Dockerfile.prod
     ports:
       - "3000:3000"
+    env_file:
+      - .env
     environment:
       - NODE_ENV=production
 
@@ -40,6 +28,17 @@ services:
         - action: rebuild
           path: ./package.json
           target: /app/package.json
-
-volumes:
-  webui_node_modules:
+  web:
+    build:
+      context: ..
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../webui:/app
+      - ./node_modules:/app/node_modules
+    environment:
+      NODE_ENV: development
+    stdin_open: true
+    tty: true
+    command: npm start
