@@ -1,0 +1,4 @@
+/* The app shell owns the browser's default outer margin. */
+body {
+  margin: 0;
+}
