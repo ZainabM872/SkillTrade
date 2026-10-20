@@ -1,0 +1,750 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+.skilltrade-intro {
+  --navy: #22243e;
+  --purple: #7354df;
+  --muted: #6c6c85;
+  --paper: #f5f2fb;
+}
+.skilltrade-intro * {
+  box-sizing: border-box;
+}
+.skilltrade-intro {
+  scroll-behavior: smooth;
+}
+.skilltrade-intro {
+  margin: 0;
+  font-family: "DM Sans", sans-serif;
+  background: var(--paper);
+  color: var(--navy);
+  overflow-x: hidden;
+}
+.skilltrade-intro button,
+.skilltrade-intro input {
+  font: inherit;
+}
+.skilltrade-intro button {
+  cursor: pointer;
+}
+.skilltrade-intro button:focus-visible,
+.skilltrade-intro input:focus-visible,
+.skilltrade-intro a:focus-visible {
+  outline: 3px solid #ac8eff;
+  outline-offset: 6px;
+}
+.skilltrade-intro button {
+  border: 0;
+}
+.skilltrade-intro header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 26px 5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 20;
+  transition: color 0.5s;
+}
+.skilltrade-intro .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: Manrope, sans-serif;
+  font-weight: 800;
+  font-size: 21px;
+  letter-spacing: -0.8px;
+}
+.skilltrade-intro .mark {
+  width: 34px;
+  height: 34px;
+  background: var(--purple);
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  color: white;
+}
+.skilltrade-intro .mark svg {
+  width: 23px;
+  height: 23px;
+}
+.skilltrade-intro .skip {
+  background: transparent;
+  color: inherit;
+  border: 1px solid #8b83a53a;
+  padding: 11px 18px;
+  border-radius: 100px;
+  font-size: 14px;
+}
+.skilltrade-intro .ambient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 70% 40%, #d9cdfa70, transparent 52%);
+  z-index: 0;
+  transition: background 1s;
+}
+.skilltrade-intro .rings {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.skilltrade-intro .ring {
+  position: absolute;
+  width: 52vw;
+  height: 52vw;
+  min-width: 370px;
+  min-height: 370px;
+  border: 1px solid #a999d53b;
+  border-radius: 50%;
+  left: 64%;
+  top: 48%;
+  transform: translate(-50%, -50%) scale(var(--scale));
+  transition: border-color 0.8s;
+  will-change: transform;
+}
+.skilltrade-intro .ring:nth-child(2) {
+  --scale: 1.35;
+}
+.skilltrade-intro .ring:nth-child(3) {
+  --scale: 1.7;
+}
+.skilltrade-intro .ring:nth-child(4) {
+  --scale: 2.05;
+}
+.skilltrade-intro .ripple {
+  position: fixed;
+  left: var(--x);
+  top: var(--y);
+  width: 30px;
+  height: 30px;
+  border: 1px solid #8663d980;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 25;
+  animation: wave 1.5s ease-out forwards;
+}
+@keyframes wave {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.8;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(45);
+    opacity: 0;
+  }
+}
+.skilltrade-intro .chapter {
+  min-height: 100svh;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  padding: 110px 10vw 110px;
+  gap: 7vw;
+}
+.skilltrade-intro .copy {
+  width: 49%;
+  max-width: 570px;
+}
+.skilltrade-intro .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 22px;
+}
+.skilltrade-intro .eyebrow:before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: currentColor;
+}
+.skilltrade-intro h1,
+.skilltrade-intro h2 {
+  font-family: Manrope, sans-serif;
+  font-size: clamp(44px, 5.7vw, 86px);
+  line-height: 1.06;
+  letter-spacing: -3.5px;
+  margin: 0 0 24px;
+  font-weight: 800;
+}
+.skilltrade-intro em {
+  font-style: normal;
+  color: var(--purple);
+}
+.skilltrade-intro .description {
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 370px;
+}
+.skilltrade-intro .hint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 38px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.skilltrade-intro .scroll-symbol {
+  width: 21px;
+  height: 31px;
+  border: 1px solid #aaa1bc;
+  border-radius: 12px;
+  position: relative;
+}
+.skilltrade-intro .scroll-symbol:after {
+  content: "";
+  width: 3px;
+  height: 6px;
+  background: var(--purple);
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  border-radius: 4px;
+  animation: scroll 2s infinite;
+}
+@keyframes scroll {
+  50% {
+    transform: translateY(8px);
+    opacity: 0.3;
+  }
+}
+.skilltrade-intro .visual {
+  width: 44%;
+  position: relative;
+  min-height: 410px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+}
+.skilltrade-intro .tile {
+  background: #ffffffed;
+  border: 1px solid #fff;
+  box-shadow:
+    0 24px 75px #4f347016,
+    0 3px 10px #4f347008;
+  border-radius: 24px;
+}
+.skilltrade-intro .skill {
+  width: 280px;
+  padding: 18px;
+  transform: rotate(-7deg);
+  position: relative;
+}
+.skilltrade-intro .skill-top {
+  height: 145px;
+  border-radius: 15px;
+  background: #eee7fc;
+  display: grid;
+  place-items: center;
+  color: var(--purple);
+  overflow: hidden;
+  position: relative;
+}
+.skilltrade-intro .skill-top svg {
+  width: 90px;
+  height: 90px;
+  stroke-width: 1.1;
+}
+.skilltrade-intro .skill-top:after {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border: 1px solid #d1bff2;
+  border-radius: 50%;
+  transform: translate(45px, 80px);
+}
+.skilltrade-intro .tag {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #786595;
+  margin: 20px 0 6px;
+}
+.skilltrade-intro .skill h3 {
+  font-family: Manrope;
+  font-size: 22px;
+  margin: 0 0 10px;
+  letter-spacing: -0.7px;
+}
+.skilltrade-intro .details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--muted);
+}
+.skilltrade-intro .pill {
+  background: #eee8fb;
+  padding: 8px 12px;
+  border-radius: 100px;
+  color: var(--purple);
+  font-size: 12px;
+  font-weight: 600;
+}
+.skilltrade-intro .float-tag {
+  position: absolute;
+  right: -35px;
+  top: -15px;
+  background: white;
+  border-radius: 100px;
+  padding: 13px 18px;
+  box-shadow: 0 10px 35px #48346814;
+  font-size: 13px;
+  transform: rotate(7deg);
+}
+.skilltrade-intro .mini-tile {
+  position: absolute;
+  width: 190px;
+  padding: 18px;
+  bottom: 6px;
+  right: -30px;
+  transform: rotate(9deg);
+}
+.skilltrade-intro .mini-tile b {
+  display: block;
+  font-size: 15px;
+  margin: 10px 0;
+}
+.skilltrade-intro .mini-tile span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.skilltrade-intro .icon {
+  width: 37px;
+  height: 37px;
+  background: #f1eafd;
+  color: var(--purple);
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+}
+.skilltrade-intro .icon svg {
+  width: 23px;
+  height: 23px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.skilltrade-intro .reveal {
+  opacity: 0;
+  transform: translateY(35px);
+  transition:
+    opacity 0.9s,
+    transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.skilltrade-intro .is-visible .reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+.skilltrade-intro .visual.reveal {
+  transition-delay: 0.15s;
+}
+.skilltrade-intro .chapter:nth-of-type(2) {
+  background: linear-gradient(180deg, transparent, #eee8fc75, transparent);
+}
+.skilltrade-intro .trade-stack {
+  width: 315px;
+  position: relative;
+}
+.skilltrade-intro .trade-card {
+  padding: 24px;
+  transform: rotate(-5deg);
+  margin-bottom: 20px;
+}
+.skilltrade-intro .trade-card:last-child {
+  transform: rotate(5deg);
+  margin-left: 35px;
+}
+.skilltrade-intro .row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.skilltrade-intro .avatar {
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  background: #e8ddfb;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  color: #7857bd;
+}
+.skilltrade-intro .trade-card h3 {
+  font-size: 17px;
+  margin: 0 0 5px;
+}
+.skilltrade-intro .trade-card p {
+  font-size: 13px;
+  margin: 0;
+  color: var(--muted);
+}
+.skilltrade-intro .trade-card .pill {
+  display: inline-block;
+  margin-top: 20px;
+}
+.skilltrade-intro .connector {
+  display: grid;
+  place-items: center;
+  background: var(--purple);
+  width: 54px;
+  height: 54px;
+  border: 6px solid var(--paper);
+  border-radius: 50%;
+  color: white;
+  position: absolute;
+  top: 115px;
+  left: 130px;
+  z-index: 3;
+  font-size: 24px;
+}
+.skilltrade-intro .points {
+  width: 280px;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #fff, #eae0ff);
+  box-shadow:
+    inset 0 0 0 12px #ffffff80,
+    0 35px 70px #5a379f20;
+  transform: rotate(-8deg);
+}
+.skilltrade-intro .points b {
+  font-family: Manrope;
+  font-size: 76px;
+  letter-spacing: -5px;
+  color: var(--purple);
+}
+.skilltrade-intro .points span {
+  font-size: 14px;
+  color: #7b64a1;
+}
+.skilltrade-intro .point-label {
+  position: absolute;
+  bottom: 34px;
+  right: 0;
+  background: #fff;
+  border-radius: 18px;
+  padding: 17px 22px;
+  box-shadow: 0 15px 40px #442b7214;
+  font-size: 13px;
+}
+.skilltrade-intro .point-label b {
+  display: block;
+  margin-top: 5px;
+  font-size: 17px;
+}
+.skilltrade-intro .final {
+  min-height: 110svh;
+}
+.skilltrade-intro .login-wrap {
+  width: 420px;
+  max-width: 100%;
+  padding: 35px;
+  box-shadow: 0 25px 70px #573b8914;
+}
+.skilltrade-intro .login-wrap h3 {
+  font-family: Manrope;
+  font-size: 26px;
+  letter-spacing: -1px;
+  margin: 0 0 8px;
+}
+.skilltrade-intro .login-wrap > p {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0 0 26px;
+}
+.skilltrade-intro .login-wrap label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 17px 0 8px;
+}
+.skilltrade-intro input {
+  width: 100%;
+  padding: 14px 15px;
+  border-radius: 12px;
+  background: #f7f5fb;
+  border: 1px solid #e3ddeb;
+  font-size: 15px;
+  color: var(--navy);
+}
+.skilltrade-intro .password-field {
+  position: relative;
+}
+.skilltrade-intro .password-field input {
+  padding-right: 60px;
+}
+.skilltrade-intro .show {
+  position: absolute;
+  right: 12px;
+  top: 17px;
+  font-size: 12px;
+  color: var(--purple);
+  background: transparent;
+}
+.skilltrade-intro .primary {
+  width: 100%;
+  background: var(--purple);
+  color: #fff;
+  border-radius: 13px;
+  padding: 16px;
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 24px;
+  box-shadow: 0 8px 20px #7354df25;
+  transition:
+    transform 0.2s,
+    background 0.2s;
+}
+.skilltrade-intro .primary:hover {
+  transform: translateY(-2px);
+  background: #6240d2;
+}
+.skilltrade-intro .prototype {
+  font-size: 12px;
+  color: #898299;
+  margin: 16px 0 0;
+  text-align: center;
+  line-height: 1.5;
+}
+.skilltrade-intro .message {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 15px;
+  color: var(--purple);
+}
+.skilltrade-intro .replay {
+  background: transparent;
+  font-size: 13px;
+  color: var(--purple);
+  margin-top: 24px;
+  padding: 8px 0;
+}
+.skilltrade-intro .pagination {
+  position: fixed;
+  left: 5vw;
+  bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 20;
+}
+.skilltrade-intro .pagination button {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  background: #cfc7df;
+  border-radius: 100%;
+  transition:
+    width 0.3s,
+    background 0.3s;
+  position: relative;
+}
+.skilltrade-intro .pagination button:before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+}
+.skilltrade-intro .pagination button.active {
+  background: var(--purple);
+  width: 26px;
+  border-radius: 10px;
+}
+.skilltrade-intro .chapter-count {
+  font-size: 12px;
+  color: var(--muted);
+  margin-left: 10px;
+}
+.skilltrade-intro .next {
+  position: fixed;
+  right: 5vw;
+  bottom: 25px;
+  background: #fff8;
+  backdrop-filter: blur(15px);
+  border: 1px solid #ffffff;
+  border-radius: 50px;
+  padding: 12px 22px;
+  color: var(--navy);
+  font-size: 14px;
+  z-index: 20;
+}
+.skilltrade-intro .progress {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: var(--purple);
+  width: 0;
+  z-index: 30;
+}
+.skilltrade-intro .small-note {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 20px;
+}
+
+@media (max-width: 760px) {
+  .skilltrade-intro header {
+    padding: 20px 24px;
+  }
+  .skilltrade-intro .brand {
+    font-size: 19px;
+  }
+  .skilltrade-intro .skip {
+    font-size: 12px;
+    padding: 9px 13px;
+  }
+  .skilltrade-intro .chapter {
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+    padding: 110px 28px 95px;
+    min-height: 100svh;
+  }
+  .skilltrade-intro .copy {
+    width: 100%;
+    max-width: 470px;
+  }
+  .skilltrade-intro h1,
+  .skilltrade-intro h2 {
+    font-size: 48px;
+    letter-spacing: -2.5px;
+    margin-bottom: 16px;
+  }
+  .skilltrade-intro .eyebrow {
+    font-size: 10px;
+    margin-bottom: 16px;
+  }
+  .skilltrade-intro .description {
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 350px;
+  }
+  .skilltrade-intro .visual {
+    width: 100%;
+    min-height: 300px;
+    max-width: 390px;
+  }
+  .skilltrade-intro .skill {
+    width: 225px;
+    padding: 14px;
+  }
+  .skilltrade-intro .skill-top {
+    height: 106px;
+  }
+  .skilltrade-intro .skill h3 {
+    font-size: 18px;
+  }
+  .skilltrade-intro .float-tag {
+    right: -24px;
+    font-size: 11px;
+    padding: 10px 13px;
+  }
+  .skilltrade-intro .mini-tile {
+    width: 148px;
+    right: -18px;
+    bottom: -20px;
+    padding: 13px;
+  }
+  .skilltrade-intro .mini-tile b {
+    font-size: 13px;
+  }
+  .skilltrade-intro .mini-tile span {
+    font-size: 11px;
+  }
+  .skilltrade-intro .hint {
+    margin-top: 20px;
+  }
+  .skilltrade-intro .ring {
+    left: 70%;
+    top: 55%;
+  }
+  .skilltrade-intro .trade-stack {
+    width: 270px;
+  }
+  .skilltrade-intro .trade-card {
+    padding: 20px;
+  }
+  .skilltrade-intro .connector {
+    top: 108px;
+    left: 111px;
+  }
+  .skilltrade-intro .points {
+    width: 235px;
+    height: 235px;
+  }
+  .skilltrade-intro .points b {
+    font-size: 66px;
+  }
+  .skilltrade-intro .point-label {
+    bottom: 0;
+    right: 0;
+  }
+  .skilltrade-intro .final {
+    gap: 26px;
+    min-height: 110svh;
+  }
+  .skilltrade-intro .login-wrap {
+    padding: 25px;
+    width: 100%;
+  }
+  .skilltrade-intro .final .visual {
+    min-height: 0;
+  }
+  .skilltrade-intro .pagination {
+    left: 26px;
+    bottom: 25px;
+    gap: 12px;
+  }
+  .skilltrade-intro .next {
+    right: 24px;
+    bottom: 18px;
+    font-size: 13px;
+  }
+  .skilltrade-intro .chapter-count {
+    display: none;
+  }
+  .skilltrade-intro .login-wrap h3 {
+    font-size: 23px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skilltrade-intro {
+    scroll-behavior: auto;
+  }
+  .skilltrade-intro .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .skilltrade-intro .ring {
+    will-change: auto;
+  }
+  .skilltrade-intro .ripple {
+    display: none;
+  }
+  .skilltrade-intro .scroll-symbol:after {
+    animation: none;
+  }
+  .skilltrade-intro * {
+    transition: none !important;
+  }
+}
