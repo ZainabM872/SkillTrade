@@ -20,3 +20,23 @@ Verify with `CI=true npm test -- --watchAll=false --runInBand` and `npm run buil
 The login form remains a preview, as in the original HTML; it does not authenticate or send credentials. Backend login integration is separate work.
 
 When combining with teammates' React work, keep their latest app shell and routes. Bring across this intro component and stylesheet, import the component, and render it at the agreed intro route. Avoid replacing unrelated routes. Dependencies match Jane's existing `webui/package.json` and lockfile.
+
+## Combined branch
+
+This integration merges Sara's original six commits without rewriting them.
+Jane's `intro.js` is byte-identical to Sara's `introp1.js`; the duplicate is removed,
+and the existing `intro` imports are retained. Jane's dependency lockfile and yaml
+dependency are retained, together with Sara's SkillTrade document metadata.
+
+From the repository root, build and run one mode at a time:
+
+```sh
+docker compose -f docker-compose/compose.yaml --profile production up --build
+# http://localhost:3000
+docker compose -f docker-compose/compose.yaml --profile development up --build --watch
+# http://localhost:5173
+```
+
+Production serves the React build through Nginx on container port 80. Development
+runs the React development server on container port 5173. No image is published
+by these commands. Login remains a preview.
