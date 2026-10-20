@@ -2,16 +2,16 @@ services:
   prod:
     profiles: [production]
     build:
-      context: ..
-      dockerfile: Dockerfile.prod
+      context: .
+      dockerfile: docker/Dockerfile.prod
     ports:
       - "3000:80"
 
   dev:
     profiles: [development]
     build:
-      context: ..
-      dockerfile: Dockerfile.dev
+      context: .
+      dockerfile: docker/Dockerfile.dev
     ports:
       - "5173:5173"
     environment:
@@ -19,12 +19,12 @@ services:
     develop:
       watch:
         - action: sync
-          path: ../webui/src
+          path: ./webui/src
           target: /app/src
         - action: sync
-          path: ../webui/public
+          path: ./webui/public
           target: /app/public
         - action: rebuild
-          path: ../webui/package.json
+          path: ./webui/package.json
         - action: rebuild
-          path: ../webui/package-lock.json
+          path: ./webui/package-lock.json
