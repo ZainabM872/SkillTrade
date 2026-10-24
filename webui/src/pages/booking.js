@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styles from "../styles/booking.module.css";
- 
+
+const monthNames = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
 const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const dates = Array.from({ length: 30 }, (_, index) => index + 1);
 const defaultTimes = [
   { label: "10:00 AM", available: true },
   { label: "11:00 AM", available: false },
@@ -11,16 +15,48 @@ const defaultTimes = [
   { label: "4:00 PM", available: true },
   { label: "6:00 PM", available: true },
 ];
- 
+
+const now = new Date();
+const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
 export default function Booking() {
-  const [selectedDate, setSelectedDate] = useState(15);
+  // Which month the calendar is currently showing
+  const [view, setView] = useState({
+    year: startOfToday.getFullYear(),
+    month: startOfToday.getMonth(),
+  });
+  // The date the user picked (can be in a different month than the one shown)
+  const [selected, setSelected] = useState({
+    year: startOfToday.getFullYear(),
+    month: startOfToday.getMonth(),
+    day: startOfToday.getDate(),
+  });
   const [selectedTime, setSelectedTime] = useState("10:00 AM");
- 
-  const selectDate = (date) => {
-    setSelectedDate(date);
+
+  const viewLabel = `${monthNames[view.month]} ${view.year}`;
+  const selectedLabel = `${monthNames[selected.month]} ${selected.day}, ${selected.year}`;
+
+  // Build the grid for the month being viewed
+  const daysInMonth = new Date(view.year, view.month + 1, 0).getDate();
+  const blanks = (new Date(view.year, view.month, 1).getDay() + 6) % 7; // Monday-first
+  const dates = Array.from({ length: daysInMonth }, (_, index) => index + 1);
+
+  // Don't allow browsing to months that are entirely in the past
+  const canGoBack = new Date(view.year, view.month, 1) > startOfThisMonth;
+
+  const changeMonth = (delta) => {
+    setView(({ year, month }) => {
+      const next = new Date(year, month + delta, 1); // handles Dec -> Jan rollover
+      return { year: next.getFullYear(), month: next.getMonth() };
+    });
+  };
+
+  const selectDate = (day) => {
+    setSelected({ year: view.year, month: view.month, day });
     setSelectedTime("10:00 AM");
   };
- 
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.headerRow}>
@@ -36,10 +72,10 @@ export default function Booking() {
             <span className={styles.profileInitials}>SM</span>
           </div>
         </div>
-        <span className={`${styles.navItem} ${styles.navHome}`}>Home</span>
-        <span className={`${styles.navItem} ${styles.navExplore}`}>Explore</span>
-        <span className={`${styles.navItem} ${styles.navSessions}`}>Sessions</span>
-        <span className={`${styles.navItem} ${styles.navTeach}`}>Teach a skill</span>
+        <Link to="/" className={`${styles.navItem} ${styles.navHome}`}>Home</Link>
+        <Link to="/explore" className={`${styles.navItem} ${styles.navExplore}`}>Explore</Link>
+        <Link to="/sessions" className={`${styles.navItem} ${styles.navSessions}`}>Sessions</Link>
+        <Link to="/teach" className={`${styles.navItem} ${styles.navTeach}`}>Teach a skill</Link>
       </div>
       <div className={styles.activeNav} />
       <div className={styles.headerDivider} />
@@ -52,10 +88,27 @@ export default function Booking() {
       <div className={styles.contentRow}>
         <div className={styles.bookingCard}>
           <div className={styles.calendarHeader}>
-            <span className={styles.currentDate}>
-              Selected · November {selectedDate}, 2026
-            </span>
-            <span className={styles.calendarMonth}>November 2026</span>
+            <div className={styles.monthNav}>
+              <span className={styles.calendarMonth}>{viewLabel}</span>
+              <button
+                className={styles.monthArrow}
+                type="button"
+                aria-label="Previous month"
+                disabled={!canGoBack}
+                onClick={() => changeMonth(-1)}
+              >
+                ‹
+              </button>
+              <button
+                className={styles.monthArrow}
+                type="button"
+                aria-label="Next month"
+                onClick={() => changeMonth(1)}
+              >
+                ›
+              </button>
+            </div>
+            <span className={styles.currentDate}>Selected · {selectedLabel}</span>
           </div>
           <div className={styles.calendarControls}>
             {weekdays.map((weekday) => (
@@ -64,24 +117,30 @@ export default function Booking() {
               </span>
             ))}
           </div>
-          <div className={styles.dateGrid} aria-label="November 2026 dates">
-            {dates.map((date) => {
-              const isPast = date < 15;
-              const isSelected = date === selectedDate;
- 
+          <div className={styles.dateGrid} aria-label={`${viewLabel} dates`}>
+            {Array.from({ length: blanks }, (_, i) => (
+              <span key={`blank-${i}`} aria-hidden="true" />
+            ))}
+            {dates.map((day) => {
+              const isPast = new Date(view.year, view.month, day) < startOfToday;
+              const isSelected =
+                day === selected.day &&
+                view.month === selected.month &&
+                view.year === selected.year;
+
               return (
                 <button
                   className={`${styles.dateButton} ${
                     isSelected ? styles.isSelected : ""
                   }`}
                   type="button"
-                  key={date}
+                  key={day}
                   disabled={isPast}
-                  aria-label={`November ${date}, 2026`}
+                  aria-label={`${monthNames[view.month]} ${day}, ${view.year}`}
                   aria-pressed={isSelected}
-                  onClick={() => selectDate(date)}
+                  onClick={() => selectDate(day)}
                 >
-                  {date}
+                  {day}
                 </button>
               );
             })}
@@ -90,7 +149,7 @@ export default function Booking() {
           <div className={styles.timeGrid} aria-label="Available session times">
             {defaultTimes.map((time) => {
               const isSelected = time.label === selectedTime;
- 
+
               return (
                 <button
                   className={`${styles.timeButton} ${
@@ -112,26 +171,24 @@ export default function Booking() {
         <div className={styles.summaryCard}>
           <span className={styles.skillName}>Acoustic guitar</span>
           <span className={styles.instructorName}>Alex Morgan</span>
- 
+
           <span className={`${styles.summaryLabel} ${styles.firstLabel}`}>
             Selected date
           </span>
           <div className={styles.summaryField}>
-            <span className={styles.summaryValue}>
-              November {selectedDate}, 2026
-            </span>
+            <span className={styles.summaryValue}>{selectedLabel}</span>
           </div>
- 
+
           <span className={styles.summaryLabel}>Selected time</span>
           <div className={styles.summaryField}>
             <span className={styles.summaryValue}>{selectedTime}</span>
           </div>
- 
+
           <span className={styles.summaryLabel}>Meeting location</span>
           <div className={styles.summaryField}>
             <span className={styles.summaryValue}>Community centre lobby</span>
           </div>
- 
+
           <span className={styles.sessionDetails}>60 minutes · 15 points</span>
           <div className={styles.requestAction}>
             <span className={styles.requestButton}>Request session</span>
