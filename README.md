@@ -1,40 +1,55 @@
-Docker (setup and run guide)
+# SkillTrade
 
-Setup:
-First create a virtual environment in root directory
-python -m venv .venv
-Activate virtual environment
-.venv\Scripts\Activate.ps1
-Create the following 3 files in root and a new directory respectively
+A skill-sharing app. The React intro runs in Docker; login is still a preview.
 
-- Dockerfile.dev
-- Dockerfile.prod
-- requirements.txt
-- docker-compose
-  In the docker-compose dir, create the following
-  .dockerignore
-  .env
-  compose.yaml
-  infra.yaml (for multiple compose files when applications grow)
+## Run it
 
-In "webui" dir -> npm install, npm install yaml@^2.9.1 --save-dev,
+Open Docker Desktop, then run this from the repository folder:
 
-Then build the prod container in root dir: docker build -t my-react-app -f Dockerfile.prod .
-Then build the dev container: docker build -t my-react-app-dev -f Dockerfile.dev .
+```sh
+docker compose --profile production up --build
+```
 
-You can run: [docker run -p 5173:5173 my-react-app-dev] or [docker run -p 3000:80 my-react-app-prod] to test both work correctly
+Open http://localhost:3000. Stop with Ctrl+C, then run:
 
-To create pullable image so all other devices can run app
-User docker login
-Tag image: Type [docker tag my-react-app {your-dockerhub-username}/my-react-app]
-Push image: docker push {your-dockerhub-username}/my-react-app
-Pull image: docker pull {your-dockerhub-username}/my-react-app, docker run -p 30000:80 my-react-app, {your-dockerhub-username}/my-react-app
+```sh
+docker compose --profile production down
+```
 
-Following instructions for running:
+For development with file watching:
 
-Now anyone can directly pull the image from their computer using:
+```sh
+docker compose --profile development up --build --watch
+```
 
-docker login
-docker run --rm -p 30000:80 janezhang1/my-react-app:latest
+Open http://localhost:5173. Run one mode at a time. More details: [Docker setup](docs/docker.md).
 
-http://localhost:30000
+## Where things are
+
+| Folder or file | What's in it |
+| --- | --- |
+| `webui/src/pages/` | Pages, starting with `intro.js` |
+| `webui/src/styles/` | CSS and existing SVG icons |
+| `webui/src/App.js` | Page routes |
+| `webui/public/` | HTML entry point and public assets |
+| `docker/` | Development and production Dockerfiles |
+| `compose.yaml` | Docker services and ports |
+| `docs/design/` | Original HTML intro reference |
+| `docs/team/` | Meeting notes and page assignments |
+| `docs/intro.md` | Intro behavior and implementation notes |
+| `.gitlab-ci.yml` | Current placeholder pipeline |
+
+There is no active Python backend. The previous Flask page was replaced by React.
+
+## Test without Docker
+
+With Node.js and npm installed:
+
+```sh
+cd webui
+npm ci
+CI=true npm test -- --watchAll=false --runInBand
+npm run build
+```
+
+The GitLab pipeline currently prints sample build/test/deploy messages. A green pipeline does not mean these app checks ran or that the site was deployed.

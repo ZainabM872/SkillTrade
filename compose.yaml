@@ -1,0 +1,30 @@
+services:
+  prod:
+    profiles: [production]
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.prod
+    ports:
+      - "3000:80"
+
+  dev:
+    profiles: [development]
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    ports:
+      - "5173:5173"
+    environment:
+      NODE_ENV: development
+    develop:
+      watch:
+        - action: sync
+          path: ./webui/src
+          target: /app/src
+        - action: sync
+          path: ./webui/public
+          target: /app/public
+        - action: rebuild
+          path: ./webui/package.json
+        - action: rebuild
+          path: ./webui/package-lock.json
