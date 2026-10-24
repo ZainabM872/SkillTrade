@@ -45,7 +45,8 @@ function App() {
         <Route path="/meeting-location" element={<MeetingLocation />} />
         <Route path="/location-shared" element={<LocationShared />} />
         <Route path="/rate-session" element={<RateSession />} />
-        <Route path="/completed-session-details" element={<CompletedSessionDetails />} />
+        <Route path="/completed-session-details" element={<CompletedSessionDetails />} />        <Route path="/book" element={<Book />} />
+
       </Routes>
     </BrowserRouter>
   );
