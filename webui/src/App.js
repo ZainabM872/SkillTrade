@@ -12,6 +12,7 @@ import ResetSent from "./pages/reset-sent";
 import SupportSent from "./pages/support-sent";
 import ContactSupport from "./pages/contact-support";
 import TeachingSessionDetails from "./pages/teaching-session-details";
+import CompletedSessionDetails from "./pages/completed-session-details";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/support-sent" element={<SupportSent />} />
         <Route path="/contact-support" element={<ContactSupport />} />
         <Route path="/teaching-session-details" element={<TeachingSessionDetails />} />
+        <Route path="/completed-session-details" element={<CompletedSessionDetails />} />
       </Routes>
     </BrowserRouter>
   );
