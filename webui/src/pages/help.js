@@ -117,15 +117,12 @@ export default function Help() {
               If you couldn’t find your answer, get in touch with the SkillTrade
               team.
             </p>
-          </div>
-
-          {/* Replace YOUR_SUPPORT_EMAIL with your project's real support address. */}
-          <a
+          </div> 
+          <Link to="/contact-support"
             className="help-support-button"
-            href="mailto:YOUR_SUPPORT_EMAIL"
           >
             Contact support <span aria-hidden="true">↗</span>
-          </a>
+          </Link>
         </section>
       </main>
     </div>

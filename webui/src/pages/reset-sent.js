@@ -82,7 +82,7 @@ export default function ResetSent() {
 
           <p className="reset-sent-help">
             Didn't receive the email? Check your spam folder or{" "}
-            <Link to="/help">contact support</Link>.
+            <Link to="/contact-support">contact support</Link>.
           </p>
         </section>
       </main>
