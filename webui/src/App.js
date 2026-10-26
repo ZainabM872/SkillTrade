@@ -7,6 +7,7 @@ import Guidelines from "./pages/community-guidelines";
 import Profile from "./pages/profile";
 import Settings from "./pages/settings";
 import Help from "./pages/help";
+import ResetPassword from "./pages/reset-password";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/help" element={<Help />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
     </BrowserRouter>
   );
