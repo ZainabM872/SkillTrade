@@ -5,6 +5,7 @@ import Intro from "./pages/intro";
 import Signup from "./pages/signup";
 import Guidelines from "./pages/community-guidelines";
 import Profile from "./pages/profile";
+import Settings from "./pages/settings";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/guidelines" element={<Guidelines />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </BrowserRouter>
   );
