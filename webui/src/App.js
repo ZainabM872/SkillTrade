@@ -9,6 +9,7 @@ import Settings from "./pages/settings";
 import Help from "./pages/help";
 import ResetPassword from "./pages/reset-password";
 import ResetSent from "./pages/reset-sent";
+import SupportSent from "./pages/support-sent";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/help" element={<Help />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/reset-sent" element={<ResetSent />} />
+        <Route path="/support-sent" element={<SupportSent />} />
       </Routes>
     </BrowserRouter>
   );
