@@ -24,7 +24,9 @@ Run the files in this order:
 3. Accounts and scheduling seed
 4. This seed.sql
 
-Put these SQL files in the repository's `database` folder. With the team's Docker database running, run these from the repository folder, at the appropriate steps above:
+The current compose.yaml runs the frontend only. Before using the commands below, the combined database setup needs a service named `db` in the `database` profile, with a PostgreSQL database and user both named `skilltrade`. These files don't add that service or load the missing accounts and scheduling tables.
+
+Once that setup is ready, run these from the repository folder at the appropriate steps above:
 
 ```sh
 docker compose -p skilltrade --profile database exec -T db psql -U skilltrade -d skilltrade -v ON_ERROR_STOP=1 < database/schema.sql
