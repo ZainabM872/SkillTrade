@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import styles from "../styles/booking.module.css";
+import NavBar from '../components/NavBar';
 
 const monthNames = [
   "January", "February", "March", "April", "May", "June",
@@ -59,25 +59,7 @@ export default function Booking() {
 
   return (
     <div className={styles.mainContainer}>
-      <div className={styles.headerRow}>
-        <div className={styles.pointsFaq}>
-          <div className={styles.sparkleIcon} />
-          <span className={styles.pointsBalance}>120 points</span>
-        </div>
-        <div className={styles.headerActions}>
-          <div className={styles.notificationButton}>
-            <div className={styles.bellIcon} />
-          </div>
-          <div className={styles.profileButton}>
-            <span className={styles.profileInitials}>SM</span>
-          </div>
-        </div>
-        <Link to="/" className={`${styles.navItem} ${styles.navHome}`}>Home</Link>
-        <Link to="/explore" className={`${styles.navItem} ${styles.navExplore}`}>Explore</Link>
-        <Link to="/sessions" className={`${styles.navItem} ${styles.navSessions}`}>Sessions</Link>
-        <Link to="/teach" className={`${styles.navItem} ${styles.navTeach}`}>Teach a skill</Link>
-      </div>
-      <div className={styles.activeNav} />
+      <NavBar points={120} initials="SM" />
       <div className={styles.headerDivider} />
       <span className={styles.sectionEyebrow}>LEARN SOMETHING NEW</span>
       <span className={styles.pageTitle}>Book your session</span>
