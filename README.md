@@ -34,6 +34,7 @@ Open http://localhost:5173. Run one mode at a time. More details: [Docker setup]
 | `webui/public/` | HTML entry point and public assets |
 | `docker/` | Development and production Dockerfiles |
 | `compose.yaml` | Docker services and ports |
+| `database/` | Points, learning and moderation SQL; see [setup notes](database/README.md) |
 | `docs/design/` | Original HTML intro reference |
 | `docs/team/` | Meeting notes and page assignments |
 | `docs/intro.md` | Intro behavior and implementation notes |
