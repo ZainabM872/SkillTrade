@@ -114,50 +114,6 @@
   line-height: 20px;
 }
 
-/* Nav items share one base class, each only sets what's different */
-.navItem {
-  position: absolute;
-  top: 8px;
-  color: #667085;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20.3px;
-  white-space: nowrap;
-}
-
-.navHome {
-  left: 0;
-}
-
-.navExplore {
-  left: 144px;
-  color: #5b5bef;
-  font-weight: 600;
-}
-
-.navSessions {
-  left: 288px;
-}
-
-.navTeach {
-  left: 432px;
-}
-
-.activeNav {
-  width: 70px;
-  height: 3px;
-  margin: 10px 0 0 240px;
-  background: #5b5bef;
-  border-radius: 1px;
-}
-
-.headerDivider {
-  width: 1440px;
-  height: 1px;
-  margin-top: 8px;
-  background: #e4e7ec;
-}
-
 /* ---------- Page heading ---------- */
 .sectionEyebrow {
   display: block;
