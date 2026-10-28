@@ -21,6 +21,7 @@ import MeetingLocation from "./pages/meeting-location";
 import Arrived from "./pages/arrived";
 import SessionStarted from "./pages/session-started";
 import SkillPointsFaq from "./pages/skill-points-faq";
+import Sessions from "./pages/sessions"
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
         <Route path="/location-shared" element={<LocationShared />} />
         <Route path="/rate-session" element={<RateSession />} />
         <Route path="/completed-session-details" element={<CompletedSessionDetails />} />        <Route path="/book" element={<Book />} />
+        <Route path="/sessions" element={<Sessions />} />
 
       </Routes>
     </BrowserRouter>
