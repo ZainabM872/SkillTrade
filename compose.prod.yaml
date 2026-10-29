@@ -1,0 +1,14 @@
+services:
+  prod:
+    profiles: [production]
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.prod
+    ports:
+      - "3000:80"
+    secrets:
+      - placeholder_db_password
+
+secrets:
+  placeholder_db_password:
+    file: ./secrets/placeholder_db_password.txt
