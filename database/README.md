@@ -1,23 +1,25 @@
 # Part 1: Database: Accounts, Discovery, scheduling and Notifications 
+Files: `schema_1.sql`, `seed_1.sql`
 
 This part covers the following tables:
-- user
+- users
 - settings
-- auth_token
-- skill_listing 
-- listing_tag
-- listing_location
-- category
-- tag
-- location
-- availability_interval 
-- attendance 
-- session 
-- session_change 
-- notification 
+- auth_tokens
+- categories
+- tags
+- locations
+- skill_listings
+- listing_tags
+- listing_locations 
+- availability_intervals
+- sessions
+- attendance
+- session_changes
+- notifications
 
 
 # Part 2: Database: points, learning and moderation
+Files: `schema_2.sql`, `seed_2.sql`
 
 This part covers these eight tables:
 
@@ -37,7 +39,7 @@ This part covers these eight tables:
 
 Use PostgreSQL 17. The accounts and scheduling tables need to exist first because these tables reference users, listings and sessions.
 
-Run the files in this order:
+Run the files in this order in a fresh database:
 
 1. schema_1.sql
 2. schema_2.sql
