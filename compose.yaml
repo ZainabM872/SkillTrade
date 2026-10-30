@@ -1,12 +1,4 @@
 services:
-  prod:
-    profiles: [production]
-    build:
-      context: .
-      dockerfile: docker/Dockerfile.prod
-    ports:
-      - "3000:80"
-
   dev:
     profiles: [development]
     build:
