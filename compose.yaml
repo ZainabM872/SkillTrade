@@ -22,24 +22,26 @@ services:
           path: ./webui/package-lock.json
 
   db:
-    image: mysql:latest
+    image: postgres:18
     environment:
-      MYSQL_ROOT_PASSWORD: /run/secrets/db_password
-      MYSQL_DATABASE: skilltrade
+      POSTGRES_USER: postgres
+      # The name must be the mounted name used in "secrets" and not the actual file
+      POSTGRES_PASSWORD_FILE: /run/secrets/skilltrade_db_pass
+      POSTGRES_DB: skilltrade_db
     ports:
       - "3307:3306"
     secrets:
       - skilltrade_db_pass
     volumes:
-      - skilltrade-db-volume:/var/lib/mysql
+      - skilltrade-db-volume:/var/lib/postresql/data
       - ./database:/docker-entrypoint-initdb.d:ro
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
+    image: phpmyadmin/phpmyadmin:5.2.3
     environment:
       PMA_HOST: db
       PMA_PORT: 3306
-      MYSQL_ROOT_PASSWORD: /run/secrets/db_password
+      # MYSQL_ROOT_PASSWORD: /run/secrets/skilltrade_db_pass
     ports:
       - "8080:80"
     depends_on:
