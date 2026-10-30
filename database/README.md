@@ -31,7 +31,6 @@ This part covers these eight tables:
 - platform_settings
 
 
-
 `schema_1.sql` and `schema_2.sql` create the tables and their rules. `seed_1.sql` and `seed_2.sql` adds sample data. Check `shared-tables.md` before combining this with the accounts and scheduling work.
 
 ## Running it
@@ -50,11 +49,17 @@ The current compose.yaml runs the frontend only. Before using the commands below
 Once that setup is ready, run these from the repository folder at the appropriate steps above:
 
 ```sh
-docker compose -p skilltrade --profile database exec -T db psql -U skilltrade -d skilltrade -v ON_ERROR_STOP=1 < database/schema.sql
+docker compose -p skilltrade --profile database exec -T db psql -U skilltrade -d skilltrade -v ON_ERROR_STOP=1 < database/schema_1.sql
+```
+```sh
+docker compose -p skilltrade --profile database exec -T db psql -U skilltrade -d skilltrade -v ON_ERROR_STOP=1 < database/schema_2.sql
 ```
 
 ```sh
-docker compose -p skilltrade --profile database exec -T db psql -U skilltrade -d skilltrade -v ON_ERROR_STOP=1 < database/seed.sql
+docker compose -p skilltrade --profile database exec -T db psql -U skilltrade -d skilltrade -v ON_ERROR_STOP=1 < database/seed_1.sql
+```
+```sh
+docker compose -p skilltrade --profile database exec -T db psql -U skilltrade -d skilltrade -v ON_ERROR_STOP=1 < database/seed_2.sql
 ```
 
 Change `skilltrade` after `-p` if the Docker project has a different name. This ZIP doesn't include the Docker setup.
