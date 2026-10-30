@@ -8,6 +8,9 @@ services:
       - "5173:5173"
     environment:
       NODE_ENV: development
+    # Make sure db starts alongside development container
+    depends_on:
+      - db
     develop:
       watch:
         - action: sync

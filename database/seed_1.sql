@@ -16,7 +16,7 @@ INSERT INTO users (user_id, name, email, password_hash, role, bio) VALUES
  (5, 'Jordan', 'jordan@example.com', :'demo_hash', 'admin',     NULL);
 
 -- These are all set to the defaults specified in the table declaration
-INSERT INTO user_settings (user_id) SELECT user_id FROM users; 
+INSERT INTO settings (user_id) SELECT user_id FROM users; 
 
 -- Create the catagories 
 INSERT INTO categories (category_id, name) VALUES
