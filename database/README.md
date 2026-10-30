@@ -1,6 +1,25 @@
-# Database: points, learning and moderation
+# Part 1: Database: Accounts, Discovery, scheduling and Notifications 
 
-My part covers these eight tables:
+This part covers the following tables:
+- user
+- settings
+- auth_token
+- skill_listing 
+- listing_tag
+- listing_location
+- category
+- tag
+- location
+- availability_interval 
+- attendance 
+- session 
+- session_change 
+- notification 
+
+
+# Part 2: Database: points, learning and moderation
+
+This part covers these eight tables:
 
 - point_transactions
 - reviews
@@ -11,7 +30,9 @@ My part covers these eight tables:
 - moderation_actions
 - platform_settings
 
-`schema.sql` creates the tables and their rules. `seed.sql` adds sample data. Check `shared-tables.md` before combining this with the accounts and scheduling work.
+
+
+`schema_1.sql` and `schema_2.sql` create the tables and their rules. `seed_1.sql` and `seed_2.sql` adds sample data. Check `shared-tables.md` before combining this with the accounts and scheduling work.
 
 ## Running it
 
@@ -19,10 +40,10 @@ Use PostgreSQL 17. The accounts and scheduling tables need to exist first becaus
 
 Run the files in this order:
 
-1. Accounts and scheduling schema
-2. This schema.sql
-3. Accounts and scheduling seed
-4. This seed.sql
+1. schema_1.sql
+2. schema_2.sql
+3. seed_1.sql
+4. seed_2.sql
 
 The current compose.yaml runs the frontend only. Before using the commands below, the combined database setup needs a service named `db` in the `database` profile, with a PostgreSQL database and user both named `skilltrade`. These files don't add that service or load the missing accounts and scheduling tables.
 
