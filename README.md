@@ -7,13 +7,13 @@ A skill-sharing app. The React intro runs in Docker; login is still a preview.
 Open Docker Desktop, then run this from the repository folder:
 
 ```sh
-docker compose --profile production up --build
+docker compose -f compose.prod.yaml --profile production up --build
 ```
 
 Open http://localhost:3000. Stop with Ctrl+C, then run:
 
 ```sh
-docker compose --profile production down
+docker compose -f compose.prod.yaml --profile production down
 ```
 
 For development with file watching:
