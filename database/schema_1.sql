@@ -182,18 +182,152 @@ CREATE TABLE notification(
 -- ---------------------------------------------------------------------------
 -- Functions 
 -- ---------------------------------------------------------------------------
--- Must be one learner and one teacher per session 
+-- Validates a session insert using variety of criteria
+    -- Booking info must be consistant to corresponding listing 
+    -- No Double bookings for one session (uses needs_check flag when the session needs to be searched for double booking)
+    -- Once a session is created, the teacher, learner, listing and cost are frozen and cannot be edited
+
+    CREATE FUNCTION validate_session() RETURNS trigger LANGUAGE plpgsql SET search_path = skilltrade, pg_temp AS $$
+    DECLARE l skill_listings; needs_check boolean := false;
+    BEGIN
+    
+    -- 1. Load the skill listing the session points at
+    SELECT * INTO STRICT l FROM skill_listings WHERE listing_id = NEW.listing_id;
+
+    -- 2. New session  must match with its listing
+    IF TG_OP = 'INSERT' THEN
+        IF l.status <> 'active' THEN
+        RAISE EXCEPTION 'Sessions can only be booked on active listings';
+        END IF;
+
+        IF NEW.teacher_id <> l.teacher_id THEN
+        RAISE EXCEPTION 'Session teacher must be the listing''s teacher';
+        END IF;
+
+        IF NEW.point_cost <> l.point_cost THEN
+        RAISE EXCEPTION 'Session point_cost must match the listing cost';
+        END IF;
+
+    -- 3. If the session already exists the following fields are frozen 
+    ELSIF NEW.teacher_id <> OLD.teacher_id
+     OR NEW.learner_id <> OLD.learner_id
+     OR NEW.listing_id <> OLD.listing_id
+     OR NEW.point_cost <> OLD.point_cost THEN
+    RAISE EXCEPTION 'Teacher, learner, listing and cost cannot change after booking';
+   END IF;
+
+    -- 4. Length of the session must match the listing length 
+    IF NEW.end_time - NEW.start_time <> l.duration_minutes * interval '1 minute' THEN
+      RAISE EXCEPTION 'Session length must match the listing duration';
+    END IF;
+
+    -- 5. Mode must be one the listing offers (insert and update)
+    IF (NEW.mode = 'online'    AND l.session_mode = 'in_person')
+    OR (NEW.mode = 'in_person' AND l.session_mode = 'online') THEN
+        RAISE EXCEPTION 'Session mode is not offered by this listing';
+    END IF;
+
+    -- 6. Decide if the double booking check is needed
+    IF NEW.status = 'confirmed' THEN
+        IF TG_OP = 'INSERT' THEN
+            needs_check := true;
+        ELSIF OLD.status <> 'confirmed'
+            OR OLD.start_time <> NEW.start_time
+            OR OLD.end_time <> NEW.end_time THEN
+            needs_check := true;
+        END IF;
+    END IF;
+
+    -- 7. Both people must be free before a session becomes confirmed
+    -- Double booking check 
+    IF needs_check THEN
+        -- Lock both users into the session 
+        PERFORM user_id
+        FROM users
+        WHERE user_id IN (NEW.teacher_id, NEW.learner_id)
+        ORDER BY user_id
+        FOR UPDATE;
+    
+        IF EXISTS (
+        SELECT 1
+        FROM sessions s
+        WHERE s.session_id IS DISTINCT FROM NEW.session_id
+            AND s.status = 'confirmed'
+            AND (s.teacher_id IN (NEW.teacher_id, NEW.learner_id)
+            OR s.learner_id IN (NEW.teacher_id, NEW.learner_id))
+            AND tstzrange(s.start_time, s.end_time) && tstzrange(NEW.start_time, NEW.end_time)
+        ) THEN
+        RAISE EXCEPTION 'A participant already has a confirmed session at that time';
+        END IF;
+    END IF;
+    RETURN NEW;
+END $$;
 
 
+-- Make sure the person named on an attendance row or a session change request is actually the teacher or the learner of that session.
 
+CREATE FUNCTION validate_session_participants() RETURNS trigger LANGUAGE plpgsql SET search_path = skilltrade, pg_temp AS $$
+DECLARE person BIGINT;   -- the person this row is about
+BEGIN
+  -- 1. Work out the person  
+  IF TG_TABLE_NAME = 'attendance' THEN -- attendence 
+    person := NEW.user_id;
+  ELSE                                  -- session_changes
+    person := NEW.requested_by;
+  END IF;
 
+  -- 2. This person must be the teacher or the learner of the session
+  IF NOT EXISTS (
+    SELECT 1
+    FROM sessions
+    WHERE session_id = NEW.session_id
+      AND person IN (teacher_id, learner_id)
+  ) THEN
+    RAISE EXCEPTION 'User must be a participant of the session';
+  END IF;
 
+  -- 3. save the row
+  RETURN NEW;
+END $$;
 
+-- The following are triggers for the functions above, they are run when the corresponding table is added or changed 
 
+CREATE TRIGGER sessions_valid BEFORE INSERT OR UPDATE ON sessions
+FOR EACH ROW EXECUTE FUNCTION validate_session();
 
+CREATE TRIGGER attendance_valid BEFORE INSERT OR UPDATE ON attendance
+FOR EACH ROW EXECUTE FUNCTION validate_session_participants();
+
+CREATE TRIGGER changes_valid BEFORE INSERT OR UPDATE ON session_changes
+FOR EACH ROW EXECUTE FUNCTION validate_session_participants();
+
+-- ---------------------------------------------------------------------------
+-- View for Reability Scores 
+-- ---------------------------------------------------------------------------
+-- This view updates as the tables are updated, which tracks how many sessions a user attended and missed.
+-- It calculates their average reliability score 
+
+CREATE VIEW user_reliability AS
+SELECT
+  u.user_id,
+  COUNT(*) FILTER (WHERE a.status = 'attended') AS attended,
+  COUNT(*) FILTER (WHERE a.status = 'no_show')  AS no_shows,
+  round(
+    COUNT(*) FILTER (WHERE a.status = 'attended')::numeric
+    / NULLIF(COUNT(*) FILTER (WHERE a.status IN ('attended','no_show')), 0),2) AS reliability
+FROM users u
+LEFT JOIN attendance a ON a.user_id = u.user_id -- take user tables and the attendence info 
+GROUP BY u.user_id;
 
 -- ---------------------------------------------------------------------------
 -- Indexes
 -- ---------------------------------------------------------------------------
-
+CREATE INDEX auth_tokens_user ON auth_tokens(user_id);      
+CREATE INDEX listings_teacher ON skill_listings(teacher_id);
+CREATE INDEX availability_user_time ON availability_intervals(user_id, start_time);
+CREATE INDEX sessions_teacher_time ON sessions(teacher_id, start_time);
+CREATE INDEX sessions_learner_time ON sessions(learner_id, start_time);  
+CREATE INDEX sessions_listing ON sessions(listing_id);   
+CREATE INDEX attendance_user ON attendance(user_id);   
+CREATE INDEX notifications_due ON notifications(user_id, scheduled_at);
 
