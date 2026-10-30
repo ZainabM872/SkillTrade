@@ -93,4 +93,4 @@ The session seed needs to use the same duration and cost. We still need to decid
 
 ## Still to do
 
-Test this with the finished accounts and scheduling scripts, then put together the final README, PDF and ZIP. The earlier full draft passed its tests, but this split hasn't been tested with the other half yet. The website isn't connected to the database yet.
+Put together the final README, PDF and ZIP. The earlier full draft passed its tests, and the full database has also passed its tests. The website isn't connected to the database yet.
