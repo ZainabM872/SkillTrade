@@ -38,13 +38,12 @@ services:
     volumes:
       - skilltrade-db-volume:/var/lib/postresql/data
       - ./database:/docker-entrypoint-initdb.d:ro
-
+  # UI friendly access to SQL
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2.3
     environment:
       PMA_HOST: db
       PMA_PORT: 3306
-      # MYSQL_ROOT_PASSWORD: /run/secrets/skilltrade_db_pass
     ports:
       - "8080:80"
     depends_on:
