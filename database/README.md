@@ -75,6 +75,9 @@ SELECT * FROM skilltrade.reports;
 
 The two balance columns should match. There should be 4 point transactions and 2 rows in each of the other seven tables.
 
+## Passwords
+All seed user passwords use `demo-password-123` which is turned into a hash using the argon2 function
+
 ## Points
 
 The rate is 15 points per hour. The sample gives three users 30 points each, then transfers 15 points for a one-hour session. Their final balances are 45, 15 and 30.
