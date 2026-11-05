@@ -1,0 +1,23 @@
+services:
+  prod:
+    profiles:
+    - production
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.prod
+    ports:
+    - 3000:80
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    extends:
+      file: compose.database.yaml
+      service: db
+
+secrets:
+  skilltrade_db_pass:
+    file: ./secrets/db_password.txt
+
+volumes:
+  skilltrade-pg18-data:
