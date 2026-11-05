@@ -34,7 +34,6 @@ database-tests:
   image: postgres:18
   services:
     - name: postgres:18
-      alias: postgres
   variables:
     POSTGRES_DB: skilltrade_test
     POSTGRES_USER: postgres
