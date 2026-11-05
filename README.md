@@ -2,6 +2,12 @@
 
 A skill-sharing app. The React intro runs in Docker; login is still a preview.
 
+## Database setup
+
+Before running Docker, add your database password to `secrets/db_password.txt`. PostgreSQL 18 runs `database/schema.sql` and then `database/seed.sql` automatically when the volume is empty. See the [database README](database/README.md) for setup and submission steps.
+
+Database only: `docker compose -f compose.database.yaml up -d --wait db`.
+
 ## Run it
 
 Open Docker Desktop, then run this from the repository folder:

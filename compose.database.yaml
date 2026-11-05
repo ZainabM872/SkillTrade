@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: skilltrade_db
+      POSTGRES_PASSWORD_FILE: /run/secrets/skilltrade_db_pass
+    ports:
+      - "127.0.0.1:3307:5432"
+    secrets:
+      - skilltrade_db_pass
+    volumes:
+      # PostgreSQL 18 stores PGDATA beneath /var/lib/postgresql.
+      # A new volume avoids reusing the old, incorrectly mounted data volume.
+      - skilltrade-pg18-data:/var/lib/postgresql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d skilltrade_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+secrets:
+  skilltrade_db_pass:
+    file: ./secrets/db_password.txt
+
+volumes:
+  skilltrade-pg18-data:
