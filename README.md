@@ -2,18 +2,24 @@
 
 A skill-sharing app. The React intro runs in Docker; login is still a preview.
 
+## Database setup
+
+Before running Docker, add your database password to `secrets/db_password.txt`. PostgreSQL 18 runs `database/schema.sql` and then `database/seed.sql` automatically when the volume is empty. See the [database README](database/README.md) for setup and submission steps.
+
+Database only: `docker compose -f compose.database.yaml up -d --wait db`.
+
 ## Run it
 
 Open Docker Desktop, then run this from the repository folder:
 
 ```sh
-docker compose --profile production up --build
+docker compose -f compose.prod.yaml --profile production up --build
 ```
 
 Open http://localhost:3000. Stop with Ctrl+C, then run:
 
 ```sh
-docker compose --profile production down
+docker compose -f compose.prod.yaml --profile production down
 ```
 
 For development with file watching:
@@ -34,7 +40,6 @@ Open http://localhost:5173. Run one mode at a time. More details: [Docker setup]
 | `webui/public/` | HTML entry point and public assets |
 | `docker/` | Development and production Dockerfiles |
 | `compose.yaml` | Docker services and ports |
-| `database/` | Points, learning and moderation SQL; see [setup notes](database/README.md) |
 | `docs/design/` | Original HTML intro reference |
 | `docs/team/` | Meeting notes and page assignments |
 | `docs/intro.md` | Intro behavior and implementation notes |
