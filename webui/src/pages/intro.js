@@ -209,7 +209,7 @@ function LoginChapter({ onReplay }) {
           <p>Log in to keep learning.</p>
           <LoginForm />
           <div className="prototype">
-            Interactive preview · Login is not connected yet.
+            New to SkillTrade? <a href="signup">Create an account</a>
           </div>
         </div>
       </div>
