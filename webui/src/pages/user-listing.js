@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback } from "react";
+import { useCallback } from "react";
 import "../styles/user-listing.css";
 
 const MyListing = () => {
