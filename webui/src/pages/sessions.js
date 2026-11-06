@@ -5,6 +5,7 @@ import guitarIcon from '../styles/icons/guitar.svg';
 import skateIcon from '../styles/icons/skate.svg';
 import greyCircle from '../styles/icons/Ellipse-1.svg'; // change to your file names
 import whiteCircle from '../styles/icons/Ellipse.svg';
+import { useNavigate } from 'react-router-dom';
 
 // Temporary data (replace with backend response)
 
@@ -176,6 +177,7 @@ function SessionCard({ session, onView }) {
 
 export default function SessionsPage({ currentUser = MOCK_CURRENT_USER, onViewSession }) {
   const userId = currentUser.id;
+  const navigate = useNavigate();
   const [when, setWhen] = useState('upcoming');
   const [role, setRole] = useState('all');
   const [allSessions, setAllSessions] = useState([]);
@@ -243,9 +245,13 @@ export default function SessionsPage({ currentUser = MOCK_CURRENT_USER, onViewSe
             )}
 
             {sessions.map((session) => (
-              <SessionCard key={session.id} session={session} onView={onViewSession} />
+              <SessionCard
+                key={session.id}
+                session={session}
+                onView={(s) => navigate(`/sessions/${s.id}`)}
+              />
             ))}
-          </section>
+            </section>
 
           <aside className={styles.note}>
             <h3 className={styles.noteHeading}>A little preparation goes a long way</h3>

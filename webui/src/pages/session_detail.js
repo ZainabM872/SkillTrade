@@ -2,16 +2,93 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styles from '../styles/sessionDetails.module.css';
 import NavBar from '../components/NavBar';
-import greyCircle from '../styles/icons/grey-circle.svg'; // change to your file names
-import whiteCircle from '../styles/icons/white-circle.svg';
-import { MOCK_CURRENT_USER, fetchSession } from '../data/mockSessions';
-import {
-  ROLE_LABELS,
-  STATUS_LABELS,
-  formatWhen,
-  getInitials,
-  withRole,
-} from '../utils/sessionUtils';
+import guitarIcon from '../styles/icons/guitar.svg';
+import skateIcon from '../styles/icons/skate.svg';
+import greyCircle from '../styles/icons/Ellipse-1.svg'; // change to your file names
+import whiteCircle from '../styles/icons/Ellipse.svg';
+
+// Temporary data (replace with backend response)
+
+// Current id of the user logged in
+const MOCK_CURRENT_USER = { id: 'usr_001', name: 'Sara Moon', points: 120 };
+
+// Details for each session. The ids match the sessions on the Sessions page,
+// so "View session" opens the right one at /sessions/:id.
+const MOCK_SESSIONS = [
+  {
+    id: 'ses_001',
+    status: 'confirmed',
+    title: 'Acoustic guitar',
+    icon: guitarIcon,
+    category: { id: 'music', label: 'Music' },
+    teacher: { id: 'usr_002', name: 'Alex Morgan', rating: 4.9, reliability: 96 },
+    learner: { id: 'usr_001', name: 'Sara Moon', rating: 5.0, reliability: 100 },
+    startsAt: '2026-11-15T11:00:00',
+    endsAt: '2026-11-15T12:00:00',
+    location: 'Community centre lobby · Calgary',
+    meetingInstructions: 'Meet by the reception desk in the lobby.',
+    durationMinutes: 60,
+    points: 15,
+  },
+  {
+    id: 'ses_002',
+    status: 'confirmed',
+    title: 'Skating basics',
+    icon: skateIcon,
+    category: { id: 'sports', label: 'Sports & Movement' },
+    teacher: { id: 'usr_001', name: 'Sara Moon', rating: 4.8, reliability: 98 },
+    learner: { id: 'usr_004', name: 'Jordan Lee', rating: 4.7, reliability: 92 },
+    startsAt: '2026-11-15T11:00:00',
+    endsAt: '2026-11-15T12:00:00',
+    location: 'Community centre lobby · Calgary',
+    meetingInstructions: 'Meet at the rink entrance. Wear warm layers and bring gloves.',
+    durationMinutes: 60,
+    points: 15,
+  },
+];
+
+// One session by id, or null if it doesn't exist or the user isn't part of it.
+// Real version: GET /api/sessions/:id
+async function fetchSession(sessionId, userId) {
+  const session = MOCK_SESSIONS.find(
+    (s) => s.id === sessionId && (s.teacher.id === userId || s.learner.id === userId)
+  );
+  return new Promise((resolve) => setTimeout(() => resolve(session ?? null), 300));
+}
+
+const ROLE_LABELS = { learning: 'Learning', teaching: 'Teaching' };
+const STATUS_LABELS = {
+  confirmed: 'Confirmed',
+  pending: 'Pending',
+  cancelled: 'Cancelled',
+  completed: 'Completed',
+};
+
+const TIME_OPTIONS = { hour: 'numeric', minute: '2-digit' };
+
+// "November 15, 2026 · 11:00 AM–12:00 PM"
+function formatWhen(startsAt, endsAt) {
+  const start = new Date(startsAt);
+  const end = new Date(endsAt);
+  const date = start.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+  const from = start.toLocaleTimeString('en-US', TIME_OPTIONS);
+  const to = end.toLocaleTimeString('en-US', TIME_OPTIONS);
+  return `${date} · ${from}–${to}`;
+}
+
+// Adds the user's role and the other person in the session.
+function withRole(session, userId) {
+  const isTeaching = session.teacher.id === userId;
+  return {
+    ...session,
+    role: isTeaching ? 'teaching' : 'learning',
+    otherPerson: isTeaching ? session.learner : session.teacher,
+  };
+}
 
 // "Alex Morgan · ★ 4.9 · 96% reliable" (rating and reliability are skipped if missing)
 function formatPersonLine({ name, rating, reliability }) {
@@ -20,6 +97,18 @@ function formatPersonLine({ name, rating, reliability }) {
   if (reliability != null) parts.push(`${reliability}% reliable`);
   return parts.join(' · ');
 }
+
+// "Sara Moon" -> "SM"
+function getInitials(name = '') {
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .map((part) => part[0].toUpperCase())
+    .slice(0, 2)
+    .join('');
+}
+
+/* ---------- Page ---------- */
 
 export default function SessionDetails({ currentUser = MOCK_CURRENT_USER }) {
   const { id } = useParams();
@@ -83,7 +172,7 @@ function SessionContent({ session }) {
     points,
   } = session;
 
-  // Arrival and location sharing only make sense for confirmed sessions.
+  // Arrival, location sharing, reschedule and cancel only make sense for confirmed sessions.
   const isConfirmed = status === 'confirmed';
 
   return (
@@ -96,7 +185,7 @@ function SessionContent({ session }) {
           <h1 className={styles.title}>
             {title} with {otherPerson.name}
           </h1>
-          <p className={styles.when}>{formatWhen(startsAt, endsAt, { alwaysShowYear: true })}</p>
+          <p className={styles.when}>{formatWhen(startsAt, endsAt)}</p>
         </div>
         <Link to="/sessions" className={styles.backLink}>
           ← Back to sessions
@@ -104,7 +193,7 @@ function SessionContent({ session }) {
       </header>
 
       <div className={styles.layout}>
-        {/* TODO: hook the buttons below up to the backend */}
+        {/* TODO: hook the buttons up to the backend */}
         <section className={`${styles.card} ${styles.mainCard}`}>
           <div className={styles.banner}>
             <img className={styles.bannerGrey} src={greyCircle} alt="" />

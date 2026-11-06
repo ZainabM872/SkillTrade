@@ -22,6 +22,9 @@ import Arrived from "./pages/arrived";
 import SessionStarted from "./pages/session-started";
 import SkillPointsFaq from "./pages/skill-points-faq";
 import Sessions from "./pages/sessions"
+import Booking from "./pages/booking";
+import Sessions from "./pages/sessions"
+import Session_Details from "./pages/session_detail"
 
 function App() {
   return (
@@ -48,6 +51,10 @@ function App() {
         <Route path="/rate-session" element={<RateSession />} />
         <Route path="/completed-session-details" element={<CompletedSessionDetails />} />        <Route path="/book" element={<Book />} />
         <Route path="/sessions" element={<Sessions />} />
+
+        <Route path="/booking" element={<Booking />} />
+        <Route path="/sessions" element={<Sessions />} />
+        <Route path="/sessions/:id" element= {<Session_Details />} />
 
       </Routes>
     </BrowserRouter>
