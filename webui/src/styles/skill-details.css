@@ -1,0 +1,379 @@
+.skillDetail {
+  width: 100%;
+  height: 1024px;
+  position: relative;
+  background-color: #f7f8fc;
+  overflow: hidden;
+  text-align: left;
+  font-size: 14px;
+  color: #667085;
+  font-family: Inter;
+}
+.homeHome {
+  position: absolute;
+  top: 34px;
+  left: 96px;
+  line-height: 145%;
+  font-weight: 500;
+  display: inline-block;
+  width: 140px;
+  height: 20.3px;
+  cursor: pointer;
+}
+.exploreExplore {
+  position: absolute;
+  top: 34px;
+  left: 240px;
+  line-height: 145%;
+  font-weight: 600;
+  color: #5b5bef;
+  display: inline-block;
+  width: 140px;
+  height: 20.3px;
+  cursor: pointer;
+}
+.activeNavigation {
+  position: absolute;
+  top: 76px;
+  left: 240px;
+  border-radius: 1px;
+  background-color: #5b5bef;
+  width: 70px;
+  height: 3px;
+  overflow: hidden;
+}
+.sessionsSessions {
+  position: absolute;
+  top: 34px;
+  left: 384px;
+  line-height: 145%;
+  font-weight: 500;
+  display: inline-block;
+  width: 140px;
+  height: 20.3px;
+  cursor: pointer;
+}
+.teachASkill {
+  position: absolute;
+  top: 34px;
+  left: 528px;
+  line-height: 145%;
+  font-weight: 500;
+  display: inline-block;
+  width: 140px;
+  height: 20.3px;
+  cursor: pointer;
+}
+.pointsFaqFilter120Po {
+  position: absolute;
+  top: 26px;
+  left: 1070px;
+  border-radius: 16px;
+  background-color: #eeeaff;
+  border: 1px solid #5b5bef;
+  box-sizing: border-box;
+  width: 118px;
+  height: 40px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 14px;
+  gap: 8px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 13px;
+  color: #5b5bef;
+}
+.iconSparkle {
+  height: 16px;
+  width: 16px;
+  position: relative;
+}
+.points {
+  position: relative;
+  line-height: 20px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.notificationsIconButton {
+  position: absolute;
+  top: 26px;
+  left: 1228px;
+  border-radius: 16px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+.profileFilterSm {
+  position: absolute;
+  top: 26px;
+  left: 1300px;
+  border-radius: 16px;
+  background-color: #fff;
+  border: 1px solid #e4e7ec;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 8px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 13px;
+}
+.headerDivider {
+  position: absolute;
+  top: 87px;
+  left: 0px;
+  background-color: #e4e7ec;
+  width: 1440px;
+  height: 1px;
+  overflow: hidden;
+}
+.back {
+  position: absolute;
+  top: 120px;
+  left: 96px;
+  line-height: 145%;
+  font-weight: 500;
+  color: #5b5bef;
+  display: inline-block;
+  width: 300px;
+  height: 20.3px;
+}
+.skillIllustration {
+  position: absolute;
+  top: 172px;
+  left: 96px;
+  border-radius: 14px;
+  background-color: #eeeaff;
+  width: 744px;
+  height: 220px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 10px;
+  color: #5b5bef;
+}
+.ellipse {
+  position: absolute;
+  top: 27px;
+  left: 300px;
+  border-radius: 50%;
+  background-color: #fff;
+  width: 144px;
+  height: 144px;
+  opacity: 0.58;
+}
+.ellipse2 {
+  position: absolute;
+  top: 15px;
+  left: 288px;
+  border-radius: 50%;
+  border: 1px solid #5b5bef;
+  box-sizing: border-box;
+  width: 168px;
+  height: 168px;
+  opacity: 0.08;
+}
+.iconGuitar {
+  position: absolute;
+  top: 59px;
+  left: 332px;
+  width: 80px;
+  height: 80px;
+}
+.iconLanguage {
+  position: absolute;
+  top: 59px;
+  left: 332px;
+  width: 80px;
+  height: 80px;
+  display: none;
+}
+.musicBeginner {
+  position: absolute;
+  top: 194px;
+  left: 16px;
+  letter-spacing: 0.5px;
+  line-height: 14px;
+  font-weight: 600;
+  display: inline-block;
+  width: 712px;
+}
+.musicBeginner2 {
+  position: absolute;
+  top: 424px;
+  left: 96px;
+  font-size: 12px;
+  line-height: 145%;
+  font-weight: 600;
+  color: #5b5bef;
+  display: inline-block;
+  width: 700px;
+  height: 20px;
+}
+.acousticGuitar {
+  position: absolute;
+  top: 453px;
+  left: 96px;
+  font-size: 32px;
+  line-height: 145%;
+  display: inline-block;
+  color: #101828;
+  width: 700px;
+  height: 52.2px;
+}
+.learnChordsStrumming {
+  position: absolute;
+  top: 521px;
+  left: 96px;
+  font-size: 18px;
+  line-height: 145%;
+  display: inline-block;
+  width: 700px;
+  height: 26.1px;
+}
+.card {
+  position: absolute;
+  top: 636px;
+  left: 96px;
+  border-radius: 16px;
+  background-color: #fff;
+  width: 744px;
+  height: 148px;
+  overflow: hidden;
+  font-size: 18px;
+  color: #101828;
+}
+.meetAlexMorgan {
+  position: absolute;
+  top: 22px;
+  left: 24px;
+  line-height: 145%;
+  font-weight: 600;
+  display: inline-block;
+  width: 696px;
+  height: 26.1px;
+}
+.from32Real {
+  position: absolute;
+  top: 59px;
+  left: 24px;
+  font-size: 14px;
+  line-height: 145%;
+  color: #667085;
+  display: inline-block;
+  width: 696px;
+  height: 20.3px;
+}
+.card2 {
+  position: absolute;
+  top: 808px;
+  left: 96px;
+  border-radius: 16px;
+  background-color: #fff;
+  width: 744px;
+  height: 135px;
+  overflow: hidden;
+  font-size: 18px;
+  color: #101828;
+}
+.card3 {
+  position: absolute;
+  top: 172px;
+  left: 888px;
+  border-radius: 16px;
+  background-color: #fff;
+  width: 456px;
+  height: 565px;
+  overflow: hidden;
+  font-size: 15px;
+  color: #101828;
+}
+.yourNextNew {
+  position: absolute;
+  top: 30px;
+  left: 32px;
+  font-size: 23px;
+  line-height: 145%;
+  font-weight: 600;
+  display: inline-block;
+  width: 392px;
+  height: 33.3px;
+}
+.pointsHour {
+  position: absolute;
+  top: 82px;
+  left: 32px;
+  font-size: 28px;
+  line-height: 145%;
+  display: inline-block;
+  color: #5b5bef;
+  width: 392px;
+  height: 40.6px;
+}
+.minuteSession {
+  position: absolute;
+  top: 137px;
+  left: 32px;
+  line-height: 145%;
+  color: #667085;
+  display: inline-block;
+  width: 392px;
+  height: 21.8px;
+}
+.meetInPerson {
+  position: absolute;
+  top: 210px;
+  left: 32px;
+  font-size: 22px;
+  line-height: 145%;
+  display: inline-block;
+  width: 392px;
+  height: 31.9px;
+}
+.communityCentreLobbyMeet {
+  position: absolute;
+  top: 254px;
+  left: 32px;
+  line-height: 145%;
+  color: #667085;
+  display: inline-block;
+  width: 392px;
+  height: 21.8px;
+}
+.bookASessionButton {
+  position: absolute;
+  top: 442px;
+  left: 32px;
+  border-radius: 14px;
+  background-color: #5b5bef;
+  width: 392px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: #fff;
+}
+.button {
+  position: relative;
+  font-weight: 600;
+  cursor: pointer;
+}
+.pointsFaq {
+  position: absolute;
+  top: 508px;
+  left: 32px;
+  font-size: 13px;
+  line-height: 145%;
+  color: #5b5bef;
+  display: inline-block;
+  width: 392px;
+  height: 20px;
+  cursor: pointer;
+}
