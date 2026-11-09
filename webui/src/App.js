@@ -5,6 +5,7 @@ import Booking from "./pages/booking";
 import Sessions from "./pages/sessions"
 import Session_Details from "./pages/session_detail"
 import Teach from "./pages/teach"
+import Availability from "./pages/availability";
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
         <Route path="/sessions" element={<Sessions />} />
         <Route path="/sessions/:id" element= {<Session_Details />} />
         <Route path="/teach" element= {<Teach />} />
+        <Route path="/teach/availability" element= {<Availability />} />
+
 
       </Routes>
     </BrowserRouter>
