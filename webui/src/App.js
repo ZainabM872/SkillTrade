@@ -13,6 +13,7 @@ import SupportSent from "./pages/support-sent";
 import ContactSupport from "./pages/contact-support";
 import TeachingSessionDetails from "./pages/teaching-session-details";
 import CompletedSessionDetails from "./pages/completed-session-details";
+import TeachingLocations from "./pages/teaching-locations";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/guidelines" element={<Guidelines />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/teaching-locations" element={<TeachingLocations />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/help" element={<Help />} />
         <Route path="/reset-password" element={<ResetPassword />} />
