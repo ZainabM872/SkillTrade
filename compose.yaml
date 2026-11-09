@@ -1,30 +1,47 @@
 services:
-  prod:
-    profiles: [production]
-    build:
-      context: .
-      dockerfile: docker/Dockerfile.prod
-    ports:
-      - "3000:80"
-
   dev:
-    profiles: [development]
+    profiles:
+    - development
     build:
       context: .
       dockerfile: docker/Dockerfile.dev
     ports:
-      - "5173:5173"
+    - 5173:5173
     environment:
       NODE_ENV: development
+    depends_on:
+      db:
+        condition: service_healthy
     develop:
       watch:
-        - action: sync
-          path: ./webui/src
-          target: /app/src
-        - action: sync
-          path: ./webui/public
-          target: /app/public
-        - action: rebuild
-          path: ./webui/package.json
-        - action: rebuild
-          path: ./webui/package-lock.json
+      - action: sync
+        path: ./webui/src
+        target: /app/src
+      - action: sync
+        path: ./webui/public
+        target: /app/public
+      - action: rebuild
+        path: ./webui/package.json
+      - action: rebuild
+        path: ./webui/package-lock.json
+  db:
+    extends:
+      file: compose.database.yaml
+      service: db
+  adminer:
+    image: adminer:4
+    profiles: [tools]
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+secrets:
+  skilltrade_db_pass:
+    file: ./secrets/db_password.txt
+
+volumes:
+  skilltrade-pg18-data:

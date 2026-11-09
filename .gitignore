@@ -2,3 +2,4 @@ node_modules/
 webui/build/
 webui/coverage/
 .DS_Store
+secrets/
