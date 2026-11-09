@@ -91,6 +91,9 @@ export default function Main() {
               <Link to="/points" className="secondary-button">
                 How points work
               </Link>
+              <Link to="/teaching-locations" className="secondary-button">
+                Teaching locations
+              </Link>
               <Link to="/settings" className="secondary-button">
                 Settings
               </Link>
