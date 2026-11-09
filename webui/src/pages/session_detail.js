@@ -1,16 +1,24 @@
-import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styles from '../styles/sessionDetails.module.css';
+import PopupStyles from '../styles/cancel_reschedule.module.css';
 import NavBar from '../components/NavBar';
 import guitarIcon from '../styles/icons/guitar.svg';
 import skateIcon from '../styles/icons/skate.svg';
 import greyCircle from '../styles/icons/Ellipse-1.svg'; // change to your file names
 import whiteCircle from '../styles/icons/Ellipse.svg';
+import Sparkle from '../styles/icons/Sparkle.svg';
+import Cancel from '../styles/icons/Cancel_Button.svg';
 
 // Temporary data (replace with backend response)
 
 // Current id of the user logged in
 const MOCK_CURRENT_USER = { id: 'usr_001', name: 'Sara Moon', points: 120 };
+
+// path from reschedule 
+const BOOKING_ROUTE = '/booking';
+// path after cancelling 
+const SESSIONS_ROUTE = '/sessions';
 
 // Details for each session. The ids match the sessions on the Sessions page,
 // so "View session" opens the right one at /sessions/:id.
@@ -54,6 +62,18 @@ async function fetchSession(sessionId, userId) {
     (s) => s.id === sessionId && (s.teacher.id === userId || s.learner.id === userId)
   );
   return new Promise((resolve) => setTimeout(() => resolve(session ?? null), 300));
+}
+
+// Marks a session as cancelled.
+// Real version: POST /api/sessions/:id/cancel
+async function cancelSession(sessionId) {
+  const session = MOCK_SESSIONS.find((s) => s.id === sessionId);
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      if (session) session.status = 'cancelled';
+      resolve();
+    }, 300)
+  );
 }
 
 const ROLE_LABELS = { learning: 'Learning', teaching: 'Teaching' };
@@ -106,6 +126,96 @@ function getInitials(name = '') {
     .map((part) => part[0].toUpperCase())
     .slice(0, 2)
     .join('');
+}
+
+// Function for Modal 
+// Popup shown for "Reschedule session" and "Cancel session".
+// Closes with the X, the Escape key, or a click on the dark background.
+function Modal({ title, description, actionLabel, onAction, onClose, isBusy = false, error = '' }) {
+  const dialogRef = useRef(null);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+
+  useEffect(() => {
+    const previouslyFocused = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden'; // stop the page scrolling behind the popup
+    dialogRef.current?.focus();
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        onCloseRef.current();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+
+      // Keep keyboard focus inside the popup
+      const focusable = dialogRef.current.querySelectorAll('button:not([disabled])');
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+
+      if (event.shiftKey && (active === first || active === dialogRef.current)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      previouslyFocused?.focus?.(); // give focus back to the button that opened the popup
+    };
+  }, []);
+
+  return (
+    <div
+      className={PopupStyles.backdrop}
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
+      <div
+        className={PopupStyles.modal}
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+        tabIndex={-1}
+      >
+        <div className={PopupStyles.icon}>
+          <img src={Sparkle} alt="" />
+        </div>
+
+        <button type="button" className={PopupStyles.close} aria-label="Close" onClick={onClose}>
+          <img src={Cancel} alt="" />
+        </button>
+
+        <h2 className={PopupStyles.title} id="modal-title">
+          {title}
+        </h2>
+        <p className={PopupStyles.text} id="modal-description">
+          {description}
+        </p>
+
+        {error && (
+          <p className={PopupStyles.error} role="alert">
+            {error}
+          </p>
+        )}
+
+        <button type="button" className={PopupStyles.action} onClick={onAction} disabled={isBusy}>
+          {actionLabel}
+        </button>
+      </div>
+    </div>
+  );
 }
 
 /* ---------- Page ---------- */
@@ -172,8 +282,37 @@ function SessionContent({ session }) {
     points,
   } = session;
 
+  const navigate = useNavigate();
+  const [openModal, setOpenModal] = useState(null); // 'reschedule' | 'cancel' | null
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [cancelError, setCancelError] = useState('');
+
   // Arrival, location sharing, reschedule and cancel only make sense for confirmed sessions.
   const isConfirmed = status === 'confirmed';
+
+  const closeModal = () => {
+    if (isCancelling) return; // don't close while the cancellation is being sent
+    setOpenModal(null);
+    setCancelError('');
+  };
+
+  // "Choose date & time": go back to the booking page
+  const handleReschedule = () => {
+    navigate(BOOKING_ROUTE, { state: { rescheduleSessionId: session.id } });
+  };
+
+  // "Confirm cancellation": cancel the session, then go back to the list of sessions
+  const handleCancel = async () => {
+    setIsCancelling(true);
+    setCancelError('');
+    try {
+      await cancelSession(session.id);
+      setOpenModal('cancelled');
+    } catch (err) {
+      setCancelError('We couldn’t cancel this session. Please try again.');
+      setIsCancelling(false);
+    }
+  };
 
   return (
     <>
@@ -230,10 +369,20 @@ function SessionContent({ session }) {
           </p>
 
           <div className={styles.sideActions}>
-            <button type="button" className={styles.secondaryButton} disabled={!isConfirmed}>
+            <button
+              type="button"
+              className={styles.secondaryButton}
+              disabled={!isConfirmed}
+              onClick={() => setOpenModal('reschedule')}
+            >
               Reschedule session
             </button>
-            <button type="button" className={styles.secondaryButton} disabled={!isConfirmed}>
+            <button
+              type="button"
+              className={styles.secondaryButton}
+              disabled={!isConfirmed}
+              onClick={() => setOpenModal('cancel')}
+            >
               Cancel session
             </button>
             <button type="button" className={styles.secondaryButton}>
@@ -241,12 +390,45 @@ function SessionContent({ session }) {
             </button>
           </div>
 
-          {/* TODO: point this at your reliability explainer page */}
+          
           <a className={styles.textLink} href="/reliability">
             How reliability works ↗
           </a>
         </aside>
       </div>
+
+      {openModal === 'reschedule' && (
+        <Modal
+          title="Choose a new time"
+          description="Review available dates and times, then send your updated session request."
+          actionLabel="Choose date & time"
+          onAction={handleReschedule}
+          onClose={closeModal}
+        />
+      )}
+
+      {openModal === 'cancel' && (
+        <Modal
+          title="Cancel this session?"
+          description="Please give your learning partner at least 48 hours’ notice. The session will be marked cancelled."
+          actionLabel={isCancelling ? 'Cancelling…' : 'Confirm cancellation'}
+          onAction={handleCancel}
+          onClose={closeModal}
+          isBusy={isCancelling}
+          error={cancelError}
+        />
+      )}
+      {openModal === 'cancelled' && (
+      <Modal
+        title="Session cancelled"
+        description="Your learning partner will see the updated status in Sessions."
+        actionLabel="Back to sessions"
+        onAction={() => navigate(SESSIONS_ROUTE)}
+        onClose={() => navigate(SESSIONS_ROUTE)}
+      />
+)}
     </>
+
+    
   );
 }

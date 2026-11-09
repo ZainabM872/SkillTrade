@@ -39,10 +39,10 @@ export default function Booking() {
 
   // Build the grid for the month being viewed
   const daysInMonth = new Date(view.year, view.month + 1, 0).getDate();
-  const blanks = (new Date(view.year, view.month, 1).getDay() + 6) % 7; // Monday-first
+  const blanks = (new Date(view.year, view.month, 1).getDay() + 6) % 7; 
   const dates = Array.from({ length: daysInMonth }, (_, index) => index + 1);
 
-  // Don't allow browsing to months that are entirely in the past
+  // Don't allow browsing to months that were in the past 
   const canGoBack = new Date(view.year, view.month, 1) > startOfThisMonth;
 
   const changeMonth = (delta) => {
