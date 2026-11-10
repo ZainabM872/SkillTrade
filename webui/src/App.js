@@ -18,6 +18,7 @@ import TeachingLocations from "./pages/teaching-locations";
 import RateSession from "./pages/rate-session";
 import LocationShared from "./pages/location-shared";
 import MeetingLocation from "./pages/meeting-location";
+import Arrived from "./pages/arrived";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/support-sent" element={<SupportSent />} />
         <Route path="/contact-support" element={<ContactSupport />} />
         <Route path="/teaching-session-details" element={<TeachingSessionDetails />} />
+        <Route path="/arrived" element={<Arrived />} />
         <Route path="/meeting-location" element={<MeetingLocation />} />
         <Route path="/location-shared" element={<LocationShared />} />
         <Route path="/rate-session" element={<RateSession />} />

@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../styles/location-shared.css";
 
 export default function LocationShared() {
   const location = useLocation();
+  const navigate = useNavigate();
   // Booking and teaching sessions pass their own meeting details to this shared view.
   const meetingSession = location.state?.meetingSession;
   const session = meetingSession || {
@@ -12,9 +13,10 @@ export default function LocationShared() {
     mapSubtitle: "Calgary", landmark: "Reception", mapLabel: "LOBBY",
   };
   const instructions = location.state?.instructions || "Meet by the reception desk in the lobby.";
-  const [sharing, setSharing] = useState(true);
+  const [sharing, setSharing] = useState(location.state?.sharing ?? true);
   const [selectedMarker, setSelectedMarker] = useState("meeting");
-  const [hasArrived, setHasArrived] = useState(Boolean(location.state?.hasArrived));
+  const hasArrived = Boolean(location.state?.hasArrived);
+  const meetupConfirmed = Boolean(location.state?.meetupConfirmed);
   const stopDialog = useRef(null);
   const sharingButton = useRef(null);
 
@@ -52,7 +54,9 @@ export default function LocationShared() {
   }
 
   function markArrival() {
-    setHasArrived(true);
+    navigate("/arrived", {
+      state: { session, meetingSession, instructions, hasArrived: true, meetupConfirmed, sharing },
+    });
   }
 
   return (
@@ -133,8 +137,8 @@ export default function LocationShared() {
                 <span className="initials" aria-hidden="true">{session.initials}</span>
                 <div><b>{session.partner} · {session.role}</b><span>{session.skill} · In person</span></div>
               </div>
-              <button type="button" className="primary arrival-button" onClick={markArrival} disabled={hasArrived}>
-                {hasArrived ? "Arrival marked" : "I’ve arrived"}
+              <button type="button" className="primary arrival-button" onClick={markArrival}>
+                {hasArrived ? "View arrival details" : "I’ve arrived"}
               </button>
               <p className="arrival-status" role="status">
                 {hasArrived ? `Arrival marked in this preview. No notification has been sent to ${session.firstName}.` : "Mark your arrival when you reach the meeting spot."}
