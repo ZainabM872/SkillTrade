@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Intro from "./pages/intro";
 import Booking from "./pages/booking";
 import Sessions from "./pages/sessions"
-import Session_Details from "./pages/session_detail"
+import SessionDetails from './pages/session_detail';
 import Teach from "./pages/teach"
 import Availability from "./pages/availability";
 import Signup from "./pages/signup";
@@ -18,6 +18,7 @@ import SupportSent from "./pages/support-sent";
 import ContactSupport from "./pages/contact-support";
 import TeachingSessionDetails from "./pages/teaching-session-details";
 import CompletedSessionDetails from "./pages/completed-session-details";
+import ReviewListing from "./pages/review_listing";
 
 function App() {
   return (
@@ -26,9 +27,10 @@ function App() {
         <Route path="/" element={<Intro />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/sessions" element={<Sessions />} />
-        <Route path="/sessions/:id" element= {<Session_Details />} />
+        <Route path="/sessions/:id" element= {<SessionDetails />} />
         <Route path="/teach" element= {<Teach />} />
         <Route path="/teach/availability" element= {<Availability />} />
+        <Route path="/teach/review-listing" element= {<ReviewListing />} />
 
 
         <Route path="/signup" element={<Signup />} />
