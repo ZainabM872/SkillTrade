@@ -33,6 +33,7 @@ import Session_Details from "./pages/session_detail"
 import Teach from "./pages/teach"
 import Availability from "./pages/availability";
 import ReviewListing from "./pages/review_listing";
+import Notifications from "./pages/notifications";
 
 function App() {
   return (
@@ -45,6 +46,8 @@ function App() {
         <Route path="/teach" element= {<Teach />} />
         <Route path="/teach/availability" element= {<Availability />} />
         <Route path="/teach/review-listing" element= {<ReviewListing />} />
+        <Route path="/notifications" element= {<Notifications/>} />
+        
 
 
         <Route path="/signup" element={<Signup />} />
