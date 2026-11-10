@@ -37,7 +37,7 @@ export default function Main() {
           </nav>
 
           <div className="header-actions">
-            <Link to="/points" className="points-navigation">
+            <Link to="/skill-points-faq" className="points-navigation">
               <span aria-hidden="true">✦</span>
               <span>120 points</span>
             </Link>
@@ -88,7 +88,7 @@ export default function Main() {
             </div>
 
             <div className="profile-actions-list">
-              <Link to="/points" className="secondary-button">
+              <Link to="/skill-points-faq" className="secondary-button">
                 How points work
               </Link>
               <Link to="/teaching-locations" className="secondary-button">

@@ -1,6 +1,6 @@
 
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Intro from "./pages/intro";
 import Signup from "./pages/signup";
 import Guidelines from "./pages/community-guidelines";
@@ -20,6 +20,7 @@ import LocationShared from "./pages/location-shared";
 import MeetingLocation from "./pages/meeting-location";
 import Arrived from "./pages/arrived";
 import SessionStarted from "./pages/session-started";
+import SkillPointsFaq from "./pages/skill-points-faq";
 
 function App() {
   return (
@@ -31,6 +32,8 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/teaching-locations" element={<TeachingLocations />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/skill-points-faq" element={<SkillPointsFaq />} />
+        <Route path="/points" element={<Navigate to="/skill-points-faq" replace />} />
         <Route path="/help" element={<Help />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/reset-sent" element={<ResetSent />} />

@@ -1,0 +1,366 @@
+/* Adapted from the saved Desktop-layouts/skill-points-faq.css preview. */
+.skill-points-faq-page {
+  --purple: #5b5bef;
+  --muted: #667085;
+  --error: #b42318;
+  --bg: #f7f8fc;
+  --border: #e4e7ec;
+  min-height: 100vh;
+  background: var(--bg);
+  color: #101828;
+  font: 16px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.skill-points-faq-page *, .skill-points-faq-page *::before, .skill-points-faq-page *::after { box-sizing: border-box; }
+.skill-points-faq-page button, .skill-points-faq-page textarea { font: inherit; }
+.skill-points-faq-page a { text-decoration: none; color: inherit; }
+.skill-points-faq-page button { cursor: pointer; }
+.skill-points-faq-page :is(a, button, textarea):focus-visible { outline: 3px solid #b9b4ff; outline-offset: 4px; }
+.skill-points-faq-page button:disabled { opacity: .5; cursor: not-allowed; }
+.skill-points-faq-page .sp-header { border-bottom: 1px solid #e8eaf2; }
+.skill-points-faq-page .sp-header-inner { max-width: 1184px; margin: auto; display: flex; align-items: center; gap: 16px; padding: 28px 32px; }
+.skill-points-faq-page .sp-back { display: grid; place-items: center; min-width: 44px; min-height: 44px; border: 1px solid var(--border); border-radius: 10px; background: white; color: var(--muted); font-size: 30px; }
+.skill-points-faq-page .sp-brand { display: inline-flex; align-items: center; min-height: 44px; font-size: 22px; font-weight: 700; letter-spacing: -.7px; }
+.skill-points-faq-page .sp-brand span { color: #6657e8; }
+.skill-points-faq-page .sp-navigation { display: flex; gap: 12px; margin-left: auto; }
+.skill-points-faq-page .sp-navigation a { min-width: 44px; min-height: 44px; padding: 12px; border-radius: 10px; font-size: 13px; color: var(--muted); }
+.skill-points-faq-page .sp-navigation a:hover, .skill-points-faq-page .sp-back:hover { background: #eeecff; color: var(--purple); }
+.skill-points-faq-page .sp-main { max-width: 1184px; padding: 44px 32px; margin: auto; }
+.skill-points-faq-page .sp-heading { margin-bottom: 32px; }
+.skill-points-faq-page .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 1.4px; color: var(--purple); margin: 0 0 12px; }
+.skill-points-faq-page h1 { font-size: 36px; letter-spacing: -1.2px; line-height: 1.2; margin: 0 0 12px; }
+.skill-points-faq-page .sp-heading > p:last-child { color: var(--muted); line-height: 1.65; margin: 0; }
+.skill-points-faq-page .faq-workspace {
+  grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);
+  gap:40px;
+}
+.skill-points-faq-page .search-label {
+  font-size:13px;
+  font-weight:600;
+  margin:0 0 10px;
+}
+.skill-points-faq-page .faq-search {
+  position:relative;
+  margin-bottom:28px;
+}
+.skill-points-faq-page .faq-search input {
+  background:white;
+  border-radius:14px;
+  min-height:54px;
+  margin:0;
+  padding:16px;
+  padding-right:76px;
+  font-size:15px;
+}
+.skill-points-faq-page .clear-search {
+  position:absolute;
+  right:8px;
+  top:5px;
+  min-height:44px;
+  min-width:55px;
+  border:0;
+  background:transparent;
+  color:var(--purple);
+  font-size:12px;
+  border-radius:9px;
+}
+.skill-points-faq-page .clear-search:hover {
+  background:#f1eeff;
+}
+.skill-points-faq-page .clear-search[hidden] {
+  display:none;
+}
+.skill-points-faq-page .faq-toolbar {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:16px;
+}
+.skill-points-faq-page .faq-toolbar h2 {
+  font-size:17px;
+  margin:0;
+}
+.skill-points-faq-page .faq-toolbar>span {
+  font-size:12px;
+  color:var(--muted);
+}
+.skill-points-faq-page details {
+  background:white;
+  border:1px solid #e4e7ef;
+  border-radius:16px;
+  margin-bottom:12px;
+  overflow:hidden;
+}
+.skill-points-faq-page summary {
+  list-style:none;
+  position:relative;
+  cursor:pointer;
+  min-height:60px;
+  display:flex;
+  align-items:center;
+  padding:18px 52px 18px 20px;
+  font-size:15px;
+  font-weight:600;
+  line-height:1.5;
+}
+.skill-points-faq-page summary::-webkit-details-marker {
+  display:none;
+}
+.skill-points-faq-page summary:after {
+  content:'＋';
+  position:absolute;
+  right:19px;
+  top:18px;
+  color:var(--purple);
+  font-size:19px;
+  font-weight:400;
+}
+.skill-points-faq-page details[open] summary:after {
+  content:'−';
+}
+.skill-points-faq-page summary:hover {
+  background:#faf9ff;
+}
+.skill-points-faq-page summary:focus-visible {
+  outline:3px solid #b9b4ff;
+  outline-offset:-4px;
+  border-radius:14px;
+}
+.skill-points-faq-page details[open] {
+  border-color:#d3cbed;
+}
+.skill-points-faq-page details[open] summary {
+  color:#51439a;
+  background:#f6f3ff;
+}
+.skill-points-faq-page .answer {
+  padding:4px 20px 20px;
+}
+.skill-points-faq-page .answer p {
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.8;
+  margin:14px 0 0;
+}
+.skill-points-faq-page .answer a {
+  color:var(--purple);
+  text-decoration:underline;
+  text-underline-offset:3px;
+  font-size:13px;
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  margin-top:10px;
+}
+.skill-points-faq-page .points-sidebar {
+  display:grid;
+  gap:24px;
+  align-content:start;
+}
+.skill-points-faq-page .points-card {
+  background:linear-gradient(145deg,#eeebff,#f6f3ff);
+  border:1px solid #e1dcf4;
+  border-radius:24px;
+  padding:28px;
+}
+.skill-points-faq-page .points-card>.eyebrow {
+  display:block;
+  margin-bottom:18px;
+}
+.skill-points-faq-page .points-card h2 {
+  font-size:27px;
+  letter-spacing:-.8px;
+  line-height:1.3;
+  margin:0 0 28px;
+}
+.skill-points-faq-page .cycle {
+  list-style:none;
+  padding:0;
+  margin:0;
+  display:grid;
+  gap:22px;
+}
+.skill-points-faq-page .cycle li {
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+}
+.skill-points-faq-page .cycle li>span {
+  width:32px;
+  height:32px;
+  display:grid;
+  place-items:center;
+  flex:none;
+  background:white;
+  color:var(--purple);
+  font-size:11px;
+  font-weight:600;
+  border-radius:10px;
+}
+.skill-points-faq-page .cycle b {
+  font-size:14px;
+  line-height:1.6;
+}
+.skill-points-faq-page .cycle p {
+  font-size:12px;
+  line-height:1.7;
+  color:#7d7198;
+  margin:4px 0 0;
+}
+.skill-points-faq-page .example-card {
+  background:white;
+  border:1px solid #e4e7ef;
+  border-radius:22px;
+  padding:24px;
+}
+.skill-points-faq-page .example-card .eyebrow {
+  display:block;
+  font-size:10px;
+  margin-bottom:16px;
+}
+.skill-points-faq-page .example-card h2 {
+  font-size:20px;
+  letter-spacing:-.5px;
+  margin:0 0 8px;
+}
+.skill-points-faq-page .example-card>p {
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.7;
+  margin:0;
+}
+.skill-points-faq-page .example-cost {
+  border-top:1px solid #eef0f5;
+  border-bottom:1px solid #eef0f5;
+  padding:18px 0;
+  margin:20px 0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.skill-points-faq-page .example-cost strong {
+  font-size:32px;
+  letter-spacing:-1px;
+  color:var(--purple);
+}
+.skill-points-faq-page .example-cost strong>span {
+  font-size:14px;
+  letter-spacing:0;
+  font-weight:500;
+}
+.skill-points-faq-page .example-cost>span {
+  font-size:12px;
+  color:var(--muted);
+}
+.skill-points-faq-page .quick-guide {
+  padding:0 12px;
+}
+.skill-points-faq-page .quick-guide h2 {
+  font-size:14px;
+  margin:0 0 10px;
+}
+.skill-points-faq-page .quick-guide ul {
+  font-size:13px;
+  line-height:1.8;
+  color:var(--muted);
+  padding-left:18px;
+  margin:0;
+}
+.skill-points-faq-page .quick-link {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  font-size:13px;
+  margin-top:18px;
+  text-align:center;
+}
+.skill-points-faq-page .help-footer {
+  margin-top:28px;
+  border-top:1px solid #e4e7ef;
+  padding-top:22px;
+}
+.skill-points-faq-page .help-footer h2 {
+  font-size:15px;
+  margin:0 0 8px;
+}
+.skill-points-faq-page .help-footer p {
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.8;
+  margin:0;
+}
+.skill-points-faq-page .empty-results {
+  background:white;
+  border:1px dashed #d7cfea;
+  border-radius:18px;
+  padding:28px;
+  text-align:center;
+}
+.skill-points-faq-page .empty-results h3 {
+  font-size:18px;
+  margin:0 0 8px;
+}
+.skill-points-faq-page .empty-results p {
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.7;
+  margin:0 0 18px;
+}
+.skill-points-faq-page .empty-results[hidden], .skill-points-faq-page details[hidden] {
+  display:none;
+}
+@media(max-width:760px) {
+.skill-points-faq-page .faq-workspace {
+  grid-template-columns:1fr;
+  gap:28px;
+}
+.skill-points-faq-page .points-card {
+  padding:24px;
+}
+.skill-points-faq-page .points-card h2 {
+  font-size:25px;
+}
+.skill-points-faq-page summary {
+  font-size:14px;
+  padding-left:18px;
+}
+.skill-points-faq-page .answer {
+  padding-left:18px;
+  padding-right:18px;
+}
+.skill-points-faq-page .section-label {
+  font-size:10px;
+  letter-spacing:1.1px;
+}
+.skill-points-faq-page .example-cost strong {
+  font-size:30px;
+}
+}
+
+.skill-points-faq-page .faq-workspace { display: grid; align-items: start; }
+.skill-points-faq-page .search-label { display: block; }
+.skill-points-faq-page input { font: inherit; width: 100%; border: 1px solid var(--border); color: #101828; }
+.skill-points-faq-page input:hover { border-color: #b0abc9; }
+.skill-points-faq-page input:focus-visible { border-color: var(--purple); outline: 3px solid #b9b4ff; outline-offset: 3px; }
+.skill-points-faq-page .secondary {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 44px; min-height: 52px; padding: 12px 18px;
+  border-radius: 14px; font-size: 14px; font-weight: 600; text-align: center;
+  background: white; border: 1px solid var(--border); color: #344054;
+}
+.skill-points-faq-page .secondary:hover { background: #f0f1f8; }
+.skill-points-faq-page .quick-link { display: flex; }
+.skill-points-faq-page .support-link { margin-top: 16px; }
+@media (max-width: 760px) {
+  .skill-points-faq-page .sp-header-inner { padding: 16px 20px; gap: 12px; }
+  .skill-points-faq-page .sp-brand { font-size: 20px; }
+  .skill-points-faq-page .sp-navigation { gap: 0; }
+  .skill-points-faq-page .sp-navigation a { padding: 12px 8px; font-size: 12px; }
+  .skill-points-faq-page .sp-main { padding: 30px 20px; }
+  .skill-points-faq-page h1 { font-size: 29px; }
+}
+@media (max-width: 360px) {
+  .skill-points-faq-page .faq-toolbar { flex-wrap: wrap; gap: 8px; }
+}

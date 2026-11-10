@@ -14,7 +14,7 @@ const faqItems = [
     category: "SKILL POINTS",
     question: "How do skill points work?",
     description: "Earn, spend, and understand your balance.",
-    to: "/profile",
+    to: "/skill-points-faq",
   },
   {
     category: "ATTENDANCE",
