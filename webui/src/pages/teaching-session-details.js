@@ -1,15 +1,16 @@
 
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import "../styles/teaching-session-details.css";
 
 export default function TeachingSessionDetails() {
+  const location = useLocation();
   const [instructions, setInstructions] = useState(
-    "Meet by the reception desk in the lobby."
+    location.state?.instructions || "Meet by the reception desk in the lobby."
   );
   const [editedInstructions, setEditedInstructions] = useState(instructions);
   const [isEditing, setIsEditing] = useState(false);
-  const [hasArrived, setHasArrived] = useState(false);
+  const [hasArrived, setHasArrived] = useState(Boolean(location.state?.hasArrived));
   const [notice, setNotice] = useState("");
 
   function handleSaveInstructions(event) {
@@ -106,7 +107,7 @@ export default function TeachingSessionDetails() {
 
               <div className="ts-detail-block">
                 <h3>Community centre lobby · Calgary</h3>
-                <p>Meet by the reception desk in the lobby.</p>
+                <p>{instructions}</p>
               </div>
 
               <div className="ts-participant">
@@ -171,14 +172,13 @@ export default function TeachingSessionDetails() {
                   {hasArrived ? "✓ Arrival marked" : "I've arrived"}
                 </button>
 
-                <a
+                <Link
                   className="ts-button ts-secondary"
-                  href="https://www.google.com/maps/search/?api=1&query=community+centre+Calgary"
-                  target="_blank"
-                  rel="noreferrer"
+                  to="/location-shared"
+                  state={{ instructions, hasArrived }}
                 >
-                  Share / view location ↗
-                </a>
+                  Share / view location
+                </Link>
               </div>
             </div>
           </section>
