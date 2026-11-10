@@ -90,7 +90,7 @@ export default function Arrived() {
               <p className="arrival-status" role="status">{meetupConfirmed ? "Confirmed in this preview. No attendance record or notification has been sent." : "Confirm only once you’re together at the meeting spot."}</p>
             </div>
             {meetupConfirmed && (
-              <div className="ready-note"><h3>You’re ready to learn.</h3><p>Your meetup is confirmed in this demo. Enjoy the session, then leave a rating when you’re done.</p></div>
+              <div className="ready-note"><h3>You’re ready to learn.</h3><p>Your meetup is confirmed in this demo. Enjoy the session, then leave a rating when you’re done.</p><Link className="secondary location-link" to="/session-started" state={meetupState}>{location.state?.finished ? "View completed session" : "Start the demo session"}</Link></div>
             )}
           </section>
           <aside className="arrival-sidebar" aria-label="Session and meeting details">

@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "../styles/rate-session.css";
 
 // This key belongs to the example session on the completed-session page.
 const STORAGE_KEY = "skilltrade.sessionRating.taylor-korean-2026-11-04.v1";
 const ratingLabels = ["Poor", "Fair", "Good", "Very good", "Excellent"];
 
-function readSavedRating() {
+function readSavedRating(storageKey) {
   try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    const saved = JSON.parse(localStorage.getItem(storageKey));
     if (saved && Number.isInteger(saved.rating) && saved.rating >= 1 && saved.rating <= 5) {
       return {
         rating: saved.rating,
@@ -22,7 +22,16 @@ function readSavedRating() {
 }
 
 export default function RateSession() {
-  const [savedRating, setSavedRating] = useState(readSavedRating);
+  const location = useLocation();
+  const activeSession = location.state?.session;
+  const session = activeSession || {
+    partner: "Taylor Reed", firstName: "Taylor", initials: "TR", skill: "Conversational Korean",
+  };
+  // Keep each session's feedback separate from the existing Korean-session rating.
+  const storageKey = activeSession ? `skilltrade.sessionRating.${session.partner}.${session.skill}.v1` : STORAGE_KEY;
+  const returnPath = activeSession ? "/session-started" : "/completed-session-details";
+  const returnState = { ...location.state, finished: true };
+  const [savedRating, setSavedRating] = useState(() => readSavedRating(storageKey));
   const [rating, setRating] = useState(savedRating ? savedRating.rating : 0);
   const [comment, setComment] = useState(savedRating ? savedRating.comment : "");
   const [hoverRating, setHoverRating] = useState(0);
@@ -66,7 +75,7 @@ export default function RateSession() {
     await new Promise((resolve) => setTimeout(resolve, 0));
     const feedback = { rating, comment: comment.trim() };
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(feedback));
+      localStorage.setItem(storageKey, JSON.stringify(feedback));
       setSavedRating(feedback);
       setComment(feedback.comment);
       setSubmitted(true);
@@ -87,7 +96,7 @@ export default function RateSession() {
     <div className="rate-session-page">
       <header className="rs-header">
         <div className="rs-header-inner">
-          <Link className="rs-back" to="/completed-session-details" aria-label="Back to completed session">‹</Link>
+          <Link className="rs-back" to={returnPath} state={returnState} aria-label="Back to completed session">‹</Link>
           <Link className="rs-brand" to="/" aria-label="SkillTrade home">skill<span>Trade</span></Link>
           <nav className="rs-navigation" aria-label="Account navigation">
             <Link to="/profile">Profile</Link>
@@ -109,18 +118,18 @@ export default function RateSession() {
                 <span className="success-icon" aria-hidden="true">✓</span>
                 <p className="eyebrow">FEEDBACK SAVED</p>
                 <h2 ref={successHeading} tabIndex={-1}>Thanks for sharing.</h2>
-                <p>You rated your session with Taylor {savedRating.rating} out of 5{savedRating.comment ? " and added a comment." : "."}</p>
-                <p className="success-note">Your rating is saved on this device. It hasn’t been sent to Taylor or published.</p>
+                <p>You rated your session with {session.firstName} {savedRating.rating} out of 5{savedRating.comment ? " and added a comment." : "."}</p>
+                <p className="success-note">Your rating is saved on this device. It hasn’t been sent to {session.firstName} or published.</p>
                 <div className="rs-success-actions">
                   <button type="button" className="secondary" onClick={editRating}>Edit your rating</button>
-                  <Link className="primary" to="/completed-session-details">Back to session</Link>
+                  <Link className="primary" to={returnPath} state={returnState}>Back to session</Link>
                 </div>
               </div>
             ) : (
               <form noValidate onSubmit={submitRating}>
                 <div className="form-intro">
                   <span className="step-tag">YOUR EXPERIENCE</span>
-                  <h2>How was your session with Taylor?</h2>
+                  <h2>How was your session with {session.firstName}?</h2>
                   <p>Rate the teaching and learning experience.</p>
                 </div>
                 <fieldset className="rating-field" disabled={saving} aria-invalid={Boolean(error)} aria-describedby={error ? "rating-help rating-error" : "rating-help"}>
@@ -179,11 +188,11 @@ export default function RateSession() {
             <section className="session-card">
               <span className="step-tag">THE SESSION YOU’RE RATING</span>
               <div className="session-person">
-                <div className="initials" aria-hidden="true">TR</div>
-                <div><h2>Conversational Korean</h2><p>with Taylor Reed</p></div>
+                <div className="initials" aria-hidden="true">{session.initials}</div>
+                <div><h2>{session.skill}</h2><p>with {session.partner}</p></div>
               </div>
-              <div className="session-description">November 4, 2026 · 2:00 PM–3:00 PM</div>
-              <div className="session-meta"><span>Online</span><span>60 minutes</span></div>
+              <div className="session-description">{activeSession ? session.placeName : "November 4, 2026 · 2:00 PM–3:00 PM"}</div>
+              <div className="session-meta"><span>{activeSession ? "In person" : "Online"}</span><span>60 minutes</span></div>
             </section>
             <section className="reliability-card" aria-labelledby="rating-reliability-title">
               <div className="reliability-heading">
