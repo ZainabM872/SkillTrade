@@ -1,20 +1,9 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../styles/completed-session-details.css";
 
 export default function CompletedSessionDetails() {
-  const [showRatingForm, setShowRatingForm] = useState(false);
-  const [rating, setRating] = useState("5");
-  const [review, setReview] = useState("");
-  const [ratingSubmitted, setRatingSubmitted] = useState(false);
-
-  function handleRatingSubmit(event) {
-    event.preventDefault();
-    setRatingSubmitted(true);
-    setShowRatingForm(false);
-  }
-
   return (
     <div className="completed-session-page">
       <header className="cs-header">
@@ -66,23 +55,6 @@ export default function CompletedSessionDetails() {
           </Link>
         </div>
 
-        {ratingSubmitted && (
-          <div className="cs-feedback-message" role="status">
-            <span>
-              Thank you for your feedback! Your {rating}-star rating
-              {review.trim() ? " and review" : ""} has been recorded in this
-              page preview.
-            </span>
-            <button
-              type="button"
-              onClick={() => setRatingSubmitted(false)}
-              aria-label="Dismiss confirmation"
-            >
-              ×
-            </button>
-          </div>
-        )}
-
         <div className="cs-content-grid">
           <section className="cs-card cs-session-card">
             <div className="cs-illustration">
@@ -110,71 +82,9 @@ export default function CompletedSessionDetails() {
                 <p>60 minutes <span aria-hidden="true">·</span> 15 points</p>
               </div>
 
-              {ratingSubmitted ? (
-                <div className="cs-rating-complete">
-                  <span aria-hidden="true">✓</span>
-                  You've submitted your feedback.
-                  <button
-                    type="button"
-                    className="cs-text-button"
-                    onClick={() => {
-                      setRatingSubmitted(false);
-                      setShowRatingForm(true);
-                    }}
-                  >
-                    Edit rating
-                  </button>
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  className="cs-button cs-primary cs-full-button"
-                  onClick={() => setShowRatingForm((current) => !current)}
-                  aria-expanded={showRatingForm}
-                >
-                  {showRatingForm ? "Close rating form" : "Rate this session"}
-                </button>
-              )}
-
-              {showRatingForm && (
-                <form
-                  className="cs-rating-form"
-                  onSubmit={handleRatingSubmit}
-                >
-                  <h3>How was your session?</h3>
-
-                  <label htmlFor="cs-rating">Your rating</label>
-                  <select
-                    id="cs-rating"
-                    value={rating}
-                    onChange={(event) => setRating(event.target.value)}
-                  >
-                    <option value="5">5 — Excellent</option>
-                    <option value="4">4 — Very good</option>
-                    <option value="3">3 — Good</option>
-                    <option value="2">2 — Could be better</option>
-                    <option value="1">1 — Poor</option>
-                  </select>
-
-                  <label htmlFor="cs-review">Written feedback (optional)</label>
-                  <textarea
-                    id="cs-review"
-                    value={review}
-                    onChange={(event) => setReview(event.target.value)}
-                    placeholder="What did you enjoy about learning with Taylor?"
-                    rows={4}
-                    maxLength={1000}
-                  />
-
-                  <p className="cs-character-count">
-                    {review.length}/1000 characters
-                  </p>
-
-                  <button type="submit" className="cs-button cs-primary">
-                    Submit rating
-                  </button>
-                </form>
-              )}
+              <Link to="/rate-session" className="cs-button cs-primary cs-full-button">
+                Rate this session
+              </Link>
 
               <Link to="/explore" className="cs-button cs-secondary cs-full-button">
                 Book another session

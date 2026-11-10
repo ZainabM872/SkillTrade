@@ -15,6 +15,8 @@ import TeachingSessionDetails from "./pages/teaching-session-details";
 import CompletedSessionDetails from "./pages/completed-session-details";
 import TeachingLocations from "./pages/teaching-locations";
 
+import RateSession from "./pages/rate-session";
+
 function App() {
   return (
     <BrowserRouter>
@@ -31,6 +33,7 @@ function App() {
         <Route path="/support-sent" element={<SupportSent />} />
         <Route path="/contact-support" element={<ContactSupport />} />
         <Route path="/teaching-session-details" element={<TeachingSessionDetails />} />
+        <Route path="/rate-session" element={<RateSession />} />
         <Route path="/completed-session-details" element={<CompletedSessionDetails />} />
       </Routes>
     </BrowserRouter>
