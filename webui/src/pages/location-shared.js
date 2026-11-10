@@ -4,7 +4,13 @@ import "../styles/location-shared.css";
 
 export default function LocationShared() {
   const location = useLocation();
-  // The session page passes its latest meeting instructions when opening this view.
+  // Booking and teaching sessions pass their own meeting details to this shared view.
+  const meetingSession = location.state?.meetingSession;
+  const session = meetingSession || {
+    partner: "Sara Moon", firstName: "Sara", initials: "SM", role: "Learner",
+    skill: "Skating basics", placeName: "Community centre lobby",
+    mapSubtitle: "Calgary", landmark: "Reception", mapLabel: "LOBBY",
+  };
   const instructions = location.state?.instructions || "Meet by the reception desk in the lobby.";
   const [sharing, setSharing] = useState(true);
   const [selectedMarker, setSelectedMarker] = useState("meeting");
@@ -14,7 +20,7 @@ export default function LocationShared() {
 
   const markerDetails = {
     meeting: { title: "Your meeting spot", copy: instructions },
-    sara: { title: "Sara Moon", copy: "Sample learner position near the meeting spot. This is not a live location." },
+    partner: { title: session.partner, copy: "Sample session partner position near the meeting spot. This is not a live location." },
     you: { title: "Your sample position", copy: "This marker demonstrates what sharing looks like. Your device location is not being used." },
   };
   const selectedDetail = markerDetails[selectedMarker];
@@ -53,7 +59,7 @@ export default function LocationShared() {
     <div className="location-shared-page">
       <header className="ls-header">
         <div className="ls-header-inner">
-          <Link className="ls-back" to="/teaching-session-details" state={{ instructions, hasArrived }} aria-label="Back to session details">‹</Link>
+          <Link className="ls-back" to={meetingSession ? "/meeting-location" : "/teaching-session-details"} state={{ instructions, hasArrived, meetingSession }} aria-label={meetingSession ? "Back to meeting location" : "Back to session details"}>‹</Link>
           <Link className="ls-brand" to="/" aria-label="SkillTrade home">skill<span>Trade</span></Link>
           <nav className="ls-navigation" aria-label="Account navigation">
             <Link to="/profile">Profile</Link>
@@ -71,7 +77,7 @@ export default function LocationShared() {
         <div className="sharing-workspace">
           <section className="map-panel" aria-labelledby="map-title">
             <div className="map-header">
-              <div><h2 id="map-title">Meeting view</h2><p>Community centre lobby · Calgary</p></div>
+              <div><h2 id="map-title">Meeting view</h2><p>{session.placeName} · {session.mapSubtitle}</p></div>
               <span className={`sharing-badge ${sharing ? "" : "paused"}`} role="status">
                 {sharing ? "Demo sharing on" : "Sharing off"}
               </span>
@@ -79,12 +85,12 @@ export default function LocationShared() {
             <div className="meeting-map" role="group" aria-label="Illustrative meeting view. Markers are sample positions, not a real map.">
               <div className="map-grid" aria-hidden="true" />
               <div className="walkway" aria-hidden="true" />
-              <span className="map-label reception">Reception</span>
+              <span className="map-label reception">{session.landmark}</span>
               <span className="map-label entrance">Main entrance</span>
-              <span className="map-label lobby">LOBBY</span>
+              <span className="map-label lobby">{session.mapLabel}</span>
               <div className="map-route" aria-hidden="true" />
-              <button type="button" className={`map-marker partner-marker ${selectedMarker === "sara" ? "selected" : ""}`} disabled={!sharing} onClick={() => setSelectedMarker("sara")} aria-pressed={selectedMarker === "sara"}>
-                <span className="marker-avatar" aria-hidden="true">SM</span><span>Sara</span>
+              <button type="button" className={`map-marker partner-marker ${selectedMarker === "partner" ? "selected" : ""}`} disabled={!sharing} onClick={() => setSelectedMarker("partner")} aria-pressed={selectedMarker === "partner"}>
+                <span className="marker-avatar" aria-hidden="true">{session.initials}</span><span>{session.firstName}</span>
               </button>
               <button type="button" className={`map-marker me ${selectedMarker === "you" ? "selected" : ""}`} disabled={!sharing} onClick={() => setSelectedMarker("you")} aria-pressed={selectedMarker === "you"}>
                 <span className="you-dot" aria-hidden="true" /><span>You</span>
@@ -103,7 +109,7 @@ export default function LocationShared() {
             </div>
             <div className="map-legend" aria-label="Marker legend">
               <span><i className="legend-you" aria-hidden="true" />You</span>
-              <span><i className="legend-partner" aria-hidden="true" />Sara</span>
+              <span><i className="legend-partner" aria-hidden="true" />{session.firstName}</span>
               <span><i className="legend-meeting" aria-hidden="true" />Meeting spot</span>
             </div>
           </section>
@@ -111,8 +117,8 @@ export default function LocationShared() {
           <aside className="meeting-sidebar" aria-label="Meeting and sharing controls">
             <section className="sharing-card" aria-labelledby="sharing-title">
               <div className="card-eyebrow">LOCATION SHARING</div>
-              <h2 id="sharing-title">{sharing ? "Shared with Sara" : "Your location is private"}</h2>
-              <p>{sharing ? "In this demo, Sara can see your sample position while you find each other." : "Your sample position is hidden. You can still use the meeting instructions to find the right spot."}</p>
+              <h2 id="sharing-title">{sharing ? `Shared with ${session.firstName}` : "Your location is private"}</h2>
+              <p>{sharing ? `In this demo, ${session.firstName} can see your sample position while you find each other.` : "Your sample position is hidden. You can still use the meeting instructions to find the right spot."}</p>
               <div className="privacy-line"><span aria-hidden="true">◈</span><span>Only for the person in this session</span></div>
               <button ref={sharingButton} className="secondary stop-sharing" type="button" onClick={changeSharing}>
                 {sharing ? "Stop sharing" : "Share location again"}
@@ -121,17 +127,17 @@ export default function LocationShared() {
             </section>
             <section className="meeting-card" aria-labelledby="meeting-place-title">
               <span className="card-eyebrow">YOUR MEETING PLACE</span>
-              <h2 id="meeting-place-title">Community centre lobby</h2>
+              <h2 id="meeting-place-title">{session.placeName}</h2>
               <p className="meeting-instruction">{instructions}</p>
               <div className="session-line">
-                <span className="initials" aria-hidden="true">SM</span>
-                <div><b>Sara Moon · Learner</b><span>Skating basics · In person</span></div>
+                <span className="initials" aria-hidden="true">{session.initials}</span>
+                <div><b>{session.partner} · {session.role}</b><span>{session.skill} · In person</span></div>
               </div>
               <button type="button" className="primary arrival-button" onClick={markArrival} disabled={hasArrived}>
                 {hasArrived ? "Arrival marked" : "I’ve arrived"}
               </button>
               <p className="arrival-status" role="status">
-                {hasArrived ? "Arrival marked in this preview. No notification has been sent to Sara." : "Mark your arrival when you reach the meeting spot."}
+                {hasArrived ? `Arrival marked in this preview. No notification has been sent to ${session.firstName}.` : "Mark your arrival when you reach the meeting spot."}
               </p>
             </section>
             <section className="help-note">

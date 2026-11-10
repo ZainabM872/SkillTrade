@@ -148,6 +148,9 @@ export default function Main() {
                 <p className="learning-description">
                   Stay curious. Your next skill is waiting.
                 </p>
+                <Link to="/meeting-location" className="text-link">
+                  Preview a guitar meeting location →
+                </Link>
                 <Link to="/explore" className="text-link">
                   Explore skills →
                 </Link>

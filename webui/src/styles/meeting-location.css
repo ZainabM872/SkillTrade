@@ -1,0 +1,397 @@
+/* Adapted from the saved Desktop-layouts/meeting-location.css. */
+.meeting-location-page {
+  --purple: #5b5bef;
+  --muted: #667085;
+  --error: #b42318;
+  --bg: #f7f8fc;
+  --border: #e4e7ec;
+  min-height: 100vh;
+  background: var(--bg);
+  color: #101828;
+  font: 16px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.meeting-location-page *, .meeting-location-page *::before, .meeting-location-page *::after { box-sizing: border-box; }
+.meeting-location-page button, .meeting-location-page textarea { font: inherit; }
+.meeting-location-page a { text-decoration: none; color: inherit; }
+.meeting-location-page button { cursor: pointer; }
+.meeting-location-page :is(a, button, textarea):focus-visible { outline: 3px solid #b9b4ff; outline-offset: 4px; }
+.meeting-location-page button:disabled { opacity: .5; cursor: not-allowed; }
+.meeting-location-page .ml-header { border-bottom: 1px solid #e8eaf2; }
+.meeting-location-page .ml-header-inner { max-width: 1184px; margin: auto; display: flex; align-items: center; gap: 16px; padding: 28px 32px; }
+.meeting-location-page .ml-back { display: grid; place-items: center; min-width: 44px; min-height: 44px; border: 1px solid var(--border); border-radius: 10px; background: white; color: var(--muted); font-size: 30px; }
+.meeting-location-page .ml-brand { display: inline-flex; align-items: center; min-height: 44px; font-size: 22px; font-weight: 700; letter-spacing: -.7px; }
+.meeting-location-page .ml-brand span { color: #6657e8; }
+.meeting-location-page .ml-navigation { display: flex; gap: 12px; margin-left: auto; }
+.meeting-location-page .ml-navigation a { min-width: 44px; min-height: 44px; padding: 12px; border-radius: 10px; font-size: 13px; color: var(--muted); }
+.meeting-location-page .ml-navigation a:hover, .meeting-location-page .ml-back:hover { background: #eeecff; color: var(--purple); }
+.meeting-location-page .ml-main { max-width: 1184px; padding: 44px 32px; margin: auto; }
+.meeting-location-page .ml-heading { margin-bottom: 32px; }
+.meeting-location-page .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 1.4px; color: var(--purple); margin: 0 0 12px; }
+.meeting-location-page h1 { font-size: 36px; letter-spacing: -1.2px; line-height: 1.2; margin: 0 0 12px; }
+.meeting-location-page .ml-heading > p:last-child { color: var(--muted); line-height: 1.65; margin: 0; }
+.meeting-location-page .meeting-workspace {
+  grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
+  gap:32px;
+}
+.meeting-location-page .choice-panel {
+  padding:28px;
+  border:1px solid #e5e7ef;
+  border-radius:24px;
+  background:white;
+}
+.meeting-location-page .choice-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+.meeting-location-page .choice-heading h2 {
+  font-size:17px;
+  margin:0;
+}
+.meeting-location-page .choice-heading>span {
+  font-size:12px;
+  color:var(--muted);
+}
+.meeting-location-page .meeting-form fieldset {
+  border:0;
+  padding:0;
+  margin:0;
+  min-width:0;
+}
+.meeting-location-page .place-option {
+  display:block;
+  position:relative;
+  margin-bottom:16px;
+  cursor:pointer;
+}
+.meeting-location-page .place-option input {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  margin:0;
+  opacity:0;
+  cursor:pointer;
+}
+.meeting-location-page .place-body {
+  display:block;
+  padding:20px 24px;
+  border:1.5px solid #e4e7ef;
+  border-radius:18px;
+  transition:background .2s,border-color .2s;
+}
+.meeting-location-page .place-option:hover .place-body {
+  border-color:#b6addd;
+  background:#faf9ff;
+}
+.meeting-location-page .place-option input:checked+.place-body {
+  border-color:var(--purple);
+  background:#f4f1ff;
+  box-shadow:0 0 0 1px var(--purple);
+}
+.meeting-location-page .place-option input:focus-visible+.place-body {
+  outline:3px solid #b9b4ff;
+  outline-offset:4px;
+}
+.meeting-location-page .place-option input:disabled {
+  cursor:not-allowed;
+}
+.meeting-location-page .place-top {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:16px;
+}
+.meeting-location-page .place-number {
+  display:grid;
+  place-items:center;
+  width:28px;
+  height:28px;
+  border-radius:9px;
+  background:#eeecff;
+  color:var(--purple);
+  font-size:11px;
+}
+.meeting-location-page .approved {
+  font-size:10px;
+  color:#7e739d;
+  font-weight:500;
+}
+.meeting-location-page .place-body>strong {
+  display:block;
+  font-size:18px;
+  line-height:1.5;
+  letter-spacing:-.3px;
+  padding-right:20px;
+}
+.meeting-location-page .place-meta {
+  display:block;
+  font-size:12px;
+  color:var(--muted);
+  font-weight:400;
+  margin-top:5px;
+}
+.meeting-location-page .instructions-label {
+  display:block;
+  margin:20px 0 8px;
+  font-size:9px;
+  letter-spacing:1px;
+  color:#8d84a2;
+  font-weight:600;
+}
+.meeting-location-page .instructions {
+  display:block;
+  font-size:13px;
+  font-weight:400;
+  line-height:1.65;
+  color:#667085;
+}
+.meeting-location-page .radio-mark {
+  position:absolute;
+  right:20px;
+  top:22px;
+  width:22px;
+  height:22px;
+  border:1.5px solid #c7c3d3;
+  border-radius:50%;
+  pointer-events:none;
+}
+.meeting-location-page .place-option input:checked~.radio-mark {
+  border:6px solid var(--purple);
+  background:white;
+}
+.meeting-location-page .choice-note {
+  background:var(--bg);
+  border-radius:12px;
+  padding:16px;
+  margin:20px 0 24px;
+}
+.meeting-location-page .choice-note b {
+  font-size:12px;
+}
+.meeting-location-page .choice-note p {
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.7;
+  margin:6px 0 0;
+}
+.meeting-location-page .choice-error {
+  font-size:13px;
+  color:var(--error);
+  line-height:1.6;
+  margin:0 0 18px;
+}
+.meeting-location-page .status-note {
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.7;
+  margin:14px 0 0;
+}
+.meeting-location-page .booking-sidebar {
+  display:grid;
+  gap:24px;
+  position:sticky;
+  top:24px;
+}
+.meeting-location-page .booking-card {
+  background:#f0edff;
+  border:1px solid #e1dcf5;
+  border-radius:24px;
+  padding:28px;
+}
+.meeting-location-page .booking-card>.eyebrow {
+  margin-bottom:22px;
+}
+.meeting-location-page .teacher-row {
+  display:flex;
+  gap:14px;
+  align-items:center;
+}
+.meeting-location-page .teacher-initials {
+  width:48px;
+  height:48px;
+  flex:none;
+  border-radius:16px;
+  background:#ded8fb;
+  color:#6756ad;
+  display:grid;
+  place-items:center;
+  font-size:14px;
+  font-weight:600;
+}
+.meeting-location-page .teacher-row h2 {
+  font-size:21px;
+  letter-spacing:-.6px;
+  margin:0 0 5px;
+}
+.meeting-location-page .teacher-row p {
+  font-size:14px;
+  color:#766b94;
+  margin:0;
+}
+.meeting-location-page dl {
+  margin:24px 0;
+  display:grid;
+  gap:14px;
+  padding:22px 0;
+  border-top:1px solid #ddd6f1;
+  border-bottom:1px solid #ddd6f1;
+}
+.meeting-location-page dl>div {
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  font-size:13px;
+}
+.meeting-location-page dt {
+  color:#766b94;
+}
+.meeting-location-page dd {
+  margin:0;
+  font-weight:500;
+}
+.meeting-location-page .selected-location {
+  background:#ffffffb0;
+  border-radius:16px;
+  padding:20px;
+}
+.meeting-location-page .selected-location .eyebrow {
+  font-size:9px;
+  margin-bottom:12px;
+}
+.meeting-location-page .selected-location h3 {
+  font-size:16px;
+  line-height:1.5;
+  margin:0 0 8px;
+}
+.meeting-location-page .selected-location p {
+  font-size:13px;
+  line-height:1.7;
+  margin:0;
+  color:var(--muted);
+}
+.meeting-location-page .next-card {
+  padding:0 16px;
+}
+.meeting-location-page .next-card h2 {
+  font-size:14px;
+  margin:0 0 12px;
+}
+.meeting-location-page .next-card ol {
+  padding-left:20px;
+  margin:0;
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.8;
+}
+.meeting-location-page .next-card li+li {
+  margin-top:8px;
+}
+.meeting-location-page .next-card p {
+  font-size:11px;
+  line-height:1.7;
+  color:#878193;
+  margin-top:18px;
+}
+.meeting-location-page .success-tick {
+  display:grid;
+  place-items:center;
+  width:60px;
+  height:60px;
+  background:#eeecff;
+  color:var(--purple);
+  font-size:27px;
+  border-radius:20px;
+  margin-bottom:28px;
+}
+.meeting-location-page .meeting-success h2 {
+  font-size:27px;
+  letter-spacing:-.8px;
+  line-height:1.3;
+  margin:0 0 24px;
+}
+.meeting-location-page .success-location {
+  font-size:19px;
+  font-weight:600;
+  margin:0 0 8px;
+}
+.meeting-location-page .success-instructions {
+  font-size:14px;
+  line-height:1.7;
+  color:var(--muted);
+  margin:0 0 24px;
+}
+.meeting-location-page .meeting-success .secondary {
+  margin-top:24px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  text-align:center;
+}
+.meeting-location-page .next-link {
+  margin-top:12px!important;
+  width:100%;
+  font-size:13px;
+  color:var(--purple);
+}
+@media(max-width:760px) {
+.meeting-location-page .meeting-workspace {
+  grid-template-columns:1fr;
+  gap:24px;
+}
+.meeting-location-page .choice-panel {
+  padding:22px 18px;
+}
+.meeting-location-page .place-body {
+  padding:18px;
+}
+.meeting-location-page .booking-sidebar {
+  position:static;
+}
+.meeting-location-page .booking-card {
+  padding:24px;
+}
+.meeting-location-page .section-label {
+  font-size:10px;
+  letter-spacing:1px;
+}
+.meeting-location-page .place-body>strong {
+  font-size:17px;
+}
+.meeting-location-page .radio-mark {
+  right:18px;
+  top:20px;
+}
+}
+.meeting-location-page .booking-card .eyebrow {
+  display:block;
+}
+
+.meeting-location-page .meeting-workspace { display: grid; align-items: start; }
+.meeting-location-page .ml-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+.meeting-location-page .primary, .meeting-location-page .secondary {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 44px; min-height: 52px; padding: 12px 18px;
+  border-radius: 14px; font-size: 14px; font-weight: 600; text-align: center;
+}
+.meeting-location-page .primary { background: var(--purple); color: white; border: 0; }
+.meeting-location-page .primary:hover:not(:disabled) { background: #4c4cda; }
+.meeting-location-page .secondary { background: white; border: 1px solid var(--border); color: #344054; }
+.meeting-location-page .secondary:hover { background: #f0f1f8; }
+.meeting-location-page .confirm-location { width: 100%; }
+.meeting-location-page .meeting-form fieldset:disabled { opacity: .6; }
+.meeting-location-page .save-error { color: var(--error); }
+.meeting-location-page .meeting-success { overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+  .meeting-location-page .ml-header-inner { padding: 16px 20px; gap: 12px; }
+  .meeting-location-page .ml-brand { font-size: 20px; }
+  .meeting-location-page .ml-navigation { gap: 0; }
+  .meeting-location-page .ml-navigation a { padding: 12px 8px; font-size: 12px; }
+  .meeting-location-page .ml-main { padding: 30px 20px; }
+  .meeting-location-page h1 { font-size: 29px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .meeting-location-page .place-body { transition: none; }
+}
