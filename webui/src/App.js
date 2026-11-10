@@ -2,6 +2,11 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Intro from "./pages/intro";
+import Booking from "./pages/booking";
+import Sessions from "./pages/sessions"
+import SessionDetails from './pages/session_detail';
+import Teach from "./pages/teach"
+import Availability from "./pages/availability";
 import Signup from "./pages/signup";
 import Guidelines from "./pages/community-guidelines";
 import Profile from "./pages/profile";
@@ -27,12 +32,21 @@ import Sessions from "./pages/sessions"
 import Session_Details from "./pages/session_detail"
 import Teach from "./pages/teach"
 import Availability from "./pages/availability";
+import ReviewListing from "./pages/review_listing";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Intro />} />
+        <Route path="/booking" element={<Booking />} />
+        <Route path="/sessions" element={<Sessions />} />
+        <Route path="/sessions/:id" element= {<SessionDetails />} />
+        <Route path="/teach" element= {<Teach />} />
+        <Route path="/teach/availability" element= {<Availability />} />
+        <Route path="/teach/review-listing" element= {<ReviewListing />} />
+
+
         <Route path="/signup" element={<Signup />} />
         <Route path="/guidelines" element={<Guidelines />} />
         <Route path="/profile" element={<Profile />} />
