@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import styles from '../styles/navbar.module.css';
 import Bell from '../styles/icons/Notification.svg';
 import Sparkle from '../styles/icons/NavBar-Sparkle.svg';
@@ -33,9 +33,9 @@ export default function NavBar({ points = 0, initials = '' }) {
       </div>
 
       <div className={styles.headerActions}>
-        <button type="button" className={styles.notificationButton} aria-label="Notifications">
+        <Link to="/notifications" className={styles.notificationButton} aria-label="Notifications">
           <img className={styles.bellIcon} src={Bell} alt="" />
-        </button>
+        </Link>
         <div className={styles.profileButton}>
           <span className={styles.profileInitials}>{initials}</span>
         </div>

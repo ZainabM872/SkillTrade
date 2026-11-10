@@ -19,6 +19,7 @@ import ContactSupport from "./pages/contact-support";
 import TeachingSessionDetails from "./pages/teaching-session-details";
 import CompletedSessionDetails from "./pages/completed-session-details";
 import ReviewListing from "./pages/review_listing";
+import Notifications from "./pages/notifications";
 
 function App() {
   return (
@@ -31,6 +32,8 @@ function App() {
         <Route path="/teach" element= {<Teach />} />
         <Route path="/teach/availability" element= {<Availability />} />
         <Route path="/teach/review-listing" element= {<ReviewListing />} />
+        <Route path="/notifications" element= {<Notifications/>} />
+        
 
 
         <Route path="/signup" element={<Signup />} />
