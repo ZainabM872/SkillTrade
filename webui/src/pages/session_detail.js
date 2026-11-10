@@ -133,41 +133,14 @@ function getInitials(name = '') {
 // Closes with the X, the Escape key, or a click on the dark background.
 function Modal({ title, description, actionLabel, onAction, onClose, isBusy = false, error = '' }) {
   const dialogRef = useRef(null);
-  const onCloseRef = useRef(onClose);
-  onCloseRef.current = onClose;
-
+ 
   useEffect(() => {
     const previouslyFocused = document.activeElement;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden'; // stop the page scrolling behind the popup
     dialogRef.current?.focus();
-
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        onCloseRef.current();
-        return;
-      }
-      if (event.key !== 'Tab') return;
-
-      // Keep keyboard focus inside the popup
-      const focusable = dialogRef.current.querySelectorAll('button:not([disabled])');
-      if (focusable.length === 0) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      const active = document.activeElement;
-
-      if (event.shiftKey && (active === first || active === dialogRef.current)) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && active === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
+ 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = previousOverflow;
       previouslyFocused?.focus?.(); // give focus back to the button that opened the popup
     };

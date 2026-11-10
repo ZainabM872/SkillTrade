@@ -1,6 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate} from 'react-router-dom';
 import styles from "../styles/booking.module.css";
 import NavBar from '../components/NavBar';
+import PopupStyles from '../styles/cancel_reschedule.module.css';
+import Sparkle from '../styles/icons/Sparkle.svg';
+import Cancel from '../styles/icons/Cancel_Button.svg';
+
+const SESSIONS_ROUTE = '/sessions';
+
 
 const monthNames = [
   "January", "February", "March", "April", "May", "June",
@@ -16,12 +23,78 @@ const defaultTimes = [
   { label: "6:00 PM", available: true },
 ];
 
+
+
 const now = new Date();
 const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
+
+function Modal({ title, description, actionLabel, onAction, onClose, isBusy = false, error = '' }) {
+  const dialogRef = useRef(null);
+  
+  useEffect(() => {
+    const previouslyFocused = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden'; // stop the page scrolling behind the popup
+    dialogRef.current?.focus();
+ 
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      previouslyFocused?.focus?.(); // give focus back to the button that opened the popup
+    };
+  }, []);
+
+  return (
+    <div
+      className={PopupStyles.backdrop}
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
+      <div
+        className={PopupStyles.modal}
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+        tabIndex={-1}
+      >
+        <div className={PopupStyles.icon}>
+          <img src={Sparkle} alt="" />
+        </div>
+
+        <button type="button" className={PopupStyles.close} aria-label="Close" onClick={onClose}>
+          <img src={Cancel} alt="" />
+        </button>
+
+        <h2 className={PopupStyles.title} id="modal-title">
+          {title}
+        </h2>
+        <p className={PopupStyles.text} id="modal-description">
+          {description}
+        </p>
+
+        {error && (
+          <p className={PopupStyles.error} role="alert">
+            {error}
+          </p>
+        )}
+
+        <button type="button" className={PopupStyles.action} onClick={onAction} disabled={isBusy}>
+          {actionLabel}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function Booking() {
+  const [openModal, setOpenModal] = useState(null); 
+  const [cancelError, setCancelError] = useState('');
   // Which month the calendar is currently showing
+  const navigate = useNavigate();
   const [view, setView] = useState({
     year: startOfToday.getFullYear(),
     month: startOfToday.getMonth(),
@@ -55,6 +128,12 @@ export default function Booking() {
   const selectDate = (day) => {
     setSelected({ year: view.year, month: view.month, day });
     setSelectedTime("10:00 AM");
+  };
+
+  const closeModal = () => {
+    setOpenModal(null);
+    setCancelError('');
+    
   };
 
   return (
@@ -173,10 +252,27 @@ export default function Booking() {
 
           <span className={styles.sessionDetails}>60 minutes · 15 points</span>
           <div className={styles.requestAction}>
-            <span className={styles.requestButton}>Request session</span>
+            <button
+              type="button"
+              className={styles.requestButton}
+              onClick={() => setOpenModal('request')}
+            >
+              Request session
+            </button>
           </div>
           <span className={styles.backLink}>← Back to skill details</span>
         </div>
+
+        {openModal === 'request' && (
+        <Modal
+          title="You’re one step closer"
+          description= "Your request has been sent to Alex. Check Sessions for confirmation."
+          actionLabel="View Sessions"
+          onAction={() => navigate(SESSIONS_ROUTE)}
+          onClose={closeModal}
+          error={cancelError}
+        />
+      )}
       </div>
       <span className={styles.bookingNotice}>
         Booked times include sessions you’re learning or teaching. Pending
