@@ -201,6 +201,7 @@ export default function RateSession() {
               </div>
               <p>Reliability reflects attendance and no-shows—not how you rate the teaching.</p>
               <p className="reliability-note">Your star rating reviews the session experience. Attendance is recorded separately.</p>
+              <Link className="rs-reliability-link" to="/reliability-faq">How reliability works</Link>
             </section>
             <section className="feedback-guide">
               <h2>Helpful feedback is specific</h2>

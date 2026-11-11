@@ -364,3 +364,8 @@
 @media (max-width: 360px) {
   .skill-points-faq-page .faq-toolbar { flex-wrap: wrap; gap: 8px; }
 }
+
+.skill-points-faq-page .related-link { margin-left: 12px; }
+@media (max-width: 760px) {
+  .skill-points-faq-page .related-link { display: flex; margin-left: 0; }
+}

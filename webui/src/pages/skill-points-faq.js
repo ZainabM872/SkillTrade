@@ -97,7 +97,7 @@ export default function SkillPointsFaq() {
               ))}
             </div>
             {matchingQuestions.length === 0 && <div className="empty-results"><h3>No matching answers</h3><p>Try “balance”, “duration”, or “attendance”.</p><button className="secondary" type="button" onClick={clearSearch}>Show all answers</button></div>}
-            <section className="help-footer"><h2>Still unsure?</h2><p>For a specific booking or point balance, use Contact support in the app’s Help centre.</p><Link className="secondary support-link" to="/contact-support">Contact support</Link></section>
+            <section className="help-footer"><h2>Still unsure?</h2><p>For a specific booking or point balance, use Contact support in the app’s Help centre.</p><Link className="secondary support-link" to="/contact-support">Contact support</Link><Link className="secondary support-link related-link" to="/reliability-faq">How reliability works</Link></section>
           </section>
           <aside className="points-sidebar" aria-label="Understanding skill points">
             <section className="points-card"><span className="eyebrow">THE POINTS CYCLE</span><h2>A skill shared.<br />A new possibility.</h2><ol className="cycle">
