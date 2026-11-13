@@ -371,3 +371,5 @@
 @media (prefers-reduced-motion: reduce) {
   .rate-session-page .star-choice span { transition: none; }
 }
+
+.rate-session-page .rs-reliability-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 12px; color: var(--purple); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }

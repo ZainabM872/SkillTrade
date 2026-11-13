@@ -34,6 +34,7 @@ import Teach from "./pages/teach"
 import Availability from "./pages/availability";
 import ReviewListing from "./pages/review_listing";
 import Notifications from "./pages/notifications";
+import ReliabilityFaq from "./pages/reliability-faq";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/teaching-locations" element={<TeachingLocations />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/reliability-faq" element={<ReliabilityFaq />} />
         <Route path="/skill-points-faq" element={<SkillPointsFaq />} />
         <Route path="/points" element={<Navigate to="/skill-points-faq" replace />} />
         <Route path="/help" element={<Help />} />

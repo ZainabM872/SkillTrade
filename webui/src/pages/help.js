@@ -32,7 +32,7 @@ const faqItems = [
     category: "TRUST & RELIABILITY",
     question: "How does reliability work?",
     description: "Learn about attendance and community expectations.",
-    to: "/guidelines",
+    to: "/reliability-faq",
   },
   {
     category: "TEACHING",
