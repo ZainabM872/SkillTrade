@@ -3,25 +3,31 @@ import "../styles/homepage.css";
 
 export default function Main() {
   return (
-    <div className="main-container">
-      <div className="group">
-        <div className="group-2">
-          <div className="pic" />
-          <span className="text">120 points</span>
-        </div>
-        <div className="box">
-          <div className="section">
-            <div className="img" />
-          </div>
-          <div className="group-3">
-            <span className="text-2">SM</span>
-          </div>
-        </div>
-        <span className="text-3">Home</span>
-        <span className="text-4">Explore</span>
-        <span className="text-5">Sessions</span>
-        <span className="text-6">Teach a skill</span>
+    /* main background */
+    <main-container>
+      {/* top banner with logo, points, and navigation links */}
+      <div className="banner">
+        <span className="logo-text">
+          <span className="skill-text">skill</span>
+          <span className="trade-text">Trade</span>
+        </span>
+        <span className="home">Home</span>
+        <span className="explore">Explore</span>
+        <span className="sessions">Sessions</span>
+        <span className="teach">Teach a skill</span>
+        <span className="skillpoints">
+          <span className="pointicon" />
+          <span className="pointtext">120 points</span>
+        </span>
+        <span className="notifbutton">
+          <span className="notificon"></span>
+        </span>
+        <span className="userprofile">
+          <span>SM</span>
+        </span>
       </div>
+
+      {/* main content area with welcome message, search bar, and featured skills */}
       <div className="section-2" />
       <div className="group-4" />
       <span className="text-7">YOUR COMMUNITY. YOUR CURIOSITY.</span>
@@ -82,6 +88,6 @@ export default function Main() {
       <div className="box-5">
         <span className="text-1f">Teach a new skill</span>
       </div>
-    </div>
+    </main-container>
   );
 }
