@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate} from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import styles from "../styles/booking.module.css";
 import NavBar from '../components/NavBar';
 import PopupStyles from '../styles/cancel_reschedule.module.css';
@@ -92,12 +92,20 @@ function Modal({ title, description, actionLabel, onAction, onClose, isBusy = fa
 
 export default function Booking() {
   const [listings, setListings] = useState([]);
-  const [listingId, setListingId] = useState('');
+  const [searchParams] = useSearchParams();
+  const listingId = searchParams.get('listing');
   const [loading, setLoading] = useState(true);
   const [listingError, setListingError] = useState('');
 
   useEffect(() => {
+    if (!listingId) {
+      setLoading(false);
+      return;
+    }
     const controller = new AbortController();
+    setLoading(true);
+    setListingError('');
+    setListings([]);
 
     async function loadListings() {
       try {
@@ -108,7 +116,6 @@ export default function Booking() {
         if (!response.ok) throw new Error('Could not load listings.');
         const data = await response.json();
         setListings(data);
-        setListingId(data.length ? String(data[0].listing_id) : '');
         setLoading(false);
       } catch (error) {
         if (error.name !== 'AbortError') {
@@ -120,7 +127,7 @@ export default function Booking() {
 
     loadListings();
     return () => controller.abort();
-  }, []);
+  }, [listingId]);
 
   const listing = listings.find((item) => String(item.listing_id) === listingId);
   const [openModal, setOpenModal] = useState(null); 
@@ -262,21 +269,11 @@ export default function Booking() {
           </div>
         </div>
         <div className={styles.summaryCard}>
-          <label className={styles.summaryLabel} htmlFor="booking-skill">Choose a skill</label>
-          <select
-            id="booking-skill"
-            className={styles.summaryField}
-            value={listingId}
-            onChange={(event) => setListingId(event.target.value)}
-            disabled={loading || !listings.length}
-          >
-            {!listings.length && <option value="">{loading ? 'Loading skills...' : 'No skills available'}</option>}
-            {listings.map((item) => (
-              <option key={item.listing_id} value={String(item.listing_id)}>{item.title}</option>
-            ))}
-          </select>
-          {listingError && <p role="alert">{listingError}</p>}
-          {!loading && !listingError && !listings.length && <p>No active skills are available yet.</p>}
+          {loading && <p role="status" style={{ fontSize: 14, margin: 32 }}>Loading skill...</p>}
+          {listingError && <p role="alert" style={{ fontSize: 14, margin: 32 }}>{listingError}</p>}
+          {!loading && !listingError && !listing && (
+            <p style={{ fontSize: 14, margin: 32 }}>{listingId ? 'This skill is no longer available.' : 'Choose a skill from Explore to book a session.'} <Link to="/explore">Explore skills</Link></p>
+          )}
           <span className={styles.skillName}>{listing?.title}</span>
           <span className={styles.instructorName}>{listing?.teacher_name}</span>
 
@@ -308,7 +305,7 @@ export default function Booking() {
               Request session
             </button>
           </div>
-          <span className={styles.backLink}>← Back to skill details</span>
+          <Link className={styles.backLink} to="/explore">← Back to Explore</Link>
         </div>
 
         {openModal === 'request' && (
