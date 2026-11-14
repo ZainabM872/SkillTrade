@@ -7,7 +7,7 @@ const CATEGORIES = ["All", "Music", "Languages", "Tech", "Art"];
 
 const SKILLS = [
   {
-    id: "guitar-for-beginners",
+    id: "acoustic-guitar",
     title: "Guitar for beginners",
     teacher: "Alex Morgan",
     place: "Calgary",

@@ -7,7 +7,7 @@ import guitarIcon from "../styles/icons/guitar.svg";
 import skateIcon from "../styles/icons/skate.svg";
 import greyCircle from "../styles/icons/Ellipse-1.svg"; // change to your file names
 import whiteCircle from "../styles/icons/Ellipse.svg";
-import Sparkle from "../styles/icons/sparkle.svg";
+import Sparkle from "../styles/icons/Sparkle.svg";
 import Cancel from "../styles/icons/Cancel_Button.svg";
 
 // Temporary data (replace with backend response)

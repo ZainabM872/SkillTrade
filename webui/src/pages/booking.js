@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "../styles/booking.module.css";
 import NavBar from "../components/NavBar";
 import PopupStyles from "../styles/cancel_reschedule.module.css";
-import Sparkle from "../styles/icons/sparkle.svg";
+import Sparkle from "../styles/icons/Sparkle.svg";
 import Cancel from "../styles/icons/Cancel_Button.svg";
 
 const SESSIONS_ROUTE = "/sessions";
