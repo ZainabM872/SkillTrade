@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import styles from "../styles/booking.module.css";
 import NavBar from "../components/NavBar";
 import PopupStyles from "../styles/cancel_reschedule.module.css";
@@ -115,6 +115,47 @@ function Modal({
 }
 
 export default function Booking() {
+  const [listings, setListings] = useState([]);
+  const [searchParams] = useSearchParams();
+  const listingId = searchParams.get('listing');
+  const [loading, setLoading] = useState(true);
+  const [listingError, setListingError] = useState('');
+
+  useEffect(() => {
+    if (!listingId) {
+      setLoading(false);
+      return;
+    }
+    const controller = new AbortController();
+    setLoading(true);
+    setListingError('');
+    setListings([]);
+
+    async function loadListings() {
+      try {
+        const response = await fetch('/api/listings', {
+          signal: controller.signal,
+          headers: { Accept: 'application/json' },
+        });
+        if (!response.ok) throw new Error('Could not load listings.');
+        const data = await response.json();
+        if (!Array.isArray(data)) throw new Error("Invalid listings response.");
+        setListings(data);
+        setLoading(false);
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          setListingError('Could not load skills. Please refresh and try again.');
+          setLoading(false);
+        }
+      }
+    }
+
+    loadListings();
+    return () => controller.abort();
+  }, [listingId]);
+
+  const listing = listings.find((item) => String(item.listing_id) === listingId);
+
   const [openModal, setOpenModal] = useState(null);
   const [cancelError, setCancelError] = useState("");
   // Which month the calendar is currently showing
@@ -256,8 +297,13 @@ export default function Booking() {
           </div>
         </div>
         <div className={styles.summaryCard}>
-          <span className={styles.skillName}>Acoustic guitar</span>
-          <span className={styles.instructorName}>Alex Morgan</span>
+          {loading && <p role="status" style={{ fontSize: 14, margin: 32 }}>Loading skill...</p>}
+          {listingError && <p role="alert" style={{ fontSize: 14, margin: 32 }}>{listingError}</p>}
+          {!loading && !listingError && !listing && (
+            <p style={{ fontSize: 14, margin: 32 }}>{listingId ? 'This skill is no longer available.' : 'Choose a skill from Explore to book a session.'} <Link to="/explore">Explore skills</Link></p>
+          )}
+          <span className={styles.skillName}>{listing?.title}</span>
+          <span className={styles.instructorName}>{listing?.teacher_name}</span>
 
           <span className={`${styles.summaryLabel} ${styles.firstLabel}`}>
             Selected date
@@ -273,26 +319,27 @@ export default function Booking() {
 
           <span className={styles.summaryLabel}>Meeting location</span>
           <div className={styles.summaryField}>
-            <span className={styles.summaryValue}>Community centre lobby</span>
+            <span className={styles.summaryValue}>{listing?.session_mode === 'online' ? 'Online' : 'Choose a location later'}</span>
           </div>
 
-          <span className={styles.sessionDetails}>60 minutes · 15 points</span>
+          <span className={styles.sessionDetails}>{listing && `${listing.duration_minutes} minutes · ${listing.point_cost} points`}</span>
           <div className={styles.requestAction}>
             <button
               type="button"
               className={styles.requestButton}
+              disabled={!listing || loading || !!listingError}
               onClick={() => setOpenModal("request")}
             >
               Request session
             </button>
           </div>
-          <span className={styles.backLink}>← Back to skill details</span>
+          <Link className={styles.backLink} to="/explore">← Back to Explore</Link>
         </div>
 
         {openModal === "request" && (
           <Modal
             title="You’re one step closer"
-            description="Your request has been sent to Alex. Check Sessions for confirmation."
+            description="This is a booking preview. Your request has not been saved."
             actionLabel="View Sessions"
             onAction={() => navigate(SESSIONS_ROUTE)}
             onClose={closeModal}
@@ -301,8 +348,8 @@ export default function Booking() {
         )}
       </div>
       <span className={styles.bookingNotice}>
-        Booked times include sessions you’re learning or teaching. Pending
-        requests also reserve your time.
+        Skill details come from the database. Dates and times are examples.
+        Booking requests are not saved yet.
       </span>
     </div>
   );

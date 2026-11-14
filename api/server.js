@@ -30,9 +30,11 @@ const server = http.createServer(async (req, res) => {
   try {
     const result = await pool.query(`
       SELECT l.listing_id, l.title, l.description, l.session_mode,
-             l.duration_minutes, l.point_cost, u.name AS teacher_name
+             l.duration_minutes, l.point_cost, u.name AS teacher_name,
+             c.name AS category
       FROM skilltrade.skill_listings l
       JOIN skilltrade.users u ON u.user_id = l.teacher_id
+      JOIN skilltrade.categories c ON c.category_id = l.category_id
       WHERE l.status = 'active' AND u.account_status = 'active'
       ORDER BY l.listing_id
     `);

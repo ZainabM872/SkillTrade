@@ -1,50 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/explore.css";
 import "../App.css"; // shared banner styles (same as the home page)
 import { NavLink, useNavigate } from "react-router-dom";
-
-const CATEGORIES = ["All", "Music", "Languages", "Tech", "Art"];
-
-const SKILLS = [
-  {
-    id: "acoustic-guitar",
-    title: "Guitar for beginners",
-    teacher: "Alex Morgan",
-    place: "Calgary",
-    mode: "in-person",
-    category: "Music",
-    thumb: "guitar",
-  },
-  {
-    id: "conversational-korean",
-    title: "Conversational Korean",
-    teacher: "Taylor Reed",
-    place: "Online",
-    mode: "online",
-    category: "Languages",
-    thumb: "korean",
-  },
-  {
-    id: "python-fundamentals",
-    title: "Python fundamentals",
-    teacher: "Jordan Blake",
-    place: "Online",
-    mode: "online",
-    category: "Tech",
-    thumb: "tech",
-    label: "TECHNOLOGY",
-  },
-  {
-    id: "photography-basics",
-    title: "Photography basics",
-    teacher: "Emma Chen",
-    place: "Calgary",
-    mode: "in-person",
-    category: "Art",
-    thumb: "photo",
-    label: "PHOTOGRAPHY",
-  },
-];
 
 const MODES = [
   { value: "all", label: "All" },
@@ -54,6 +11,40 @@ const MODES = [
 
 export default function Explore() {
   const navigate = useNavigate();
+  const [skills, setSkills] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function loadSkills() {
+      try {
+        const response = await fetch("/api/listings", {
+          signal: controller.signal,
+          headers: { Accept: "application/json" },
+        });
+        if (!response.ok) throw new Error("Could not load skills.");
+        const data = await response.json();
+        if (!Array.isArray(data)) throw new Error("Invalid listings response.");
+        setSkills(data);
+        setLoading(false);
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          setError("Could not load skills. Please refresh and try again.");
+          setLoading(false);
+        }
+      }
+    }
+
+    loadSkills();
+    return () => controller.abort();
+  }, []);
+
+  const categories = [
+    "All",
+    ...new Set(skills.map((s) => s.category).filter(Boolean)),
+  ];
 
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
@@ -61,11 +52,16 @@ export default function Explore() {
   const [showFilters, setShowFilters] = useState(false);
 
   const q = query.trim().toLowerCase();
-  const visible = SKILLS.filter(
+  const visible = skills.filter(
     (s) =>
       (category === "All" || s.category === category) &&
-      (mode === "all" || s.mode === mode) &&
-      (!q || `${s.title} ${s.teacher} ${s.category}`.toLowerCase().includes(q)),
+      (mode === "all" ||
+        s.session_mode === "both" ||
+        s.session_mode === mode.replace("-", "_")) &&
+      (!q ||
+        `${s.title} ${s.teacher_name} ${s.category || ""}`
+          .toLowerCase()
+          .includes(q)),
   );
 
   return (
@@ -178,7 +174,7 @@ export default function Explore() {
 
         {/* category pills */}
         <div className="explore-pills" role="group" aria-label="Categories">
-          {CATEGORIES.map((c) => (
+          {categories.map((c) => (
             <button
               key={c}
               type="button"
@@ -195,33 +191,54 @@ export default function Explore() {
         <div className="explore-results-header">
           <h2 className="explore-results-title">Skills for you</h2>
           <span className="explore-results-count">
-            {visible.length} {visible.length === 1 ? "skill" : "skills"} ·
-            Calgary + online
+            {visible.length} {visible.length === 1 ? "skill" : "skills"}
           </span>
         </div>
 
-        {visible.length > 0 ? (
+        {loading ? (
+          <p className="explore-empty" role="status">
+            Loading skills...
+          </p>
+        ) : error ? (
+          <p className="explore-empty" role="alert">
+            {error}
+          </p>
+        ) : visible.length > 0 ? (
           <div className="explore-grid">
             {visible.map((s) => (
               <button
-                key={s.id}
+                key={s.listing_id}
                 type="button"
                 className="explore-card"
-                onClick={() => navigate(`/skills/${s.id}`)}
+                aria-label={`Book ${s.title}`}
+                onClick={() => navigate(`/booking?listing=${s.listing_id}`)}
               >
                 <span
-                  className={`explore-card-thumb explore-card-thumb--${s.thumb}`}
+                  className={`explore-card-thumb explore-card-thumb--${
+                    s.category === "Music"
+                      ? "guitar"
+                      : s.category === "Photography"
+                        ? "photo"
+                        : s.category === "Languages"
+                          ? "korean"
+                          : "tech"
+                  }`}
                 >
-                  {s.label}
+                  {s.category}
                 </span>
                 <span className="explore-card-title">{s.title}</span>
                 <span className="explore-card-meta">
-                  {s.teacher} · {s.place}
+                  {s.teacher_name} ·{" "}
+                  {s.session_mode === "online"
+                    ? "Online"
+                    : s.session_mode === "in_person"
+                      ? "In person"
+                      : "Online or in person"}
                 </span>
-                <span className="explore-card-rating">
-                  ★ 4.9 · Beginner friendly
+                <span className="explore-card-rating">{s.description}</span>
+                <span className="explore-card-price">
+                  {s.duration_minutes} minutes · {s.point_cost} points
                 </span>
-                <span className="explore-card-price">15 points / hour</span>
               </button>
             ))}
           </div>
