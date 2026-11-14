@@ -1,226 +1,111 @@
-/* The app shell owns the browser's default outer margin. */
-
-:root {
-  --default-font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu,
-    "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB",
-    "Microsoft Yahei UI", "Microsoft Yahei", "Source Han Sans CN", sans-serif;
-}
-
-/* Background for whole application */
-main-container {
-  position: relative;
-  width: 100%;
-  max-width: none;
-  min-height: 100vh;
-  height: auto;
-
+body {
   margin: 0;
-  box-sizing: border-box;
+}
 
+main {
   background: #f7f8fc;
-  overflow-x: hidden;
-  overflow-y: visible;
 }
 
-/* Banner for entire webpage, should stay consistent */
+/* banner */
 .banner {
-  box-sizing: border-box;
-  border-bottom: 1px solid #e4e7ec;
-  position: relative;
-  width: 100%;
-  height: 40px;
-  margin: 26px 0 0 0px;
-  z-index: 10; /* controls the stacking order of elements */
-}
-
-/* .rightbanner {
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex-wrap: nowrap;
-  gap: 8px;
-  position: absolute;
-  width: 118px;
-  height: 40px;
-  top: 0;
-  left: 1500px;
-  padding: 0 4px 0 14px;
-  border: 1px solid #5b5bef;
-  z-index: 5;
-  overflow: hidden;
-  border-radius: 16px;
-} */
+  gap: 48px;
+  height: 64px;
+  margin: 0;
+  padding: 0 96px;
+  border-bottom: 1px solid #e0e0e0;
+}
 
-/* Skill Trade text on the left side of the banner */
 .logo-text {
-  position: absolute;
-  top: 8px;
-  left: 0;
-  display: inline-block;
-  white-space: nowrap;
-  z-index: 10;
+  position: static;
+  font-size: 30px;
 }
 
 .skill-text {
   color: #101828;
-  font-size: 30px;
 }
 
 .trade-text {
   color: #6657e8;
-  font-size: 30px;
   font-weight: bold;
 }
 
-/* Navigation links on the right side of the banner */
-.home {
+/* top banner navigation links */
+.nav {
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: absolute;
-  height: 20.3px;
-  top: 8px;
-  left: 144px;
-  color: #5b5bef;
-  font-family: Inter, var(--default-font-family);
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20.3px;
-  text-align: left;
-  white-space: nowrap;
-  z-index: 2;
+  gap: 40px;
 }
 
-.explore {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: absolute;
-  height: 20.3px;
-  top: 8px;
-  left: 288px;
-  color: #667085;
-  font-family: Inter, var(--default-font-family);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20.3px;
-  text-align: left;
-  white-space: nowrap;
-  z-index: 3;
-}
-
-.sessions {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: absolute;
-  height: 20.3px;
-  top: 8px;
-  left: 432px;
-  color: #667085;
-  font-family: Inter, var(--default-font-family);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20.3px;
-  text-align: left;
-  white-space: nowrap;
-  z-index: 4;
-}
+.home,
+.explore,
+.sessions,
 .teach {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: absolute;
-  height: 20.3px;
-  top: 8px;
-  left: 576px;
-  color: #667085;
-  font-family: Inter, var(--default-font-family);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20.3px;
-  text-align: left;
-  white-space: nowrap;
-  z-index: 5;
+  position: static;
+  height: auto;
 }
 
-.skillpoints {
+.banner-right {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  position: absolute;
-  width: 100px;
-  height: 30px;
-  right: 300px;
-
-  background: #eeeaff;
-  border: 1px solid #e4e7ec;
-  z-index: 6;
-  overflow: hidden;
-  border-radius: 16px;
+  gap: 12px;
+  margin-left: auto;
 }
 
-.pointicon {
-  flex-shrink: 0;
-  position: relative;
+.skillpoints,
+.notifbutton,
+.userprofile {
+  position: static;
+  right: auto;
+}
+
+.skillpoints-text {
+  font-size: 14px;
+  color: #5b5bef;
+}
+
+.points-box {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: #eeeaff;
+  border-radius: 8px;
+}
+
+.points-icon {
+  display: inline-block;
   width: 16px;
   height: 16px;
   background: url(./styles/icons/sparkle.svg) no-repeat center;
+  background-size: contain;
 }
 
-.pointtext {
-  color: #5b5bef;
-  font-family: Inter, var(--default-font-family);
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 20px;
-}
-
-.notifbutton {
+.notifs-box {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  position: absolute;
-  width: 40px;
-  height: 30px;
-  right: 250px;
-
+  gap: 4px;
+  padding: 4px 8px;
   background: #eeeaff;
-  border: 1px solid #e4e7ec;
-  z-index: 7;
-  overflow: hidden;
-  border-radius: 16px;
+  border-radius: 8px;
 }
 
-.notificon {
-  flex-shrink: 0;
-  position: relative;
-  width: 16px;
-  height: 17px;
+.notifs-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
   background: url(./styles/icons/bell.svg) no-repeat center;
+  background-size: contain;
 }
 
-.userprofile {
+.profile-box {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: nowrap;
-  flex-shrink: 0;
-  position: absolute;
-
-  width: 40px;
-  height: 30px;
-  right: 180px;
-
-  padding: 0 8px 0 8px;
-  background: #ffffff;
-  border: 1px solid #e4e7ec;
-  z-index: 8;
-  overflow: hidden;
-  border-radius: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: black 1px solid;
 }
