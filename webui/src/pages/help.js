@@ -37,7 +37,7 @@ const faqItems = [
     category: "TEACHING",
     question: "How do I teach a skill?",
     description: "Share your skills with the community.",
-    to: "/teach",
+    to: "/teaching-faq",
   },
 ];
 
