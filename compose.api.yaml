@@ -1,0 +1,13 @@
+services:
+  api:
+    build: ./api
+    environment:
+      PGHOST: db
+      PGDATABASE: skilltrade_db
+      PGUSER: postgres
+      PGPASSWORD_FILE: /run/secrets/skilltrade_db_pass
+    secrets:
+      - skilltrade_db_pass
+    depends_on:
+      db:
+        condition: service_healthy

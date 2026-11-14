@@ -10,6 +10,8 @@ services:
     environment:
       NODE_ENV: development
     depends_on:
+      api:
+        condition: service_started
       db:
         condition: service_healthy
     develop:
@@ -24,6 +26,10 @@ services:
         path: ./webui/package.json
       - action: rebuild
         path: ./webui/package-lock.json
+  api:
+    extends:
+      file: compose.api.yaml
+      service: api
   db:
     extends:
       file: compose.database.yaml
@@ -45,3 +51,4 @@ secrets:
 
 volumes:
   skilltrade-pg18-data:
+

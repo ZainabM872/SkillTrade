@@ -3,6 +3,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Intro from "./pages/intro";
 import Booking from "./pages/booking";
+import Explore from "./pages/explore";
 import Sessions from "./pages/sessions"
 import SessionDetails from './pages/session_detail';
 import Teach from "./pages/teach"
@@ -26,12 +27,6 @@ import MeetingLocation from "./pages/meeting-location";
 import Arrived from "./pages/arrived";
 import SessionStarted from "./pages/session-started";
 import SkillPointsFaq from "./pages/skill-points-faq";
-import Sessions from "./pages/sessions"
-import Booking from "./pages/booking";
-import Sessions from "./pages/sessions"
-import Session_Details from "./pages/session_detail"
-import Teach from "./pages/teach"
-import Availability from "./pages/availability";
 import ReviewListing from "./pages/review_listing";
 import Notifications from "./pages/notifications";
 import ReliabilityFaq from "./pages/reliability-faq";
@@ -42,6 +37,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Intro />} />
         <Route path="/booking" element={<Booking />} />
+        <Route path="/explore" element={<Explore />} />
         <Route path="/sessions" element={<Sessions />} />
         <Route path="/sessions/:id" element= {<SessionDetails />} />
         <Route path="/teach" element= {<Teach />} />
@@ -70,15 +66,8 @@ function App() {
         <Route path="/meeting-location" element={<MeetingLocation />} />
         <Route path="/location-shared" element={<LocationShared />} />
         <Route path="/rate-session" element={<RateSession />} />
-        <Route path="/completed-session-details" element={<CompletedSessionDetails />} />        <Route path="/book" element={<Book />} />
-        <Route path="/sessions" element={<Sessions />} />
-
-        <Route path="/booking" element={<Booking />} />
-        <Route path="/sessions" element={<Sessions />} />
-        <Route path="/sessions/:id" element= {<Session_Details />} />
-        <Route path="/teach" element= {<Teach />} />
-        <Route path="/teach/availability" element= {<Availability />} />
-
+        <Route path="/completed-session-details" element={<CompletedSessionDetails />} />
+        <Route path="/book" element={<Navigate to="/booking" replace />} />
 
       </Routes>
     </BrowserRouter>
@@ -86,3 +75,4 @@ function App() {
 }
 
 export default App;
+
