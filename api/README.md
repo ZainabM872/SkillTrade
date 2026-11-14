@@ -1,6 +1,6 @@
 # Listings connection
 
-The booking page reads active skills from PostgreSQL through `GET /api/listings`.
+The Explore and booking pages read active skills from PostgreSQL through `GET /api/listings`.
 The database password stays in the API container and is never sent to React.
 
 ## Run locally
@@ -12,9 +12,10 @@ if you have not already done that. Use the same password as your existing databa
 docker compose -f compose.prod.yaml --profile production up --build
 ```
 
-Open http://localhost:3000/booking. Choose a skill to see its title, teacher,
-duration and point cost. The seed has two active listings. The draft listing is
-not shown. Refresh the page to read the database again.
+Open http://localhost:3000/explore. Click Book on a skill to open its booking
+page with the title, teacher, duration and point cost. The seed has two active
+listings. The draft listing is not shown. Refresh to read the database again.
+Opening /booking directly asks you to choose a skill from Explore first.
 
 The development command also starts the API:
 
@@ -22,7 +23,7 @@ The development command also starts the API:
 docker compose --profile development up --build --watch
 ```
 
-Open http://localhost:5173/booking in development. The frontend proxy uses the
+Open http://localhost:5173/explore in development. The frontend proxy uses the
 Docker service name `api`, so use Compose for this setup.
 
 ## Check the connection
@@ -40,7 +41,7 @@ SELECT listing_id, title, status FROM skilltrade.skill_listings ORDER BY listing
 UPDATE skilltrade.skill_listings SET title = 'Photography basics (demo)' WHERE listing_id = 1;
 ```
 
-Refresh the booking page. The new title should appear in the selector and summary.
+Refresh Explore or the booking page for that skill to see the new title.
 Restore the sample title afterward:
 
 ```sql
