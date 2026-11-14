@@ -31,6 +31,7 @@ import Notifications from "./pages/notifications";
 import ReliabilityFaq from "./pages/reliability-faq";
 
 import Home from "./pages/homepage";
+import Explore from "./pages/explore";
 
 function App() {
   return (
@@ -80,6 +81,7 @@ function App() {
         <Route path="/teach" element={<Teach />} />
         <Route path="/teach/availability" element={<Availability />} />
         <Route path="/homepage" element={<Home />} />
+        <Route path="/explore" element={<Explore />} />
       </Routes>
     </BrowserRouter>
   );

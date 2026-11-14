@@ -39,21 +39,20 @@ main {
   gap: 40px;
 }
 
-.home,
-.explore,
-.sessions,
-.teach {
-  position: static;
-  height: auto;
+.nav-link {
   font-size: 14px;
   font-weight: 500;
   color: #667085;
   text-decoration: none;
   white-space: nowrap;
+  transition: color 0.15s;
 }
-.home {
-  font-weight: 600;
+.nav-link:hover {
   color: #5b5bef;
+}
+.nav-link.active {
+  color: #5b5bef;
+  font-weight: 600;
 }
 
 .banner-right {

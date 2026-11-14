@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/homepage.css";
 import "../App.css";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Main() {
   const navigate = useNavigate();
@@ -15,12 +15,18 @@ export default function Main() {
           <span className="trade-text">Trade</span>
         </span>
         <nav className="nav">
-          <Link className="home" to="/homepage">
+          <NavLink className="nav-link" to="/homepage">
             Home
-          </Link>
-          <span className="explore">Explore</span>
-          <span className="sessions">Sessions</span>
-          <span className="teach">Teach a skill</span>
+          </NavLink>
+          <NavLink className="nav-link" to="/explore">
+            Explore
+          </NavLink>
+          <NavLink className="nav-link" to="/sessions">
+            Sessions
+          </NavLink>
+          <NavLink className="nav-link" to="/teach">
+            Teach a skill
+          </NavLink>
         </nav>
         <div className="banner-right">
           <div className="points-box">
