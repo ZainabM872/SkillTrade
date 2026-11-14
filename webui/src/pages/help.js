@@ -25,7 +25,7 @@ const faqItems = [
     category: "CHANGE OF PLANS",
     question: "Can I cancel or reschedule?",
     description: "Review your upcoming sessions and coordinate a new time.",
-    to: "/sessions",
+    to: "/cancellation-faq",
   },
   {
     category: "TRUST & RELIABILITY",
