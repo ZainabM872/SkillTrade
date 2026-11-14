@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../styles/help.css";
@@ -8,7 +7,7 @@ const faqItems = [
     category: "BOOKING",
     question: "How do I book a session?",
     description: "Find a skill and reserve your next session.",
-    to: "/explore",
+    to: "/booking-faq",
   },
   {
     category: "SKILL POINTS",
@@ -61,7 +60,11 @@ export default function Help() {
           </nav>
 
           <div className="help-header-actions">
-            <Link className="help-points" to="/profile" aria-label="View your skill points">
+            <Link
+              className="help-points"
+              to="/profile"
+              aria-label="View your skill points"
+            >
               <span aria-hidden="true">✦</span>
               <span>120 points</span>
             </Link>
@@ -97,7 +100,10 @@ export default function Help() {
           </p>
         </section>
 
-        <section className="help-faq-grid" aria-label="Frequently asked questions">
+        <section
+          className="help-faq-grid"
+          aria-label="Frequently asked questions"
+        >
           {faqItems.map((item) => (
             <Link className="help-faq-card" to={item.to} key={item.question}>
               <span className="help-faq-category">{item.category}</span>
@@ -117,10 +123,8 @@ export default function Help() {
               If you couldn’t find your answer, get in touch with the SkillTrade
               team.
             </p>
-          </div> 
-          <Link to="/contact-support"
-            className="help-support-button"
-          >
+          </div>
+          <Link to="/contact-support" className="help-support-button">
             Contact support <span aria-hidden="true">↗</span>
           </Link>
         </section>

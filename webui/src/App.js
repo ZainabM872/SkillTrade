@@ -32,6 +32,7 @@ import ReliabilityFaq from "./pages/reliability-faq";
 
 import Home from "./pages/homepage";
 import Explore from "./pages/explore";
+import BookingFAQ from "./pages/booking-faq";
 
 function App() {
   return (
@@ -82,6 +83,7 @@ function App() {
         <Route path="/teach/availability" element={<Availability />} />
         <Route path="/homepage" element={<Home />} />
         <Route path="/explore" element={<Explore />} />
+        <Route path="/booking-faq" element={<BookingFAQ />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,110 +1,155 @@
-import { useCallback } from "react";
+import React from "react";
 import "../styles/booking-faq.css";
+import "../App.css"; // shared banner styles (same as the other pages)
+import { NavLink, useNavigate } from "react-router-dom";
 
-const BookingFAQ = () => {
-  const onHomeTextClick = useCallback(() => {}, []);
+const STEPS = [
+  {
+    number: "01",
+    title: "Find your next skill",
+    items: [
+      "Explore skills or search for something you’d like to learn.",
+      "Open a skill to review the teacher, description, and points.",
+    ],
+  },
+  {
+    number: "02",
+    title: "Choose the details",
+    items: [
+      "Choose an available date and time.",
+      "Select a meeting location and review the cost.",
+    ],
+  },
+  {
+    number: "03",
+    title: "Send your request",
+    items: [
+      "Send your request.",
+      "Check Sessions for your teacher’s confirmation and meeting instructions.",
+    ],
+  },
+];
+
+export default function BookingFAQ() {
+  const navigate = useNavigate();
+
+  // numbering of the instructions continues across steps (1-2, 3-4, 5-6)
+  let count = 0;
 
   return (
-    <div className="bookingFaq">
-      <div className="homeHome" onClick={onHomeTextClick}>
-        Home
-      </div>
-      <div className="exploreExplore" onClick={onHomeTextClick}>
-        Explore
-      </div>
-      <div className="sessionsSessions" onClick={onHomeTextClick}>
-        Sessions
-      </div>
-      <div className="teachASkill" onClick={onHomeTextClick}>
-        Teach a skill
-      </div>
-      <div className="pointsFaqFilter120Po" onClick={onHomeTextClick}>
-        <img className="iconSparkle" alt="" />
-        <div className="points" onClick={onHomeTextClick}>
-          120 points
-        </div>
-      </div>
-      <img
-        className="notificationsIconButton"
-        alt=""
-        onClick={onHomeTextClick}
-      />
-      <div className="profileFilterSm" onClick={onHomeTextClick}>
-        <div className="points" onClick={onHomeTextClick}>
-          SM
-        </div>
-      </div>
-      <div className="headerDivider" />
-      <div className="skilltradeHelp">SKILLTRADE HELP</div>
-      <b className="howDoI">How do I book a session?</b>
-      <div className="fromCuriosityTo">
-        From curiosity to your next class.
-      </div>
-      <div className="card">
-        <div className="findYourNextSkill}">
-          <div className="step1}">
-            <div className="div">01</div>
+    <main>
+      {/* top banner: identical to the other pages */}
+      <div className="banner">
+        <span className="logo-text">
+          <span className="skill-text">skill</span>
+          <span className="trade-text">Trade</span>
+        </span>
+        <nav className="nav">
+          <NavLink className="nav-link" to="/homepage">
+            Home
+          </NavLink>
+          <NavLink className="nav-link" to="/explore">
+            Explore
+          </NavLink>
+          <NavLink className="nav-link" to="/sessions">
+            Sessions
+          </NavLink>
+          <NavLink className="nav-link" to="/teach">
+            Teach a skill
+          </NavLink>
+        </nav>
+        <div className="banner-right">
+          <div className="points-box">
+            <span className="skillpoints">
+              <span className="points-icon" />
+              <span className="skillpoints-text">150 points</span>
+            </span>
           </div>
-          <div className="answer}">
-            <div className="findYourNext">Find your next skill</div>
-            <div className="exploreSkillsOr">
-              1. Explore skills or search for something you’d like to learn.
-              <br />
-              2. Open a skill to review the teacher, description, and points.
-            </div>
-          </div>
-        </div>
-        <div className="sectionDivider" />
-        <div className="findYourNextSkill">
-          <div className="step1">
-            <div className="div">02</div>
-          </div>
-          <div className="answer">
-            <div className="findYourNext">Choose the details</div>
-            <div className="exploreSkillsOr">
-              3. Choose an available date and time.
-              <br />
-              4. Select a meeting location and review the cost.
-            </div>
-          </div>
-        </div>
-        <div className="sectionDivider" />
-        <div className="findYourNextSkill">
-          <div className="step1">
-            <div className="div">03</div>
-          </div>
-          <div className="answer">
-            <div className="findYourNext">Send your request</div>
-            <div className="exploreSkillsOr">
-              5. Send your request.
-              <br />
-              6. Check Sessions for your teacher’s confirmation and meeting
-              instructions.
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="backButton">
-        <div className="button">Back</div>
-      </div>
-      <div className="helpButton" onClick={onHomeTextClick}>
-        <div className="button2" onClick={onHomeTextClick}>
-          All help topics
-        </div>
-      </div>
-      <div className="card2">
-        <div className="stillNeedA">Still need a hand?</div>
-        <div className="wereHereTo">
-          We’re here to help you learn and teach with confidence.
-        </div>
-      </div>
-      <div className="contactSupportButton" onClick={onHomeTextClick}>
-        <div className="button2" onClick={onHomeTextClick}>
-          Contact support
-        </div>
-      </div>
-    </div>
-  );
-};
 
-export default BookingFAQ;
+          <button
+            type="button"
+            className="notifs-box"
+            aria-label="Notifications"
+            onClick={() => navigate("/notifications")}
+          >
+            <span className="notifs-icon" />
+          </button>
+
+          <button
+            type="button"
+            className="profile-box"
+            aria-label="Your profile"
+            onClick={() => navigate("/profile")}
+          >
+            <span className="userprofile">SM</span>
+          </button>
+        </div>
+      </div>
+
+      <div className="faq-page">
+        {/* heading */}
+        <p className="faq-eyebrow">SKILLTRADE HELP</p>
+        <h1 className="faq-title">How do I book a session?</h1>
+        <p className="faq-sub">From curiosity to your next class.</p>
+
+        <div className="faq-layout">
+          {/* steps */}
+          <ol className="faq-steps">
+            {STEPS.map((step) => {
+              const start = count + 1;
+              count += step.items.length;
+              return (
+                <li key={step.number} className="faq-step">
+                  <span className="faq-step-badge" aria-hidden="true">
+                    {step.number}
+                  </span>
+                  <div className="faq-step-body">
+                    <h2 className="faq-step-title">{step.title}</h2>
+                    <ol className="faq-step-list" start={start}>
+                      {step.items.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ol>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+
+          {/* side actions */}
+          <aside className="faq-aside">
+            <button
+              type="button"
+              className="faq-btn faq-btn--soft"
+              onClick={() => navigate(-1)}
+            >
+              Back
+            </button>
+            <button
+              type="button"
+              className="faq-btn faq-btn--soft"
+              onClick={() => navigate("/help")}
+            >
+              All help topics
+            </button>
+
+            <div className="faq-help-card">
+              <h2 className="faq-help-title">Still need a hand?</h2>
+              <p className="faq-help-text">
+                We’re here to help you learn and teach with confidence.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              className="faq-btn faq-btn--primary"
+              onClick={() => navigate("/contact-support")}
+            >
+              Contact support
+            </button>
+          </aside>
+        </div>
+      </div>
+    </main>
+  );
+}
