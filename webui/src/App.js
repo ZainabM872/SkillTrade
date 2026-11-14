@@ -2,6 +2,11 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Intro from "./pages/intro";
+import Booking from "./pages/booking";
+import Sessions from "./pages/sessions"
+import SessionDetails from './pages/session_detail';
+import Teach from "./pages/teach"
+import Availability from "./pages/availability";
 import Signup from "./pages/signup";
 import Guidelines from "./pages/community-guidelines";
 import Profile from "./pages/profile";
@@ -21,6 +26,14 @@ import MeetingLocation from "./pages/meeting-location";
 import Arrived from "./pages/arrived";
 import SessionStarted from "./pages/session-started";
 import SkillPointsFaq from "./pages/skill-points-faq";
+import Sessions from "./pages/sessions"
+import Booking from "./pages/booking";
+import Sessions from "./pages/sessions"
+import Session_Details from "./pages/session_detail"
+import Teach from "./pages/teach"
+import Availability from "./pages/availability";
+import ReviewListing from "./pages/review_listing";
+import Notifications from "./pages/notifications";
 import ReliabilityFaq from "./pages/reliability-faq";
 
 function App() {
@@ -28,6 +41,16 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Intro />} />
+        <Route path="/booking" element={<Booking />} />
+        <Route path="/sessions" element={<Sessions />} />
+        <Route path="/sessions/:id" element= {<SessionDetails />} />
+        <Route path="/teach" element= {<Teach />} />
+        <Route path="/teach/availability" element= {<Availability />} />
+        <Route path="/teach/review-listing" element= {<ReviewListing />} />
+        <Route path="/notifications" element= {<Notifications/>} />
+        
+
+
         <Route path="/signup" element={<Signup />} />
         <Route path="/guidelines" element={<Guidelines />} />
         <Route path="/profile" element={<Profile />} />
@@ -47,7 +70,16 @@ function App() {
         <Route path="/meeting-location" element={<MeetingLocation />} />
         <Route path="/location-shared" element={<LocationShared />} />
         <Route path="/rate-session" element={<RateSession />} />
-        <Route path="/completed-session-details" element={<CompletedSessionDetails />} />
+        <Route path="/completed-session-details" element={<CompletedSessionDetails />} />        <Route path="/book" element={<Book />} />
+        <Route path="/sessions" element={<Sessions />} />
+
+        <Route path="/booking" element={<Booking />} />
+        <Route path="/sessions" element={<Sessions />} />
+        <Route path="/sessions/:id" element= {<Session_Details />} />
+        <Route path="/teach" element= {<Teach />} />
+        <Route path="/teach/availability" element= {<Availability />} />
+
+
       </Routes>
     </BrowserRouter>
   );

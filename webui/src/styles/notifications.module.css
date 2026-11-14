@@ -1,0 +1,140 @@
+.page {
+  --nt-accent: #5b5be6;
+  --nt-tint: #ecebfb;
+  --nt-ink: #121829;
+  --nt-muted: #6b7185;
+  --nt-bg: #f7f8fc;
+
+  min-height: 100%;
+  padding: 32px 24px 48px;
+  background: var(--nt-bg);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: var(--nt-ink);
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Header */
+
+.header {
+  margin-bottom: 36px;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nt-accent);
+}
+
+.title {
+  margin: 0 0 16px;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: var(--nt-muted);
+}
+
+/* Notification cards */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 132px;
+  padding: 22px 26px;
+  background: #fff;
+  border-radius: 16px;
+}
+
+/* Text stays at the top of the card while the button is centred */
+.text {
+  align-self: flex-start;
+  min-width: 0;
+}
+
+.cardTitle {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.cardMessage {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--nt-muted);
+}
+
+.actionButton {
+  box-sizing: border-box;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 195px;
+  height: 40px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--nt-accent);
+  text-decoration: none;
+  background: var(--nt-tint);
+  border-radius: 10px;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.actionButton:hover {
+  background: var(--nt-accent);
+  color: #fff;
+}
+
+.actionButton:focus-visible {
+  outline: 2px solid var(--nt-accent);
+  outline-offset: 2px;
+}
+
+/* Loading / error / empty */
+
+.status {
+  margin: 0;
+  padding: 32px 20px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--nt-muted);
+  background: #fff;
+  border-radius: 16px;
+}
+
+@media (max-width: 640px) {
+  .card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+    min-height: 0;
+  }
+
+  .actionButton {
+    width: 100%;
+  }
+}
