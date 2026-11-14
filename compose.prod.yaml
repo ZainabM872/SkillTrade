@@ -8,8 +8,14 @@ services:
     ports:
     - 3000:80
     depends_on:
+      api:
+        condition: service_started
       db:
         condition: service_healthy
+  api:
+    extends:
+      file: compose.api.yaml
+      service: api
   db:
     extends:
       file: compose.database.yaml
@@ -21,3 +27,4 @@ secrets:
 
 volumes:
   skilltrade-pg18-data:
+
