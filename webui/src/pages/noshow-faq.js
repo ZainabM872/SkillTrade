@@ -1,105 +1,135 @@
-import { useCallback } from "react";
-import "../styles/noshow-faq.css";
+import React from "react";
+import "../styles/booking-faq.css"; // shared FAQ styles (same layout as the other FAQ pages)
+import "../App.css"; // shared banner styles (same as the other pages)
+import { NavLink, useNavigate } from "react-router-dom";
 
-const NoShowFAQ = () => {
-  const onHomeTextClick = useCallback(() => {}, []);
+const STEPS = [
+  {
+    number: "01",
+    title: "Check the meeting plan",
+    text: "Check your session’s date, time, location, and meeting instructions. Mark that you’ve arrived when you reach the meeting point.",
+  },
+  {
+    number: "02",
+    title: "Find each other safely",
+    text: "Use optional location sharing if you need help finding each other. Respect your learning partner’s privacy.",
+  },
+  {
+    number: "03",
+    title: "Report what happened",
+    text: "If the session didn’t happen, report attendance accurately. Contact support for help with a no-show or safety concern.",
+  },
+];
+
+export default function NoShowFAQ() {
+  const navigate = useNavigate();
 
   return (
-    <div className="noShowFaq">
-      <div className="homeHome" onClick={onHomeTextClick}>
-        Home
-      </div>
-      <div className="exploreExplore" onClick={onHomeTextClick}>
-        Explore
-      </div>
-      <div className="sessionsSessions" onClick={onHomeTextClick}>
-        Sessions
-      </div>
-      <div className="teachASkill" onClick={onHomeTextClick}>
-        Teach a skill
-      </div>
-      <div className="pointsFaqFilter120Po" onClick={onHomeTextClick}>
-        <img className="iconSparkle" alt="" />
-        <div className="points" onClick={onHomeTextClick}>
-          120 points
-        </div>
-      </div>
-      <img
-        className="notificationsIconButton"
-        alt=""
-        onClick={onHomeTextClick}
-      />
-      <div className="profileFilterSm" onClick={onHomeTextClick}>
-        <div className="points" onClick={onHomeTextClick}>
-          SM
-        </div>
-      </div>
-      <div className="headerDivider" />
-      <div className="skilltradeHelp">SKILLTRADE HELP</div>
-      <b className="whatIfSomeone">What if someone doesn’t show up?</b>
-      <div className="startWithThe">Start with the agreed meeting plan.</div>
-      <div className="card">
-        <div className="checkTheMeetingPlan">
-          <div className="step1">
-            <div className="div">01</div>
+    <main>
+      {/* top banner: identical to the other pages */}
+      <div className="banner">
+        <span className="logo-text">
+          <span className="skill-text">skill</span>
+          <span className="trade-text">Trade</span>
+        </span>
+        <nav className="nav">
+          <NavLink className="nav-link" to="/homepage">
+            Home
+          </NavLink>
+          <NavLink className="nav-link" to="/explore">
+            Explore
+          </NavLink>
+          <NavLink className="nav-link" to="/sessions">
+            Sessions
+          </NavLink>
+          <NavLink className="nav-link" to="/teach">
+            Teach a skill
+          </NavLink>
+        </nav>
+        <div className="banner-right">
+          <div className="points-box">
+            <span className="skillpoints">
+              <span className="points-icon" />
+              <span className="skillpoints-text">150 points</span>
+            </span>
           </div>
-          <div className="answer">
-            <div className="checkTheMeeting">Check the meeting plan</div>
-            <div className="checkYourSessions">
-              Check your session’s date, time, location, and meeting
-              instructions. Mark that you’ve arrived when you reach the meeting
-              point.
-            </div>
-          </div>
-        </div>
-        <div className="sectionDivider" />
-        <div className="checkTheMeetingPlan">
-          <div className="step1">
-            <div className="div">02</div>
-          </div>
-          <div className="answer">
-            <div className="checkTheMeeting">Find each other safely</div>
-            <div className="checkYourSessions">
-              Use optional location sharing if you need help finding each other.
-              Respect your learning partner’s privacy.
-            </div>
-          </div>
-        </div>
-        <div className="sectionDivider" />
-        <div className="checkTheMeetingPlan">
-          <div className="step1">
-            <div className="div">03</div>
-          </div>
-          <div className="answer">
-            <div className="checkTheMeeting">Report what happened</div>
-            <div className="checkYourSessions">
-              If the session didn’t happen, report attendance accurately.
-              Contact support for help with a no-show or safety concern.
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="backButton">
-        <div className="button">Back</div>
-      </div>
-      <div className="helpButton" onClick={onHomeTextClick}>
-        <div className="button2" onClick={onHomeTextClick}>
-          All help topics
-        </div>
-      </div>
-      <div className="card2">
-        <div className="stillNeedA">Still need a hand?</div>
-        <div className="wereHereTo">
-          We’re here to help you learn and teach with confidence.
-        </div>
-      </div>
-      <div className="contactSupportButton" onClick={onHomeTextClick}>
-        <div className="button2" onClick={onHomeTextClick}>
-          Contact support
-        </div>
-      </div>
-    </div>
-  );
-};
 
-export default NoShowFAQ;
+          <button
+            type="button"
+            className="notifs-box"
+            aria-label="Notifications"
+            onClick={() => navigate("/notifications")}
+          >
+            <span className="notifs-icon" />
+          </button>
+
+          <button
+            type="button"
+            className="profile-box"
+            aria-label="Your profile"
+            onClick={() => navigate("/profile")}
+          >
+            <span className="userprofile">SM</span>
+          </button>
+        </div>
+      </div>
+
+      <div className="faq-page">
+        {/* heading */}
+        <p className="faq-eyebrow">SKILLTRADE HELP</p>
+        <h1 className="faq-title">What if someone doesn’t show up?</h1>
+        <p className="faq-sub">Start with the agreed meeting plan.</p>
+
+        <div className="faq-layout">
+          {/* steps */}
+          <ol className="faq-steps">
+            {STEPS.map((step) => (
+              <li key={step.number} className="faq-step">
+                <span className="faq-step-badge" aria-hidden="true">
+                  {step.number}
+                </span>
+                <div className="faq-step-body">
+                  <h2 className="faq-step-title">{step.title}</h2>
+                  <p className="faq-step-text">{step.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          {/* side actions */}
+          <aside className="faq-aside">
+            <button
+              type="button"
+              className="faq-btn faq-btn--soft"
+              onClick={() => navigate(-1)}
+            >
+              Back
+            </button>
+            <button
+              type="button"
+              className="faq-btn faq-btn--soft"
+              onClick={() => navigate("/help")}
+            >
+              All help topics
+            </button>
+
+            <div className="faq-help-card">
+              <h2 className="faq-help-title">Still need a hand?</h2>
+              <p className="faq-help-text">
+                We’re here to help you learn and teach with confidence.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              className="faq-btn faq-btn--primary"
+              onClick={() => navigate("/contact-support")}
+            >
+              Contact support
+            </button>
+          </aside>
+        </div>
+      </div>
+    </main>
+  );
+}

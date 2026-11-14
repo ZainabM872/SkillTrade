@@ -34,6 +34,7 @@ import Home from "./pages/homepage";
 import Explore from "./pages/explore";
 import BookingFAQ from "./pages/booking-faq";
 import CancellationFAQ from "./pages/cancellation-faq";
+import NoShowFAQ from "./pages/noshow-faq";
 
 function App() {
   return (
@@ -86,6 +87,7 @@ function App() {
         <Route path="/explore" element={<Explore />} />
         <Route path="/booking-faq" element={<BookingFAQ />} />
         <Route path="/cancellation-faq" element={<CancellationFAQ />} />
+        <Route path="/noshow-faq" element={<NoShowFAQ />} />
       </Routes>
     </BrowserRouter>
   );

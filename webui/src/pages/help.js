@@ -19,7 +19,7 @@ const faqItems = [
     category: "ATTENDANCE",
     question: "What if someone doesn’t show up?",
     description: "What to do when a session doesn’t happen.",
-    to: "/sessions",
+    to: "/noshow-faq",
   },
   {
     category: "CHANGE OF PLANS",
