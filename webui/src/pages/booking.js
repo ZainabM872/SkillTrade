@@ -1,17 +1,26 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import styles from "../styles/booking.module.css";
-import NavBar from '../components/NavBar';
-import PopupStyles from '../styles/cancel_reschedule.module.css';
-import Sparkle from '../styles/icons/Sparkle.svg';
-import Cancel from '../styles/icons/Cancel_Button.svg';
+import NavBar from "../components/NavBar";
+import PopupStyles from "../styles/cancel_reschedule.module.css";
+import Sparkle from "../styles/icons/sparkle.svg";
+import Cancel from "../styles/icons/Cancel_Button.svg";
 
-const SESSIONS_ROUTE = '/sessions';
-
+const SESSIONS_ROUTE = "/sessions";
 
 const monthNames = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const defaultTimes = [
@@ -23,22 +32,27 @@ const defaultTimes = [
   { label: "6:00 PM", available: true },
 ];
 
-
-
 const now = new Date();
 const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-
-function Modal({ title, description, actionLabel, onAction, onClose, isBusy = false, error = '' }) {
+function Modal({
+  title,
+  description,
+  actionLabel,
+  onAction,
+  onClose,
+  isBusy = false,
+  error = "",
+}) {
   const dialogRef = useRef(null);
-  
+
   useEffect(() => {
     const previouslyFocused = document.activeElement;
     const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden'; // stop the page scrolling behind the popup
+    document.body.style.overflow = "hidden"; // stop the page scrolling behind the popup
     dialogRef.current?.focus();
- 
+
     return () => {
       document.body.style.overflow = previousOverflow;
       previouslyFocused?.focus?.(); // give focus back to the button that opened the popup
@@ -65,7 +79,12 @@ function Modal({ title, description, actionLabel, onAction, onClose, isBusy = fa
           <img src={Sparkle} alt="" />
         </div>
 
-        <button type="button" className={PopupStyles.close} aria-label="Close" onClick={onClose}>
+        <button
+          type="button"
+          className={PopupStyles.close}
+          aria-label="Close"
+          onClick={onClose}
+        >
           <img src={Cancel} alt="" />
         </button>
 
@@ -82,7 +101,12 @@ function Modal({ title, description, actionLabel, onAction, onClose, isBusy = fa
           </p>
         )}
 
-        <button type="button" className={PopupStyles.action} onClick={onAction} disabled={isBusy}>
+        <button
+          type="button"
+          className={PopupStyles.action}
+          onClick={onAction}
+          disabled={isBusy}
+        >
           {actionLabel}
         </button>
       </div>
@@ -91,8 +115,8 @@ function Modal({ title, description, actionLabel, onAction, onClose, isBusy = fa
 }
 
 export default function Booking() {
-  const [openModal, setOpenModal] = useState(null); 
-  const [cancelError, setCancelError] = useState('');
+  const [openModal, setOpenModal] = useState(null);
+  const [cancelError, setCancelError] = useState("");
   // Which month the calendar is currently showing
   const navigate = useNavigate();
   const [view, setView] = useState({
@@ -112,10 +136,10 @@ export default function Booking() {
 
   // Build the grid for the month being viewed
   const daysInMonth = new Date(view.year, view.month + 1, 0).getDate();
-  const blanks = (new Date(view.year, view.month, 1).getDay() + 6) % 7; 
+  const blanks = (new Date(view.year, view.month, 1).getDay() + 6) % 7;
   const dates = Array.from({ length: daysInMonth }, (_, index) => index + 1);
 
-  // Don't allow browsing to months that were in the past 
+  // Don't allow browsing to months that were in the past
   const canGoBack = new Date(view.year, view.month, 1) > startOfThisMonth;
 
   const changeMonth = (delta) => {
@@ -132,8 +156,7 @@ export default function Booking() {
 
   const closeModal = () => {
     setOpenModal(null);
-    setCancelError('');
-    
+    setCancelError("");
   };
 
   return (
@@ -169,7 +192,9 @@ export default function Booking() {
                 ›
               </button>
             </div>
-            <span className={styles.currentDate}>Selected · {selectedLabel}</span>
+            <span className={styles.currentDate}>
+              Selected · {selectedLabel}
+            </span>
           </div>
           <div className={styles.calendarControls}>
             {weekdays.map((weekday) => (
@@ -183,7 +208,8 @@ export default function Booking() {
               <span key={`blank-${i}`} aria-hidden="true" />
             ))}
             {dates.map((day) => {
-              const isPast = new Date(view.year, view.month, day) < startOfToday;
+              const isPast =
+                new Date(view.year, view.month, day) < startOfToday;
               const isSelected =
                 day === selected.day &&
                 view.month === selected.month &&
@@ -255,7 +281,7 @@ export default function Booking() {
             <button
               type="button"
               className={styles.requestButton}
-              onClick={() => setOpenModal('request')}
+              onClick={() => setOpenModal("request")}
             >
               Request session
             </button>
@@ -263,16 +289,16 @@ export default function Booking() {
           <span className={styles.backLink}>← Back to skill details</span>
         </div>
 
-        {openModal === 'request' && (
-        <Modal
-          title="You’re one step closer"
-          description= "Your request has been sent to Alex. Check Sessions for confirmation."
-          actionLabel="View Sessions"
-          onAction={() => navigate(SESSIONS_ROUTE)}
-          onClose={closeModal}
-          error={cancelError}
-        />
-      )}
+        {openModal === "request" && (
+          <Modal
+            title="You’re one step closer"
+            description="Your request has been sent to Alex. Check Sessions for confirmation."
+            actionLabel="View Sessions"
+            onAction={() => navigate(SESSIONS_ROUTE)}
+            onClose={closeModal}
+            error={cancelError}
+          />
+        )}
       </div>
       <span className={styles.bookingNotice}>
         Booked times include sessions you’re learning or teaching. Pending

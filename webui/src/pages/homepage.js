@@ -1,9 +1,11 @@
 import React from "react";
 import "../styles/homepage.css";
 import "../App.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Main() {
+  const navigate = useNavigate();
+
   return (
     <main>
       {/* top banner with logo, points, and navigation links */}
@@ -27,12 +29,26 @@ export default function Main() {
               <span className="skillpoints-text">150 points</span>
             </span>
           </div>
-          <div className="notifs-box">
-            <span className="notifs-icon"></span>
-          </div>
-          <div className="profile-box">
+
+          {/* clickable: notifications */}
+          <button
+            type="button"
+            className="notifs-box"
+            aria-label="Notifications"
+            onClick={() => navigate("/notifications")}
+          >
+            <span className="notifs-icon" />
+          </button>
+
+          {/* clickable: profile */}
+          <button
+            type="button"
+            className="profile-box"
+            aria-label="Your profile"
+            onClick={() => navigate("/profile")}
+          >
             <span className="userprofile">SM</span>
-          </div>
+          </button>
         </div>
       </div>
 
@@ -47,10 +63,11 @@ export default function Main() {
         <div className="search-row">
           <span className="wrapper">
             <span className="search-icon" />
-            <span>
+            <span className="search-input-wrap">
               <input
                 type="text"
                 placeholder="Search skills, teachers, or interests…"
+                aria-label="Search skills, teachers, or interests"
               />
             </span>
           </span>
@@ -69,44 +86,69 @@ export default function Main() {
               Earn 15 points for every hour you teach.
             </span>
           </div>
-          <div className="box-3">
+
+          {/* clickable: how points work */}
+          <button
+            type="button"
+            className="box-3"
+            onClick={() => navigate("/how-points-work")}
+          >
             <span className="promo-text">How points work</span>
-          </div>
+          </button>
         </div>
 
         <div className="section-header">
-          <span>Featured Skills</span>
-          <span>Explore all →</span>
+          <span className="section-title">Featured skills</span>
+          <span className="section-link">Explore all →</span>
         </div>
 
+        {/* clickable: each skill card */}
         <div className="section-4">
-          <div className="section-5">
-            <div className="pic-3" />
+          <button
+            type="button"
+            className="section-5"
+            onClick={() => navigate("/skills/acoustic-guitar")}
+          >
+            <span className="pic-3" />
             <span className="text-13">Acoustic guitar</span>
             <span className="text-14">Alex Morgan · In person in Calgary</span>
             <span className="text-15">★ 4.9 · Beginner friendly</span>
             <span className="text-16">15 points / hour</span>
-          </div>
+          </button>
 
-          <div className="section-5">
-            <div className="img-3" />
+          <button
+            type="button"
+            className="section-5"
+            onClick={() => navigate("/skills/conversational-korean")}
+          >
+            <span className="img-3" />
             <span className="text-17">Conversational Korean</span>
             <span className="text-18">Taylor Reed · Online</span>
             <span className="text-19">★ 4.9 · Beginner friendly</span>
             <span className="text-1a">15 points / hour</span>
-          </div>
+          </button>
 
-          <div className="section-5">
-            <div className="pic-4" />
+          <button
+            type="button"
+            className="section-5"
+            onClick={() => navigate("/skills/excel-basics")}
+          >
+            <span className="pic-4" />
             <span className="text-1b">Excel basics</span>
             <span className="text-1c">Jordan Blake · Online</span>
             <span className="text-1d">★ 4.9 · Beginner friendly</span>
             <span className="text-1e">15 points / hour</span>
-          </div>
+          </button>
         </div>
-        <div className="teach-button">
+
+        {/* clickable: teach a new skill */}
+        <button
+          type="button"
+          className="teach-button"
+          onClick={() => navigate("/teach")}
+        >
           <span className="promo-text">Teach a new skill</span>
-        </div>
+        </button>
       </div>
     </main>
   );
