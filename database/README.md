@@ -71,7 +71,7 @@ Open http://localhost:5173. For the production build served locally:
 docker compose -f compose.prod.yaml --profile production up --build
 ```
 
-Open http://localhost:3000. Both commands also start the database and share its data when run from the same project folder. Run one frontend mode at a time. The website isn't connected to the database yet, so login still needs backend work.
+Open http://localhost:3000. Both commands also start the database and share its data when run from the same project folder. Run one frontend mode at a time. The booking page reads active listing details through the API. Login and saving bookings still need backend work. See api/README.md for the connection and demo steps.
 
 If you want to view the database in a browser, you can use Adminer:
 
@@ -133,3 +133,4 @@ git push origin schema-milestone
 ```
 
 If the tag already exists, check it before changing anything. Upload `seng513-schema-pg-9.zip` to the Database Schema and Seeding Script Dropbox in D2L. The ZIP includes the SQL, instructions and `seng513-schema-pg-9.pdf`.
+
