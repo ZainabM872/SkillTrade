@@ -37,6 +37,7 @@ import CancellationFAQ from "./pages/cancellation-faq";
 import NoShowFAQ from "./pages/noshow-faq";
 import TeachingFAQ from "./pages/teaching-faq";
 import SkillDetail from "./pages/skill-details";
+import UserListing from "./pages/user-listing";
 
 function App() {
   return (
@@ -92,6 +93,7 @@ function App() {
         <Route path="/noshow-faq" element={<NoShowFAQ />} />
         <Route path="/teaching-faq" element={<TeachingFAQ />} />
         <Route path="/skills/:skillId" element={<SkillDetail />} />
+        <Route path="/mylisting" element={<UserListing />} />
       </Routes>
     </BrowserRouter>
   );
