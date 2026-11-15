@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/homepage.css";
 import "../App.css";
 import { NavLink, useNavigate } from "react-router-dom";
+import Filters from "./filters";
 
 export default function Main() {
   const navigate = useNavigate();
+
+  const [showFilters, setShowFilters] = useState(false);
+
+  // "Show matching skills": close the popup and open Explore with the chosen filters
+  const handleApplyFilters = (filters) => {
+    setShowFilters(false);
+    navigate("/explore", { state: { filters } });
+  };
 
   return (
     <main>
@@ -77,10 +86,15 @@ export default function Main() {
               />
             </span>
           </span>
-          <span className="wrapper-2">
+          <button
+            type="button"
+            className="wrapper-2"
+            aria-haspopup="dialog"
+            onClick={() => setShowFilters(true)}
+          >
             <span className="filter-icon" />
             <span className="text-c">Filters</span>
-          </span>
+          </button>
         </div>
 
         {/* promo banner */}
@@ -156,6 +170,14 @@ export default function Main() {
           <span className="promo-text">Teach a new skill</span>
         </button>
       </div>
+
+      {/* Filters popup */}
+      {showFilters && (
+        <Filters
+          onClose={() => setShowFilters(false)}
+          onApply={handleApplyFilters}
+        />
+      )}
     </main>
   );
 }

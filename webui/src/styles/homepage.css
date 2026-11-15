@@ -19,6 +19,54 @@
   outline-offset: 2px;
 }
 
+.search-row .wrapper-2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-shrink: 0;
+  width: 224px;
+  height: 52px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: #5b5bef;
+  background: #eeeaff;
+  border: 0;
+  border-radius: 12px;
+  appearance: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.search-row .wrapper-2:hover {
+  background: #e0d9ff;
+}
+
+.search-row .wrapper-2:focus-visible {
+  outline: 2px solid #5b5bef;
+  outline-offset: 2px;
+}
+
+.search-row .filter-icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  background: url(./icons/sliders.svg) no-repeat center / contain;
+}
+
+/* the "Filters" label just inherits the button's font and color */
+.search-row .text-c {
+  font: inherit;
+  color: inherit;
+}
+
+@media (max-width: 720px) {
+  .search-row .wrapper-2 {
+    width: 100%;
+  }
+}
+
 /* ---- page container ---- */
 .page {
   max-width: 100%;
