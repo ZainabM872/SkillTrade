@@ -1,63 +1,13 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/profile.css";
-
-const navigation = [
-  { label: "Home", to: "/" },
-  { label: "Explore", to: "/explore" },
-  { label: "Sessions", to: "/sessions" },
-  { label: "Teach a skill", to: "/teach" },
-];
+import NavBar from "../components/NavBar";
 
 export default function Main() {
-  const handleNotifications = () => {
-    window.alert("You’re all caught up! New notifications will appear here.");
-  };
-
   return (
     <div className="profile-page">
       {/* Global page header */}
-      <header className="profile-header">
-        <div className="header-inner">
-          <Link to="/" className="brand-link" aria-label="SkillTrade home">
-            SkillTrade
-          </Link>
-
-          <nav className="main-navigation" aria-label="Main navigation">
-            {navigation.map((item) => (
-              <Link
-                key={item.label}
-                to={item.to}
-                className="navigation-link"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="header-actions">
-            <Link to="/skill-points-faq" className="points-navigation">
-              <span aria-hidden="true">✦</span>
-              <span>120 points</span>
-            </Link>
-
-            <button
-              type="button"
-              className="notifications-button"
-              onClick={handleNotifications}
-              aria-label="View notifications"
-              title="Notifications"
-            >
-              <span aria-hidden="true">♧</span>
-            </button>
-
-            <Link to="/profile" className="profile-avatar" aria-label="Your profile">
-              SM
-            </Link>
-          </div>
-        </div>
-      </header>
+      <NavBar points={120} initials="SM" />
 
       {/* Main page content */}
       <main className="profile-content">

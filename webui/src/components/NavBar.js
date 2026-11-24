@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { to: '/explore', label: 'Explore' },
   { to: '/sessions', label: 'Sessions' },
   { to: '/teach', label: 'Teach a skill' },
+
 ];
 
 // The points and initials attributed to the account can be entered as parameters
@@ -36,9 +37,10 @@ export default function NavBar({ points = 0, initials = '' }) {
         <Link to="/notifications" className={styles.notificationButton} aria-label="Notifications">
           <img className={styles.bellIcon} src={Bell} alt="" />
         </Link>
-        <div className={styles.profileButton}>
+
+        <Link to="/profile" className={styles.profileButton} aria-label="Your profile">
           <span className={styles.profileInitials}>{initials}</span>
-        </div>
+        </Link>
       </div>
     </div>
   );
