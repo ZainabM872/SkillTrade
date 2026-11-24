@@ -15,7 +15,7 @@ const MOCK_NOTIFICATIONS = [
     title: "Your listing is approved",
     message: "Skating basics is ready for learners to discover.",
     actionLabel: "View listing",
-    to: "/mylisting", // point to listing page
+    to: "/mylisting/skating-basics", // point to listing page
   },
   {
     id: "ntf_002",

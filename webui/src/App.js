@@ -93,7 +93,7 @@ function App() {
         <Route path="/noshow-faq" element={<NoShowFAQ />} />
         <Route path="/teaching-faq" element={<TeachingFAQ />} />
         <Route path="/skills/:skillId" element={<SkillDetail />} />
-        <Route path="/mylisting" element={<UserListing />} />
+        <Route path="/mylisting/:listingId" element={<UserListing />} />
       </Routes>
     </BrowserRouter>
   );
