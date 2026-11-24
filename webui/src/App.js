@@ -25,7 +25,6 @@ import MeetingLocation from "./pages/meeting-location";
 import Arrived from "./pages/arrived";
 import SessionStarted from "./pages/session-started";
 import SkillPointsFaq from "./pages/skill-points-faq";
-import Session_Details from "./pages/session_detail";
 import ReviewListing from "./pages/review_listing";
 import Notifications from "./pages/notifications";
 import ReliabilityFaq from "./pages/reliability-faq";
@@ -83,7 +82,7 @@ function App() {
         <Route path="/sessions" element={<Sessions />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/sessions" element={<Sessions />} />
-        <Route path="/sessions/:id" element={<Session_Details />} />
+        <Route path="/sessions/:id" element={<SessionDetails />} />
         <Route path="/teach" element={<Teach />} />
         <Route path="/teach/availability" element={<Availability />} />
         <Route path="/homepage" element={<Home />} />
