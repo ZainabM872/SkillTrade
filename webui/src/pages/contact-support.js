@@ -1,7 +1,7 @@
-
 import React, { useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/contact-support.css";
+import NavBar from "../components/NavBar";
 
 const topics = ["Booking", "Points", "Safety", "Other"];
 
@@ -29,53 +29,7 @@ export default function ContactSupport() {
 
   return (
     <div className="contact-support-page">
-      <header className="contact-support-header">
-        <Link
-          to="/"
-          className="contact-support-brand"
-          aria-label="SkillTrade home"
-        >
-          <span className="contact-support-brand-icon" aria-hidden="true">
-            ✦
-          </span>
-          <span>SkillTrade</span>
-        </Link>
-
-        <nav className="contact-support-nav" aria-label="Main navigation">
-          <NavLink to="/" end>Home</NavLink>
-          <NavLink to="/explore">Explore</NavLink>
-          <NavLink to="/sessions">Sessions</NavLink>
-          <NavLink to="/teach">Teach a skill</NavLink>
-        </nav>
-
-        <div className="contact-support-header-actions">
-          <Link
-            to="/profile"
-            className="contact-support-points"
-            aria-label="View your profile and points"
-          >
-            <span aria-hidden="true">✦</span>
-            120 points
-          </Link>
-
-          <Link
-            to="/sessions"
-            className="contact-support-notifications"
-            aria-label="View your sessions and notifications"
-            title="Sessions"
-          >
-            <span aria-hidden="true">♧</span>
-          </Link>
-
-          <Link
-            to="/profile"
-            className="contact-support-avatar"
-            aria-label="Go to your profile"
-          >
-            SM
-          </Link>
-        </div>
-      </header>
+      <NavBar points={120} initials="SM" />
 
       <main className="contact-support-main">
         <div className="contact-support-intro">

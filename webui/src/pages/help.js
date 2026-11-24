@@ -1,6 +1,7 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../styles/help.css";
+import NavBar from "../components/NavBar";
 
 const faqItems = [
   {
@@ -44,51 +45,7 @@ const faqItems = [
 export default function Help() {
   return (
     <div className="help-page">
-      <header className="help-header">
-        <div className="help-header-inner">
-          <Link className="help-brand" to="/">
-            SkillTrade
-          </Link>
-
-          <nav className="help-nav" aria-label="Main navigation">
-            <NavLink to="/" end>
-              Home
-            </NavLink>
-            <NavLink to="/explore">Explore</NavLink>
-            <NavLink to="/sessions">Sessions</NavLink>
-            <NavLink to="/teach">Teach a skill</NavLink>
-          </nav>
-
-          <div className="help-header-actions">
-            <Link
-              className="help-points"
-              to="/profile"
-              aria-label="View your skill points"
-            >
-              <span aria-hidden="true">✦</span>
-              <span>120 points</span>
-            </Link>
-
-            <Link
-              className="help-icon-button"
-              to="/sessions"
-              aria-label="View sessions and updates"
-              title="Sessions and updates"
-            >
-              <span aria-hidden="true">♧</span>
-            </Link>
-
-            <Link
-              className="help-avatar"
-              to="/profile"
-              aria-label="View profile"
-              title="Your profile"
-            >
-              SM
-            </Link>
-          </div>
-        </div>
-      </header>
+      <NavBar points={120} initials="SM" />
 
       <main className="help-main">
         <section className="help-intro">

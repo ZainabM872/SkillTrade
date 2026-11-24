@@ -1,7 +1,7 @@
-
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../styles/settings.css";
+import NavBar from "../components/NavBar";
 
 export default function Settings() {
   const [visibility, setVisibility] = useState("Everyone");
@@ -30,45 +30,7 @@ export default function Settings() {
 
   return (
     <div className="settings-page">
-      <header className="app-header">
-        <div className="header-inner">
-          <Link to="/" className="site-brand" aria-label="SkillTrade home">
-            <span className="brand-mark">S</span>
-            <span>SkillTrade</span>
-          </Link>
-
-          <nav className="main-navigation" aria-label="Main navigation">
-            <NavLink to="/" end>Home</NavLink>
-            <NavLink to="/explore">Explore</NavLink>
-            <NavLink to="/sessions">Sessions</NavLink>
-            <NavLink to="/teach">Teach a skill</NavLink>
-          </nav>
-
-          <div className="header-actions">
-            <div className="points-pill" aria-label="120 skill points">
-              <span aria-hidden="true">✦</span>
-              <span>120 points</span>
-            </div>
-
-            <button
-              className="icon-button"
-              type="button"
-              aria-label="Notifications"
-              onClick={() => setMessage("Notifications are not connected yet.")}
-            >
-              <span aria-hidden="true">♧</span>
-            </button>
-
-            <Link
-              to="/profile"
-              className="header-avatar"
-              aria-label="Go to profile"
-            >
-              SM
-            </Link>
-          </div>
-        </div>
-      </header>
+      <NavBar points={120} initials="SM" />
 
       <main className="settings-main">
         <div className="page-intro">
