@@ -1,4 +1,32 @@
-/* customized buttons */
+/* ---------- Page shell (same font + background as the booking page) ---------- */
+.explore-root {
+  min-height: 100vh;
+  background: #f7f8fc;
+  overflow-x: hidden;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.explore-root,
+.explore-root * {
+  box-sizing: border-box;
+}
+
+/* Buttons and inputs don't inherit fonts by default */
+.explore-root button,
+.explore-root input {
+  font-family: inherit;
+}
+
+/* Navbar wrapper: same side spacing as the booking page */
+.explore-nav-wrap {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 6.7vw, 96px);
+}
+
+/* ---------- Customized buttons ---------- */
 .explore-filters-btn,
 .explore-chip,
 .explore-pill,
@@ -20,10 +48,11 @@
   outline-offset: 2px;
 }
 
-/* page */
 .explore-page {
-  box-sizing: border-box;
-  padding: 36px 96px 64px;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 36px clamp(16px, 6.7vw, 96px) 64px;
 }
 
 .explore-eyebrow {
@@ -35,7 +64,7 @@
 
 .explore-title {
   margin: 9px 0 0;
-  font-size: 32px;
+  font-size: clamp(24px, 4vw, 32px);
   font-weight: 700;
   line-height: 1.45;
   color: #101828;
@@ -44,10 +73,10 @@
 .explore-sub {
   margin: 4px 0 0;
   font-size: 16px;
+  line-height: 1.45;
   color: #667085;
 }
 
-/* search + filters */
 .explore-search-row {
   display: flex;
   gap: 16px;
@@ -60,7 +89,7 @@
   flex: 1;
   min-width: 0;
   height: 52px;
-  background: white;
+  background: #ffffff;
   border: 1px solid #e4e7ec;
   border-radius: 12px;
 }
@@ -80,7 +109,6 @@
   width: 100%;
   height: 100%;
   padding: 0 16px 0 47px;
-  box-sizing: border-box;
   font: inherit;
   font-size: 14px;
   color: #101828;
@@ -127,7 +155,7 @@
   gap: 8px;
   margin-top: 12px;
   padding: 12px 16px;
-  background: white;
+  background: #ffffff;
   border: 1px solid #e4e7ec;
   border-radius: 12px;
 }
@@ -156,12 +184,11 @@
 }
 
 .explore-chip.is-selected {
-  color: white;
+  color: #ffffff;
   background: #5b5bef;
   border-color: #5b5bef;
 }
 
-/* category pills */
 .explore-pills {
   display: flex;
   flex-wrap: wrap;
@@ -175,7 +202,7 @@
   font-size: 14px;
   font-weight: 600;
   color: #667085;
-  background: white;
+  background: #ffffff;
   border: 1px solid #e4e7ec;
   border-radius: 20px;
   transition:
@@ -189,12 +216,11 @@
 }
 
 .explore-pill.is-selected {
-  color: white;
+  color: #ffffff;
   background: #5b5bef;
   border-color: #5b5bef;
 }
 
-/* results header */
 .explore-results-header {
   display: flex;
   align-items: baseline;
@@ -215,10 +241,10 @@
   color: #667085;
 }
 
-/* cards (each card is a button) */
+/* Listing Cards */
 .explore-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 24px;
   margin-top: 16px;
 }
@@ -228,10 +254,11 @@
   flex-direction: column;
   align-items: stretch;
   gap: 6px;
+  min-width: 0;
   padding: 0 0 24px;
   overflow: hidden;
   text-align: left;
-  background: white;
+  background: #ffffff;
   border: 1px solid #e4e7ec;
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(33, 35, 61, 0.04);
@@ -256,7 +283,6 @@
   height: 138px;
   margin: 16px 16px 12px;
   padding: 12px;
-  box-sizing: border-box;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -307,12 +333,11 @@
   text-align: center;
   font-size: 14px;
   color: #667085;
-  background: white;
+  background: #ffffff;
   border: 1px dashed #e4e7ec;
   border-radius: 16px;
 }
 
-/* teach CTA */
 .explore-cta {
   display: flex;
   align-items: center;
@@ -320,7 +345,7 @@
   gap: 24px;
   margin-top: 48px;
   padding: 24px 28px;
-  background: white;
+  background: #ffffff;
   border: 1px solid #e4e7ec;
   border-radius: 16px;
 }
@@ -344,7 +369,7 @@
   padding: 0 28px;
   font-size: 14px;
   font-weight: 600;
-  color: white;
+  color: #ffffff;
   background: #5b5bef;
   border-radius: 14px;
   transition: background 0.15s;
@@ -354,30 +379,13 @@
   background: #4a4ad8;
 }
 
-/* responsive */
-@media (max-width: 1100px) {
-  .explore-page {
-    padding-left: 32px;
-    padding-right: 32px;
-  }
-  .explore-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
+/* ---------- Responsive ---------- */
 @media (max-width: 720px) {
-  .explore-page {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
   .explore-search-row {
     flex-direction: column;
   }
   .explore-filters-btn {
     width: 100%;
-  }
-  .explore-grid {
-    grid-template-columns: 1fr;
   }
   .explore-results-header {
     flex-direction: column;

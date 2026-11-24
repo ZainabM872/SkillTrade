@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/explore.css";
-import "../App.css"; // shared banner styles (same as the home page)
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import NavBar from "../components/NavBar";
 
 const MODES = [
   { value: "all", label: "All" },
@@ -65,53 +65,10 @@ export default function Explore() {
   );
 
   return (
-    <main>
-      {/* top banner: identical to the home page */}
-      <div className="banner">
-        <span className="logo-text">
-          <span className="skill-text">skill</span>
-          <span className="trade-text">Trade</span>
-        </span>
-        <nav className="nav">
-          <NavLink className="nav-link" to="/homepage">
-            Home
-          </NavLink>
-          <NavLink className="nav-link" to="/explore">
-            Explore
-          </NavLink>
-          <NavLink className="nav-link" to="/sessions">
-            Sessions
-          </NavLink>
-          <NavLink className="nav-link" to="/teach">
-            Teach a skill
-          </NavLink>
-        </nav>
-        <div className="banner-right">
-          <div className="points-box">
-            <span className="skillpoints">
-              <span className="points-icon" />
-              <span className="skillpoints-text">150 points</span>
-            </span>
-          </div>
-
-          <button
-            type="button"
-            className="notifs-box"
-            aria-label="Notifications"
-            onClick={() => navigate("/notifications")}
-          >
-            <span className="notifs-icon" />
-          </button>
-
-          <button
-            type="button"
-            className="profile-box"
-            aria-label="Your profile"
-            onClick={() => navigate("/profile")}
-          >
-            <span className="userprofile">SM</span>
-          </button>
-        </div>
+    <main className="explore-root">
+      {}
+      <div className="explore-nav-wrap">
+        <NavBar points={150} initials="SM" />
       </div>
 
       <div className="explore-page">
