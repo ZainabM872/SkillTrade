@@ -1,6 +1,6 @@
 import React, { useEffect, useId, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import "../styles/teaching-locations.css";
+import NavBar from "../components/NavBar";
 
 const STORAGE_KEY = "skilltrade.teachingLocations.v1";
 const emptyLocation = () => ({ name: "", note: "" });
@@ -113,11 +113,7 @@ export default function TeachingLocations() {
 
   return (
     <div className="teaching-locations-page">
-      <header className="tl-header"><div className="tl-header-inner">
-        <Link className="tl-back" to="/profile" aria-label="Back to profile">‹</Link>
-        <Link className="tl-brand" to="/" aria-label="SkillTrade home">skill<span>Trade</span></Link>
-        <nav className="tl-navigation" aria-label="Account navigation"><Link to="/profile">Profile</Link><Link to="/help">Help</Link></nav>
-      </div></header>
+      <NavBar points={120} initials="SM" />
       <main className="tl-main">
         <div className="tl-heading"><p className="tl-eyebrow">MAKE IT EASY TO MEET</p><h1>Teaching locations</h1><p>Choose where you’re happy to teach. Learners pick a location when booking.</p></div>
         <div className="tl-layout">
