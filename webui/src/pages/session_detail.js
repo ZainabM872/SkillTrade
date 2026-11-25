@@ -15,16 +15,20 @@ import Cancel from "../styles/icons/Cancel_Button.svg";
 // Current id of the user logged in
 const MOCK_CURRENT_USER = { id: "usr_001", name: "Sara Moon", points: 120 };
 
-// path from reschedule
+// Booking is always for a specific listing: /booking/:listingId
 const BOOKING_ROUTE = "/booking";
+const bookingPath = (listingId) => `${BOOKING_ROUTE}/${listingId}`;
 // path after cancelling
 const SESSIONS_ROUTE = "/sessions";
 
 // Details for each session. The ids match the sessions on the Sessions page,
 // so "View session" opens the right one at /sessions/:id.
+// Each session also carries the listingId it was booked from, so rescheduling
+// can open the booking page for that same listing.
 const MOCK_SESSIONS = [
   {
     id: "ses_001",
+    listingId: "lst_001",
     status: "confirmed",
     title: "Acoustic guitar",
     icon: guitarIcon,
@@ -50,6 +54,7 @@ const MOCK_SESSIONS = [
   },
   {
     id: "ses_002",
+    listingId: "lst_002",
     status: "confirmed",
     title: "Skating basics",
     icon: skateIcon,
@@ -105,6 +110,13 @@ const STATUS_LABELS = {
 };
 
 const TIME_OPTIONS = { hour: "numeric", minute: "2-digit" };
+
+// Style for buttons that can't be used because the session is over
+const BLURRED_STYLE = {
+  filter: "blur(1px)",
+  opacity: 0.5,
+  cursor: "not-allowed",
+};
 
 // "November 15, 2026 · 11:00 AM–12:00 PM"
 function formatWhen(startsAt, endsAt) {
@@ -286,6 +298,7 @@ export default function SessionDetails({ currentUser = MOCK_CURRENT_USER }) {
 
 function SessionContent({ session }) {
   const {
+    listingId,
     title,
     icon,
     role,
@@ -307,6 +320,9 @@ function SessionContent({ session }) {
 
   // Arrival, location sharing, reschedule and cancel only make sense for confirmed sessions.
   const isConfirmed = status === "confirmed";
+  // A session that has already ended can't be rescheduled or cancelled.
+  const isPast = new Date(endsAt) < new Date();
+  const canChangePlans = isConfirmed && !isPast;
 
   const closeModal = () => {
     if (isCancelling) return; // don't close while the cancellation is being sent
@@ -314,9 +330,21 @@ function SessionContent({ session }) {
     setCancelError("");
   };
 
-  // "Choose date & time": go back to the booking page
+  // "Choose date & time": go to the booking page for this session's listing,
+  // passing the session's details so the booking page can show them
   const handleReschedule = () => {
-    navigate(BOOKING_ROUTE, { state: { rescheduleSessionId: session.id } });
+    navigate(bookingPath(listingId), {
+      state: {
+        rescheduleSessionId: session.id,
+        rescheduleSession: {
+          title,
+          teacherName: session.teacher.name,
+          durationMinutes,
+          points,
+          location,
+        },
+      },
+    });
   };
 
   // "Confirm cancellation": cancel the session, then go back to the list of sessions
@@ -395,15 +423,17 @@ function SessionContent({ session }) {
         <aside className={`${styles.card} ${styles.sideCard}`}>
           <h2 className={styles.sideTitle}>Keep your plans up to date</h2>
           <p className={styles.sideText}>
-            Need to make a change? Give your learning partner at least 48 hours’
-            notice.
+            {isPast
+              ? "This session has already taken place, so it can no longer be rescheduled or cancelled."
+              : "Need to make a change? Give your learning partner at least 48 hours’ notice."}
           </p>
 
           <div className={styles.sideActions}>
             <button
               type="button"
               className={styles.secondaryButton}
-              disabled={!isConfirmed}
+              style={isPast ? BLURRED_STYLE : undefined}
+              disabled={!canChangePlans || !listingId}
               onClick={() => setOpenModal("reschedule")}
             >
               Reschedule session
@@ -411,7 +441,8 @@ function SessionContent({ session }) {
             <button
               type="button"
               className={styles.secondaryButton}
-              disabled={!isConfirmed}
+              style={isPast ? BLURRED_STYLE : undefined}
+              disabled={!canChangePlans}
               onClick={() => setOpenModal("cancel")}
             >
               Cancel session
