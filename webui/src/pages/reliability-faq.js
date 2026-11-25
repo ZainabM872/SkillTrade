@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/skill-points-faq.css";
+import NavBar from "../components/NavBar";
 
 // The saved help article's content stays separate from its search and layout.
 const questions = [
@@ -89,11 +90,7 @@ export default function ReliabilityFaq() {
 
   return (
     <div className="skill-points-faq-page reliability-faq-page">
-      <header className="sp-header"><div className="sp-header-inner">
-        <Link className="sp-back" to="/help" aria-label="Back to Help centre">‹</Link>
-        <Link className="sp-brand" to="/" aria-label="SkillTrade home">skill<span>Trade</span></Link>
-        <nav className="sp-navigation" aria-label="Account navigation"><Link to="/profile">Profile</Link><Link to="/help">Help</Link></nav>
-      </div></header>
+      <NavBar points={120} initials="SM" />
       <main className="sp-main">
         <div className="sp-heading"><p className="eyebrow">SHOW UP. BUILD TRUST. KEEP LEARNING.</p><h1>How does reliability work?</h1><p>Understand attendance, no-shows, and how reliability differs from a session rating.</p></div>
         <div className="faq-workspace">

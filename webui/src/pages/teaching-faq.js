@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/booking-faq.css"; // shared FAQ styles (same layout as the other FAQ pages)
-import "../App.css"; // shared banner styles (same as the other pages)
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import NavBar from "../components/NavBar";
 
 const STEPS = [
   {
@@ -25,53 +25,10 @@ export default function TeachingFAQ() {
   const navigate = useNavigate();
 
   return (
-    <main>
-      {/* top banner: identical to the other pages */}
-      <div className="banner">
-        <span className="logo-text">
-          <span className="skill-text">skill</span>
-          <span className="trade-text">Trade</span>
-        </span>
-        <nav className="nav">
-          <NavLink className="nav-link" to="/homepage">
-            Home
-          </NavLink>
-          <NavLink className="nav-link" to="/explore">
-            Explore
-          </NavLink>
-          <NavLink className="nav-link" to="/sessions">
-            Sessions
-          </NavLink>
-          <NavLink className="nav-link" to="/teach">
-            Teach a skill
-          </NavLink>
-        </nav>
-        <div className="banner-right">
-          <div className="points-box">
-            <span className="skillpoints">
-              <span className="points-icon" />
-              <span className="skillpoints-text">150 points</span>
-            </span>
-          </div>
-
-          <button
-            type="button"
-            className="notifs-box"
-            aria-label="Notifications"
-            onClick={() => navigate("/notifications")}
-          >
-            <span className="notifs-icon" />
-          </button>
-
-          <button
-            type="button"
-            className="profile-box"
-            aria-label="Your profile"
-            onClick={() => navigate("/profile")}
-          >
-            <span className="userprofile">SM</span>
-          </button>
-        </div>
+    <main className="faq-root">
+      {/* shared navbar, same component as the booking page */}
+      <div className="faq-nav-wrap">
+        <NavBar points={150} initials="SM" />
       </div>
 
       <div className="faq-page">
