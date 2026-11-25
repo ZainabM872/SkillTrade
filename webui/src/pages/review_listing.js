@@ -1,5 +1,6 @@
 
-import { Link, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from '../styles/review_listing.module.css';
 import NavBar from '../components/NavBar';
 import guitarIcon from '../styles/icons/guitar.svg';
@@ -74,6 +75,10 @@ export default function ReviewListing({
   currentUser = MOCK_CURRENT_USER
 }) {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [publishError, setPublishError] = useState('');
 
   const {
     skill,
@@ -122,6 +127,51 @@ export default function ReviewListing({
 
   const hasAvailability = availabilityLines.length > 0;
   const hasLocations = listing.meetingLocations.length > 0;
+
+  async function handlePublish() {
+    setIsPublishing(true);
+    setPublishError('');
+
+    const payload = {
+      teacher_id: currentUser.id,
+      title: listing.title,
+      description: listing.description,
+      category: listing.category,
+      difficulty: listing.difficulty,
+      experience_level: null,
+      format: listing.format,
+      duration_minutes: Number(listing.duration),
+      point_cost: Number(points),
+      availability: listing.availability,
+      meetingLocations: listing.meetingLocations
+    };
+
+    try {
+      const response = await fetch('/api/listings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Could not publish your listing.');
+      }
+
+      // The listing is saved. Go to Explore to see it.
+      navigate('/explore');
+    } catch (error) {
+      setPublishError(
+        error.message || 'Something went wrong. Please try again.'
+      );
+    } finally {
+      setIsPublishing(false);
+    }
+  }
 
   return (
     <>
@@ -291,18 +341,25 @@ export default function ReviewListing({
             </div>
           </div>
 
-          {/* Publishing will be connected in the next step */}
+          {publishError && (
+            <p role="alert" className={styles.cardText}>
+              {publishError}
+            </p>
+          )}
+
           <button
             type="button"
             className={styles.publishButton}
+            onClick={handlePublish}
             disabled={
+              isPublishing ||
               !listing.title ||
               !duration ||
               !hasAvailability ||
               !hasLocations
             }
           >
-            Publish skill
+            {isPublishing ? 'Publishing...' : 'Publish skill'}
           </button>
 
         </div>
