@@ -8,7 +8,7 @@ import greyCircle from '../styles/icons/Ellipse-1.svg';
 import whiteCircle from '../styles/icons/Ellipse.svg';
 
 const MOCK_CURRENT_USER = {
-  id: 'usr_001',
+  id: 6,
   name: 'Sara Moon',
   points: 120,
   city: 'Calgary'
