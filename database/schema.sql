@@ -84,8 +84,7 @@ CREATE TABLE skill_listings(
     difficulty VARCHAR(30),
     session_mode VARCHAR(20) NOT NULL CHECK (session_mode IN ('online','in_person','both')),
     duration_minutes INT NOT NULL CHECK (duration_minutes > 0),
-    point_cost INT NOT NULL CHECK (point_cost > 0),
-    status varchar(10) NOT NULL DEFAULT 'draft' CHECK (status IN ('draft','active','hidden')),
+point_cost NUMERIC(6, 1) NOT NULL CHECK (point_cost > 0),    status varchar(10) NOT NULL DEFAULT 'draft' CHECK (status IN ('draft','active','hidden')),
     created_at timestamptz NOT NULL DEFAULT now()
 
 );
@@ -136,7 +135,7 @@ CREATE TABLE sessions (
     meeting_instructions TEXT,
     meeting_link TEXT,
     CHECK (mode <> 'online' OR status NOT IN ('confirmed','completed') OR meeting_link IS NOT NULL), -- check if the link is availible if the session is online and confirmed
-    point_cost INT NOT NULL CHECK (point_cost > 0),
+    point_cost NUMERIC(6, 1) NOT NULL CHECK (point_cost > 0),
     status VARCHAR(10) NOT NULL DEFAULT 'requested' CHECK (status IN ('requested','confirmed','completed','cancelled','disputed')),
     icon TEXT,
     created_at timestamptz NOT NULL DEFAULT now()

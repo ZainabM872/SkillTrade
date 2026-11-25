@@ -14,8 +14,8 @@ INSERT INTO users (user_id, name, email, password_hash, role, bio) VALUES
  (2, 'Sam',    'sam@example.com',    '$argon2id$v=19$m=4096,t=3,p=1$UWg2SWtmZWExRUZOekxuRkFXZW9hdz09$BL6rwgY75fySFoFDRpHA5IZnRW+RfPDmdLV7NtGlwcs', 'student',   'Guitarist who wants to learn photography.'),
  (3, 'Taylor', 'taylor@example.com', '$argon2id$v=19$m=4096,t=3,p=1$UWg2SWtmZWExRUZOekxuRkFXZW9hdz09$BL6rwgY75fySFoFDRpHA5IZnRW+RfPDmdLV7NtGlwcs', 'student',   'Learning portrait photography.'),
  (4, 'Morgan', 'morgan@example.com', '$argon2id$v=19$m=4096,t=3,p=1$UWg2SWtmZWExRUZOekxuRkFXZW9hdz09$BL6rwgY75fySFoFDRpHA5IZnRW+RfPDmdLV7NtGlwcs', 'moderator', NULL),
- (5, 'Jordan', 'jordan@example.com', '$argon2id$v=19$m=4096,t=3,p=1$UWg2SWtmZWExRUZOekxuRkFXZW9hdz09$BL6rwgY75fySFoFDRpHA5IZnRW+RfPDmdLV7NtGlwcs', 'admin',     NULL);
-
+ (5, 'Jordan', 'jordan@example.com', '$argon2id$v=19$m=4096,t=3,p=1$UWg2SWtmZWExRUZOekxuRkFXZW9hdz09$BL6rwgY75fySFoFDRpHA5IZnRW+RfPDmdLV7NtGlwcs', 'admin',     NULL),
+ (6, 'Sara Moon', 'sara@example.com', '$argon2id$v=19$m=4096,t=3,p=1$UWg2SWtmZWExRUZOekxuRkFXZW9hdz09$BL6rwgY75fySFoFDRpHA5IZnRW+RfPDmdLV7NtGlwcs', 'student', NULL);
 -- These are all set to the defaults specified in the table declaration
 INSERT INTO settings (user_id) SELECT user_id FROM users;
 
