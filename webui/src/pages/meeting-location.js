@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/meeting-location.css";
+import NavBar from "../components/NavBar";
 
 const STORAGE_KEY = "skilltrade.meetingLocation.demo.v1";
 const places = [
@@ -89,13 +90,7 @@ export default function MeetingLocation() {
 
   return (
     <div className="meeting-location-page">
-      <header className="ml-header">
-        <div className="ml-header-inner">
-          <Link className="ml-back" to="/profile" aria-label="Back to profile">‹</Link>
-          <Link className="ml-brand" to="/" aria-label="SkillTrade home">skill<span>Trade</span></Link>
-          <nav className="ml-navigation" aria-label="Account navigation"><Link to="/profile">Profile</Link><Link to="/help">Help</Link></nav>
-        </div>
-      </header>
+      <NavBar points={120} initials="SM" />
       <main className="ml-main">
         <div className="ml-heading">
           <p className="eyebrow">A PLACE TO LEARN TOGETHER</p>
