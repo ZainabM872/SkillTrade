@@ -1,11 +1,10 @@
+
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from '../styles/teach.module.css';
 import NavBar from '../components/NavBar';
 
 // Temporary data (replace with backend response)
-
-// Current user logged in (used for the nav bar)
 const MOCK_CURRENT_USER = { id: 'usr_001', name: 'Sara Moon', points: 120 };
 
 const CATEGORIES = [
@@ -32,11 +31,8 @@ const SESSION_FORMATS = [
 
 const POINTS_PER_HOUR = 15;
 
-// Where "Continue to availability" goes next (this route still needs to be created)
 const NEXT_ROUTE = '/teach/availability';
 
-// Starts filled in like the design. Set the text fields to '' and category/difficulty
-// to '' for an empty form.
 const INITIAL_FORM = {
   title: '',
   category: 'other',
@@ -101,13 +97,25 @@ function Field({ id, label, error, children }) {
 /* ---------- Page ---------- */
 
 export default function Teach({ currentUser = MOCK_CURRENT_USER }) {
+  const location = useLocation();
   const navigate = useNavigate();
-  const [form, setForm] = useState(INITIAL_FORM);
+
+  // Get the existing skill if the user came here by clicking Edit
+  const existingSkill = location.state?.skill;
+
+  // Use the existing information when editing.
+  // Otherwise, start with the default empty form.
+  const [form, setForm] = useState(() => ({
+    ...INITIAL_FORM,
+    ...(existingSkill ?? {}),
+  }));
+
   const [errors, setErrors] = useState({});
 
   const update = (name) => (event) => {
     const { value } = event.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+
     // Clear a field's error as soon as the user edits it
     setErrors((prev) => {
       const next = { ...prev };
@@ -122,10 +130,14 @@ export default function Teach({ currentUser = MOCK_CURRENT_USER }) {
     setErrors(found);
     if (Object.keys(found).length > 0) return;
 
-    // TODO: save the skill to the backend, then continue to the availability step
+    // Continue to availability while preserving the skill information
     navigate(NEXT_ROUTE, {
       state: {
-        skill: { ...form, title: form.title.trim(), description: form.description.trim() },
+        skill: {
+          ...form,
+          title: form.title.trim(),
+          description: form.description.trim(),
+        },
       },
     });
   };
@@ -216,6 +228,7 @@ export default function Teach({ currentUser = MOCK_CURRENT_USER }) {
               <h2 className={`${styles.cardTitle} ${styles.formatTitle}`} id="format-heading">
                 Session format
               </h2>
+
               <div className={styles.formatGroup} role="group" aria-labelledby="format-heading">
                 {SESSION_FORMATS.map(({ value, label }) => {
                   const isActive = form.format === value;
@@ -250,7 +263,6 @@ export default function Teach({ currentUser = MOCK_CURRENT_USER }) {
                 <span>Earn {POINTS_PER_HOUR} points for every hour you teach.</span>
               </p>
 
-              {/* TODO: point this at your teaching tips page */}
               <a className={styles.textLink} href="/teaching-tips">
                 Read teaching tips ↗
               </a>

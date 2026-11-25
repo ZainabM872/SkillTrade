@@ -1,21 +1,19 @@
+
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from '../styles/availability.module.css';
 import NavBar from '../components/NavBar';
 
 // Temporary data (replace with backend response)
-// Current user logged in (used for the nav bar)
 const MOCK_CURRENT_USER = { id: 'usr_001', name: 'Sara Moon', points: 120 };
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-const DURATIONS = [30, 60, 90]; // minutes
+const DURATIONS = [30, 60, 90];
 const POINTS_PER_HOUR = 15;
 
 const DEFAULT_HINT = 'Select your days and save at least one start time.';
 
-// Where "Continue to meeting details" goes next (this route still needs to be created)
 const NEXT_ROUTE = '/teach/meeting-details';
-
 
 function getInitials(name = '') {
   return name
@@ -26,8 +24,7 @@ function getInitials(name = '') {
     .join('');
 }
 
-// Calculate the points 
-// 30 minutes -> 7.5, 60 minutes -> 15, 90 minutes -> 22.5
+// Calculate the points
 function getPoints(minutes) {
   const points = (minutes / 60) * POINTS_PER_HOUR;
   return Number.isInteger(points) ? points : points.toFixed(1);
@@ -41,27 +38,48 @@ function formatTime(value) {
   });
 }
 
-
 export default function Availability({ currentUser = MOCK_CURRENT_USER }) {
   const navigate = useNavigate();
-  // The skill from the previous step ("Teach a new skill"), if the user came from there
-  const skill = useLocation().state?.skill ?? null;
+  const location = useLocation();
 
-  const [duration, setDuration] = useState(60);
-  const [selectedDays, setSelectedDays] = useState([]);
-  const [availability, setAvailability] = useState({}); 
+  // Retrieve information passed from the previous page or Review Listing
+  const {
+    skill = null,
+    duration: existingDuration,
+    availability: existingAvailability,
+    meetingLocations
+  } = location.state ?? {};
+
+  // Restore existing values when editing.
+  // Otherwise, use the default values for a new listing.
+  const [duration, setDuration] = useState(
+    existingDuration ?? 60
+  );
+
+  const [availability, setAvailability] = useState(
+    existingAvailability ?? {}
+  );
+
+  // Automatically select days that already have saved availability
+  const [selectedDays, setSelectedDays] = useState(() =>
+    DAYS.filter((day) => existingAvailability?.[day]?.length > 0)
+  );
+
   const [isEditingTimes, setIsEditingTimes] = useState(false);
   const [newTime, setNewTime] = useState('');
   const [showPointsHelp, setShowPointsHelp] = useState(false);
-  const [message, setMessage] = useState(''); // validation message, shown under the button
+  const [message, setMessage] = useState('');
 
   // Selected days in week order (Mon to Sun)
   const selectedList = DAYS.filter((day) => selectedDays.includes(day));
 
   const toggleDay = (day) => {
     setSelectedDays((prev) =>
-      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+      prev.includes(day)
+        ? prev.filter((d) => d !== day)
+        : [...prev, day]
     );
+
     setMessage('');
   };
 
@@ -70,6 +88,7 @@ export default function Availability({ currentUser = MOCK_CURRENT_USER }) {
       setMessage('Select at least one day first.');
       return;
     }
+
     setMessage('');
     setIsEditingTimes((open) => !open);
   };
@@ -80,21 +99,28 @@ export default function Availability({ currentUser = MOCK_CURRENT_USER }) {
       setMessage('Pick a start time.');
       return;
     }
+
     setAvailability((prev) => {
       const next = { ...prev };
+
       selectedList.forEach((day) => {
         const times = new Set(next[day] ?? []);
         times.add(newTime);
         next[day] = [...times].sort();
       });
+
       return next;
     });
+
     setNewTime('');
     setMessage('');
   };
 
   const removeTime = (day, time) => {
-    setAvailability((prev) => ({ ...prev, [day]: (prev[day] ?? []).filter((t) => t !== time) }));
+    setAvailability((prev) => ({
+      ...prev,
+      [day]: (prev[day] ?? []).filter((t) => t !== time)
+    }));
   };
 
   const handleContinue = () => {
@@ -102,18 +128,25 @@ export default function Availability({ currentUser = MOCK_CURRENT_USER }) {
       setMessage('Select at least one day.');
       return;
     }
-    const missing = selectedList.filter((day) => !availability[day]?.length);
+
+    const missing = selectedList.filter(
+      (day) => !availability[day]?.length
+    );
+
     if (missing.length > 0) {
       setMessage(`Add a start time for ${missing.join(', ')}.`);
       return;
     }
 
-    // TODO: save the availability to the backend, then continue to meeting details
+    // Keep all existing information when continuing to meeting locations
     navigate(NEXT_ROUTE, {
       state: {
         skill,
         duration,
-        availability: Object.fromEntries(selectedList.map((day) => [day, availability[day]])),
+        availability: Object.fromEntries(
+          selectedList.map((day) => [day, availability[day]])
+        ),
+        meetingLocations
       },
     });
   };
@@ -135,9 +168,11 @@ export default function Availability({ currentUser = MOCK_CURRENT_USER }) {
           <div className={styles.layout}>
             <section className={`${styles.card} ${styles.mainCard}`}>
               <h2 className={styles.cardTitle}>Session duration</h2>
+
               <div className={styles.durationGroup} role="group" aria-label="Session duration">
                 {DURATIONS.map((minutes) => {
                   const isActive = duration === minutes;
+
                   return (
                     <button
                       key={minutes}
@@ -154,6 +189,7 @@ export default function Availability({ currentUser = MOCK_CURRENT_USER }) {
 
               <div className={styles.pointsRow}>
                 <span className={styles.pointsLabel}>Skill points</span>
+
                 <button
                   type="button"
                   className={styles.helpButton}
@@ -165,20 +201,24 @@ export default function Availability({ currentUser = MOCK_CURRENT_USER }) {
                   ?
                 </button>
               </div>
+
               {showPointsHelp && (
                 <p className={styles.helpText} id="points-help">
                   Learners spend skill points to book you. You earn {POINTS_PER_HOUR} points for
                   every hour you teach, so shorter sessions earn fewer points.
                 </p>
               )}
+
               <p className={styles.points}>{getPoints(duration)} points</p>
 
               <h2 className={`${styles.cardTitle} ${styles.daysTitle}`} id="days-heading">
                 Available days
               </h2>
+
               <div className={styles.dayGroup} role="group" aria-labelledby="days-heading">
                 {DAYS.map((day) => {
                   const isActive = selectedDays.includes(day);
+
                   return (
                     <button
                       key={day}
@@ -210,6 +250,7 @@ export default function Availability({ currentUser = MOCK_CURRENT_USER }) {
                   <label className={styles.timesLabel} htmlFor="start-time">
                     Start time for {selectedList.join(', ')}
                   </label>
+
                   <div className={styles.timesRow}>
                     <input
                       id="start-time"
@@ -221,7 +262,12 @@ export default function Availability({ currentUser = MOCK_CURRENT_USER }) {
                         setMessage('');
                       }}
                     />
-                    <button type="button" className={styles.saveTimeButton} onClick={saveTime}>
+
+                    <button
+                      type="button"
+                      className={styles.saveTimeButton}
+                      onClick={saveTime}
+                    >
                       Save time
                     </button>
                   </div>
@@ -235,27 +281,38 @@ export default function Availability({ currentUser = MOCK_CURRENT_USER }) {
                 {message || DEFAULT_HINT}
               </p>
 
-              <button type="button" className={styles.continueButton} onClick={handleContinue}>
+              <button
+                type="button"
+                className={styles.continueButton}
+                onClick={handleContinue}
+              >
                 Continue to meeting details
               </button>
             </section>
 
             <aside className={`${styles.card} ${styles.sideCard}`}>
               <h2 className={styles.sideTitle}>Your weekly availability</h2>
-              <p className={styles.sideText}>Save a start time for your selected days.</p>
+              <p className={styles.sideText}>
+                Save a start time for your selected days.
+              </p>
 
               <ul className={styles.weekList}>
                 {DAYS.map((day) => {
-                  const times = selectedDays.includes(day) ? availability[day] ?? [] : [];
+                  const times = selectedDays.includes(day)
+                    ? availability[day] ?? []
+                    : [];
+
                   return (
                     <li className={styles.weekRow} key={day}>
                       <span className={styles.weekDay}>{day}</span>
+
                       <span className={styles.weekTimes}>
                         {times.length === 0
                           ? '—'
                           : times.map((time) => (
                               <span className={styles.chip} key={time}>
                                 {formatTime(time)}
+
                                 <button
                                   type="button"
                                   className={styles.chipRemove}
