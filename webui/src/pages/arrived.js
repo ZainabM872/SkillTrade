@@ -54,6 +54,8 @@ export default function Arrived() {
     <div className="arrived-page">
       <NavBar initials="SM" points={120} />
       <main className="ar-main">
+        <Link className="flow-back" to="/help">Help</Link>
+        <Link className="flow-back" to="/location-shared" state={meetupState} aria-label="Back to meeting view">← Back to meeting view</Link>
         <div className="ar-heading">
           <p className="eyebrow">THE FIRST HELLO</p>
           <h1>You’ve arrived</h1>
@@ -92,7 +94,7 @@ export default function Arrived() {
             <section className="session-summary">
               <span className="eyebrow">YOUR SESSION</span>
               <div className="session-title"><span className="person-circle" aria-hidden="true">{session.initials}</span><div><h2>{session.skill}</h2><p>with {session.partner}</p></div></div>
-              <div className="summary-meta"><span>In person</span><span>60 minutes</span></div>
+              <div className="summary-meta"><span>In person</span><span>{session.durationMinutes || 60} minutes</span></div>
               <div className="meeting-details"><span className="eyebrow">WHERE YOU’RE MEETING</span><h3>{session.placeName}</h3><p>{instructions}</p></div>
             </section>
             <section className="arrival-help"><h2>Still looking for {session.firstName}?</h2><ol><li>Double-check the meeting instructions.</li><li>Open the location view to help find each other.</li><li>Confirm the meetup only once you’re together.</li></ol></section>

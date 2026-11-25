@@ -29,8 +29,8 @@ export default function RateSession() {
     partner: "Taylor Reed", firstName: "Taylor", initials: "TR", skill: "Conversational Korean",
   };
   // Keep each session's feedback separate from the existing Korean-session rating.
-  const storageKey = activeSession ? `skilltrade.sessionRating.${session.partner}.${session.skill}.v1` : STORAGE_KEY;
-  const returnPath = activeSession ? "/session-started" : "/completed-session-details";
+  const storageKey = activeSession ? `skilltrade.sessionRating.${session.ratingId || `${session.partner}.${session.skill}`}.v1` : STORAGE_KEY;
+  const returnPath = location.state?.ratingReturnPath || (activeSession ? "/session-started" : "/completed-session-details");
   const returnState = { ...location.state, finished: true };
   const [savedRating, setSavedRating] = useState(() => readSavedRating(storageKey));
   const [rating, setRating] = useState(savedRating ? savedRating.rating : 0);
@@ -98,6 +98,8 @@ export default function RateSession() {
       <NavBar initials="SM" points={120} />
 
       <main className="rs-main">
+        <Link className="flow-back" to="/help">Help</Link>
+        <Link className="flow-back" to={returnPath} state={returnState} aria-label="Back to completed session">← Back to completed session</Link>
         <div className="rs-heading">
           <p className="eyebrow">A MOMENT TO REFLECT</p>
           <h1>Rate your session</h1>
@@ -184,7 +186,7 @@ export default function RateSession() {
                 <div><h2>{session.skill}</h2><p>with {session.partner}</p></div>
               </div>
               <div className="session-description">{activeSession ? session.placeName : "November 4, 2026 · 2:00 PM–3:00 PM"}</div>
-              <div className="session-meta"><span>{activeSession ? "In person" : "Online"}</span><span>60 minutes</span></div>
+              <div className="session-meta"><span>{activeSession ? session.format || "In person" : "Online"}</span><span>{session.durationMinutes || 60} minutes</span></div>
             </section>
             <section className="reliability-card" aria-labelledby="rating-reliability-title">
               <div className="reliability-heading">

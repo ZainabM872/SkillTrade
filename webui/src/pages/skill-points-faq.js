@@ -75,6 +75,8 @@ export default function SkillPointsFaq() {
     <div className="skill-points-faq-page">
       <NavBar points={120} initials="SM" />
       <main className="sp-main">
+        <Link className="flow-back" to="/help">Help</Link>
+        <Link className="flow-back" to="/help">← Back to Help centre</Link>
         <div className="sp-heading"><p className="eyebrow">SHARE WHAT YOU KNOW. LEARN SOMETHING NEW.</p><h1>How do skill points work?</h1><p>Understand how teaching, booking, and session completion fit together.</p></div>
         <div className="faq-workspace">
           <section className="faq-main" aria-labelledby="questions-title">

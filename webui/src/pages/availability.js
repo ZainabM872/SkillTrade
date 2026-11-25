@@ -45,11 +45,12 @@ function formatTime(value) {
 export default function Availability({ currentUser = MOCK_CURRENT_USER }) {
   const navigate = useNavigate();
   // The skill from the previous step ("Teach a new skill"), if the user came from there
-  const skill = useLocation().state?.skill ?? null;
+  const routeState = useLocation().state;
+  const skill = routeState?.skill ?? null;
 
-  const [duration, setDuration] = useState(60);
-  const [selectedDays, setSelectedDays] = useState([]);
-  const [availability, setAvailability] = useState({}); 
+  const [duration, setDuration] = useState(routeState?.duration || 60);
+  const [selectedDays, setSelectedDays] = useState(Object.keys(routeState?.availability || {}));
+  const [availability, setAvailability] = useState(routeState?.availability || {});
   const [isEditingTimes, setIsEditingTimes] = useState(false);
   const [newTime, setNewTime] = useState('');
   const [showPointsHelp, setShowPointsHelp] = useState(false);

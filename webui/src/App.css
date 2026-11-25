@@ -172,3 +172,7 @@ main {
     overflow-x: auto;
   }
 }
+
+.flow-back { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 12px; margin: 0 0 20px; border-radius: 10px; color: #5142ad; text-decoration: underline; text-underline-offset: 3px; }
+.flow-back:hover { background: #eeecff; }
+.flow-back:focus-visible { outline: 3px solid #b9b4ff; outline-offset: 3px; }

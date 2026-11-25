@@ -57,6 +57,8 @@ export default function SessionStarted() {
     <div className="session-started-page">
       <NavBar initials="SM" points={120} />
       <main className="ss-main">
+        <Link className="flow-back" to="/help">Help</Link>
+        <Link className="flow-back" to={session.format === "Online" ? "/sessions" : "/arrived"} state={sessionState} aria-label="Back to arrival details">← {session.format === "Online" ? "Back to sessions" : "Back to arrival details"}</Link>
         <div className="ss-heading">
           <p className="eyebrow">MAKE ROOM FOR SOMETHING NEW</p>
           <h1>{finished ? "A new skill, a little closer" : "Your session has started"}</h1>
@@ -94,7 +96,7 @@ export default function SessionStarted() {
             <section className="details-card">
               <span className="eyebrow">SESSION DETAILS</span>
               <div className="teacher-row"><span className="teacher-avatar" aria-hidden="true">{session.initials}</span><div><h2>{session.partner}</h2><p>Your {session.role.toLowerCase()} · {session.skill}</p></div></div>
-              <dl><div><dt>Format</dt><dd>In person</dd></div><div><dt>Scheduled duration</dt><dd>60 minutes</dd></div><div><dt>Skill-point cost</dt><dd>15 points</dd></div></dl>
+              <dl><div><dt>Format</dt><dd>{session.format || "In person"}</dd></div><div><dt>Scheduled duration</dt><dd>{session.durationMinutes || 60} minutes</dd></div><div><dt>Skill-point cost</dt><dd>{session.points ?? 15} points</dd></div></dl>
               <div className="meeting-summary"><span className="eyebrow">MEETING LOCATION</span><h3>{session.placeName}</h3><p>{instructions}</p></div>
             </section>
             <section className="after-card"><h2>After your session</h2><ol><li>Finish when you’re both done.</li><li>Share a star rating and optional feedback.</li><li>Complete any attendance and skill-point steps shown in the app.</li></ol></section>

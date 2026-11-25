@@ -111,7 +111,7 @@ export default function Main() {
           <button
             type="button"
             className="box-3"
-            onClick={() => navigate("/how-points-work")}
+            onClick={() => navigate("/skill-points-faq")}
           >
             <span className="promo-text">How points work</span>
           </button>

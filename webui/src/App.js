@@ -61,6 +61,7 @@ function App() {
           path="/points"
           element={<Navigate to="/skill-points-faq" replace />}
         />
+        <Route path="/reliability" element={<Navigate to="/reliability-faq" replace />} />
         <Route path="/help" element={<Help />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/reset-sent" element={<ResetSent />} />

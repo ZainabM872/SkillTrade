@@ -92,6 +92,8 @@ export default function ReliabilityFaq() {
     <div className="skill-points-faq-page reliability-faq-page">
       <NavBar points={120} initials="SM" />
       <main className="sp-main">
+        <Link className="flow-back" to="/help">Help</Link>
+        <Link className="flow-back" to="/help">← Back to Help centre</Link>
         <div className="sp-heading"><p className="eyebrow">SHOW UP. BUILD TRUST. KEEP LEARNING.</p><h1>How does reliability work?</h1><p>Understand attendance, no-shows, and how reliability differs from a session rating.</p></div>
         <div className="faq-workspace">
           <section className="faq-main" aria-labelledby="questions-title">

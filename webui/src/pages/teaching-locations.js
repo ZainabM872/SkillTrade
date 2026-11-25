@@ -1,6 +1,7 @@
 import React, { useEffect, useId, useRef, useState } from "react";
 import "../styles/teaching-locations.css";
 import NavBar from "../components/NavBar";
+import { Link, useLocation } from "react-router-dom";
 
 const STORAGE_KEY = "skilltrade.teachingLocations.v1";
 const emptyLocation = () => ({ name: "", note: "" });
@@ -43,6 +44,8 @@ function LocationFields({ location, number, removable, onChange, onRemove, error
 }
 
 export default function TeachingLocations() {
+  const route = useLocation();
+  const inTeachingFlow = route.pathname === "/teach/meeting-details";
   useEffect(() => {
     const previousTitle = document.title;
     document.title = "Teaching locations · SkillTrade";
@@ -115,6 +118,8 @@ export default function TeachingLocations() {
     <div className="teaching-locations-page">
       <NavBar points={120} initials="SM" />
       <main className="tl-main">
+        <Link className="flow-back" to="/help">Help</Link>
+        <Link className="flow-back" to={inTeachingFlow ? "/teach/availability" : "/profile"} state={route.state} aria-label="Back to profile">← {inTeachingFlow ? "Back to availability" : "Back to profile"}</Link>
         <div className="tl-heading"><p className="tl-eyebrow">MAKE IT EASY TO MEET</p><h1>Teaching locations</h1><p>Choose where you’re happy to teach. Learners pick a location when booking.</p></div>
         <div className="tl-layout">
           <form noValidate onSubmit={save} aria-label="Teaching locations">
@@ -130,6 +135,9 @@ export default function TeachingLocations() {
             <aside className="tl-note"><h2>A clear meeting point helps</h2><p>Choose a public place and include a floor, entrance, or landmark so learners can find you.</p></aside>
             <div className="tl-save-actions"><button className="tl-secondary" type="button" disabled={!dirty || saving} onClick={discard}>Discard changes</button><button className="tl-primary" type="submit" disabled={!dirty || saving} aria-busy={saving}>{saving ? "Saving…" : "Save locations"}</button></div>
             <p className="tl-status" role="status">{message}</p>
+            {inTeachingFlow && (!dirty && saved.every((place) => place.name.trim()) ?
+              <Link className="flow-back" to="/teach/review-listing" state={{ ...route.state, meetingLocations: saved.map((place) => ({ name: place.name, details: place.note })) }}>Continue to listing review →</Link> :
+              <p>Save your locations to continue to listing review.</p>)}
           </form>
           <aside className="tl-preview" aria-labelledby="tl-preview-title"><div className="tl-preview-heading"><p className="tl-eyebrow">LEARNER VIEW</p><span>Live preview</span></div><h2 id="tl-preview-title">Where will we meet?</h2><p className="tl-preview-intro">Here’s how your meeting locations will appear when a learner books.</p>
             {!preview.length && <p className="tl-empty">Add a location name to see your learner preview.</p>}

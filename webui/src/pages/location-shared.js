@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import "../styles/location-shared.css";
 
@@ -8,7 +8,7 @@ export default function LocationShared() {
   const navigate = useNavigate();
   // Booking and teaching sessions pass their own meeting details to this shared view.
   const meetingSession = location.state?.meetingSession;
-  const session = meetingSession || {
+  const session = location.state?.session || meetingSession || {
     partner: "Sara Moon", firstName: "Sara", initials: "SM", role: "Learner",
     skill: "Skating basics", placeName: "Community centre lobby",
     mapSubtitle: "Calgary", landmark: "Reception", mapLabel: "LOBBY",
@@ -56,7 +56,7 @@ export default function LocationShared() {
 
   function markArrival() {
     navigate("/arrived", {
-      state: { session, meetingSession, instructions, hasArrived: true, meetupConfirmed, sharing },
+      state: { ...location.state, session, meetingSession, instructions, hasArrived: true, meetupConfirmed, sharing },
     });
   }
 
@@ -65,6 +65,8 @@ export default function LocationShared() {
       <NavBar initials="SM" points={120} />
 
       <main className="ls-main">
+        <Link className="flow-back" to="/help">Help</Link>
+        <Link className="flow-back" to={session.returnPath || (meetingSession ? "/meeting-location" : "/teaching-session-details")} state={{ ...location.state, instructions, hasArrived, meetupConfirmed, meetingSession, booking: location.state?.booking }} aria-label={meetingSession ? "Back to meeting location" : "Back to session details"}>← Back to session details</Link>
         <div className="ls-heading">
           <p className="eyebrow">A LITTLE CLOSER TO HELLO</p>
           <h1>Find each other</h1>

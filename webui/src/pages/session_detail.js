@@ -320,6 +320,16 @@ function SessionContent({ session }) {
 
   // Arrival, location sharing, reschedule and cancel only make sense for confirmed sessions.
   const isConfirmed = status === "confirmed";
+  const meetupState = {
+    session: {
+      partner: otherPerson.name, firstName: otherPerson.name.split(" ")[0],
+      initials: getInitials(otherPerson.name), role: role === "teaching" ? "Learner" : "Teacher",
+      skill: title, placeName: location || "Location to be confirmed", mapSubtitle: "Session meeting spot",
+      landmark: "Meeting spot", mapLabel: "MEETUP", durationMinutes, points,
+      format: "In person", returnPath: `/sessions/${session.id}`, ratingId: session.id,
+    },
+    instructions: meetingInstructions || "Check the session meeting instructions.",
+  };
   // A session that has already ended can't be rescheduled or cancelled.
   const isPast = new Date(endsAt) < new Date();
   const canChangePlans = isConfirmed && !isPast;
@@ -407,6 +417,7 @@ function SessionContent({ session }) {
               type="button"
               className={styles.primaryButton}
               disabled={!isConfirmed}
+              onClick={() => navigate("/arrived", { state: { ...meetupState, hasArrived: true } })}
             >
               I’ve arrived
             </button>
@@ -414,9 +425,11 @@ function SessionContent({ session }) {
               type="button"
               className={styles.secondaryButton}
               disabled={!isConfirmed}
+              onClick={() => navigate("/location-shared", { state: meetupState })}
             >
               Share location
             </button>
+            {status === "completed" && <Link className={styles.primaryButton} to="/rate-session" state={{ ...meetupState, finished: true, ratingReturnPath: `/sessions/${session.id}` }}>Rate this session</Link>}
           </div>
         </section>
 
@@ -452,7 +465,7 @@ function SessionContent({ session }) {
             </button>
           </div>
 
-          <a className={styles.textLink} href="/reliability">
+          <a className={styles.textLink} href="/reliability-faq">
             How reliability works ↗
           </a>
         </aside>

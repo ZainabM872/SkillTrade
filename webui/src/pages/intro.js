@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../styles/intro.css";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [message, setMessage] = useState("");
+  const message = "Demo login only. No account is authenticated.";
   function submit(event) {
     event.preventDefault();
-    setMessage(
-      "You’ve reached the end of the intro. This preview is ready to connect to SkillTrade’s login.",
-    );
     event.currentTarget.reset();
+    navigate("/homepage");
   }
   return (
     <form onSubmit={submit}>

@@ -1,6 +1,7 @@
 import React from "react";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import Intro from "./pages/intro";
+import { MemoryRouter, Routes, Route } from "react-router-dom";
 
 let observer;
 let disconnect;
@@ -28,7 +29,7 @@ beforeEach(() => {
 });
 
 test("renders every chapter and navigates with next, skip, dots and replay", () => {
-  render(<Intro />);
+  render(<MemoryRouter><Routes><Route path="/" element={<Intro />} /><Route path="/homepage" element={<h1>Demo home</h1>} /></Routes></MemoryRouter>);
   expect(screen.getAllByRole("region")).toHaveLength(4);
   fireEvent.click(screen.getByRole("button", { name: "Keep exploring" }));
   expect(scrollIntoView.mock.instances[0].id).toBe("share");
@@ -43,7 +44,7 @@ test("renders every chapter and navigates with next, skip, dots and replay", () 
 });
 
 test("toggles password and submits the preview without retaining the password", () => {
-  render(<Intro />);
+  render(<MemoryRouter><Routes><Route path="/" element={<Intro />} /><Route path="/homepage" element={<h1>Demo home</h1>} /></Routes></MemoryRouter>);
   const password = screen.getByLabelText("Password");
   fireEvent.change(screen.getByLabelText("Email address"), {
     target: { value: "test@example.com" },
@@ -54,15 +55,15 @@ test("toggles password and submits the preview without retaining the password", 
   fireEvent.click(screen.getByRole("button", { name: "Hide password" }));
   expect(password).toHaveAttribute("type", "password");
   fireEvent.click(screen.getByRole("button", { name: "Log in" }));
-  expect(screen.getByRole("status")).toHaveTextContent("ready to connect");
-  expect(password).toHaveValue("");
+  expect(screen.getByRole("heading", { name: "Demo home" })).toBeInTheDocument();
+  expect(screen.queryByLabelText("Password")).not.toBeInTheDocument();
 });
 
 test("reveals chapters and cleans up observers and animation timers on unmount", () => {
   jest.useFakeTimers();
   const { container, unmount } = render(
     <React.StrictMode>
-      <Intro />
+      <MemoryRouter><Intro /></MemoryRouter>
     </React.StrictMode>,
   );
   const chapter = container.querySelector(".chapter");
@@ -78,7 +79,7 @@ test("reveals chapters and cleans up observers and animation timers on unmount",
 
 test("respects reduced motion during navigation", () => {
   reduced = true;
-  const { container } = render(<Intro />);
+  const { container } = render(<MemoryRouter><Routes><Route path="/" element={<Intro />} /><Route path="/homepage" element={<h1>Demo home</h1>} /></Routes></MemoryRouter>);
   fireEvent.click(screen.getByRole("button", { name: "Keep exploring" }));
   expect(scrollIntoView).toHaveBeenCalledWith({
     behavior: "auto",

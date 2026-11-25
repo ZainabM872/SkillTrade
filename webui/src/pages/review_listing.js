@@ -162,7 +162,7 @@ export default function ReviewListing({ currentUser = MOCK_CURRENT_USER }) {
                 ) : (
                   <p className={styles.cardText}>
                     Select your days and save at least one start time.{' '}
-                    <Link className={styles.inlineLink} to={AVAILABILITY_ROUTE}>
+                    <Link className={styles.inlineLink} to={AVAILABILITY_ROUTE} state={{ skill: listing, duration: listing.duration, availability: listing.availability }}>
                       Add availability
                     </Link>
                   </p>
@@ -181,7 +181,7 @@ export default function ReviewListing({ currentUser = MOCK_CURRENT_USER }) {
                 ) : (
                   <p className={styles.cardText}>
                     Add at least one place to meet.{' '}
-                    <Link className={styles.inlineLink} to={MEETING_ROUTE}>
+                    <Link className={styles.inlineLink} to={MEETING_ROUTE} state={{ skill: listing, duration: listing.duration, availability: listing.availability }}>
                       Add location
                     </Link>
                   </p>

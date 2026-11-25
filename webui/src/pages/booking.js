@@ -333,6 +333,11 @@ export default function Booking() {
               Request session
             </button>
           </div>
+          {listing && !loading && !listingError && listing.session_mode !== 'online' && (
+            <Link className={styles.backLink} to="/meeting-location" state={{ booking: { ...listing, date: selectedLabel, time: selectedTime } }}>
+              Choose meeting location
+            </Link>
+          )}
           <Link className={styles.backLink} to="/explore">← Back to Explore</Link>
         </div>
 
