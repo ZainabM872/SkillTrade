@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import NavBar from "../components/NavBar";
 import "../styles/rate-session.css";
 
 // This key belongs to the example session on the completed-session page.
@@ -94,16 +95,7 @@ export default function RateSession() {
 
   return (
     <div className="rate-session-page">
-      <header className="rs-header">
-        <div className="rs-header-inner">
-          <Link className="rs-back" to={returnPath} state={returnState} aria-label="Back to completed session">‹</Link>
-          <Link className="rs-brand" to="/" aria-label="SkillTrade home">skill<span>Trade</span></Link>
-          <nav className="rs-navigation" aria-label="Account navigation">
-            <Link to="/profile">Profile</Link>
-            <Link to="/help">Help</Link>
-          </nav>
-        </div>
-      </header>
+      <NavBar initials="SM" points={120} />
 
       <main className="rs-main">
         <div className="rs-heading">

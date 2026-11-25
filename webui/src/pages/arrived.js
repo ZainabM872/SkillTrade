@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import NavBar from "../components/NavBar";
 import "../styles/arrived.css";
 
 const exampleSession = {
@@ -51,13 +52,7 @@ export default function Arrived() {
 
   return (
     <div className="arrived-page">
-      <header className="ar-header">
-        <div className="ar-header-inner">
-          <Link className="ar-back" to="/location-shared" state={meetupState} aria-label="Back to meeting view">‹</Link>
-          <Link className="ar-brand" to="/" aria-label="SkillTrade home">skill<span>Trade</span></Link>
-          <nav className="ar-navigation" aria-label="Account navigation"><Link to="/profile">Profile</Link><Link to="/help">Help</Link></nav>
-        </div>
-      </header>
+      <NavBar initials="SM" points={120} />
       <main className="ar-main">
         <div className="ar-heading">
           <p className="eyebrow">THE FIRST HELLO</p>

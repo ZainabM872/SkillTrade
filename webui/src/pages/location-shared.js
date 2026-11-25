@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import NavBar from "../components/NavBar";
 import "../styles/location-shared.css";
 
 export default function LocationShared() {
@@ -61,16 +62,7 @@ export default function LocationShared() {
 
   return (
     <div className="location-shared-page">
-      <header className="ls-header">
-        <div className="ls-header-inner">
-          <Link className="ls-back" to={meetingSession ? "/meeting-location" : "/teaching-session-details"} state={{ instructions, hasArrived, meetingSession }} aria-label={meetingSession ? "Back to meeting location" : "Back to session details"}>‹</Link>
-          <Link className="ls-brand" to="/" aria-label="SkillTrade home">skill<span>Trade</span></Link>
-          <nav className="ls-navigation" aria-label="Account navigation">
-            <Link to="/profile">Profile</Link>
-            <Link to="/help">Help</Link>
-          </nav>
-        </div>
-      </header>
+      <NavBar initials="SM" points={120} />
 
       <main className="ls-main">
         <div className="ls-heading">

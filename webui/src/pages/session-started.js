@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import NavBar from "../components/NavBar";
 import "../styles/session-started.css";
 
 const exampleSession = {
@@ -54,11 +55,7 @@ export default function SessionStarted() {
 
   return (
     <div className="session-started-page">
-      <header className="ss-header"><div className="ss-header-inner">
-        <Link className="ss-back" to="/arrived" state={sessionState} aria-label="Back to arrival details">‹</Link>
-        <Link className="ss-brand" to="/" aria-label="SkillTrade home">skill<span>Trade</span></Link>
-        <nav className="ss-navigation" aria-label="Account navigation"><Link to="/profile">Profile</Link><Link to="/help">Help</Link></nav>
-      </div></header>
+      <NavBar initials="SM" points={120} />
       <main className="ss-main">
         <div className="ss-heading">
           <p className="eyebrow">MAKE ROOM FOR SOMETHING NEW</p>
