@@ -4,7 +4,7 @@ import Bell from '../styles/icons/Notification.svg';
 import Sparkle from '../styles/icons/NavBar-Sparkle.svg';
 
 const NAV_LINKS = [
-  { to: '/', label: 'Home', end: true },
+  { to: '/homepage', label: 'Home', end: true },
   { to: '/explore', label: 'Explore' },
   { to: '/sessions', label: 'Sessions' },
   { to: '/teach', label: 'Teach a skill' },
