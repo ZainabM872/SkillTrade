@@ -8,6 +8,7 @@ let disconnect;
 let scrollIntoView;
 let reduced;
 beforeEach(() => {
+  global.fetch = jest.fn().mockResolvedValue({ ok: true, json: async () => ({ user: { userId: "2" } }) });
   reduced = false;
   window.matchMedia = jest.fn(() => ({
     matches: reduced,
@@ -43,7 +44,7 @@ test("renders every chapter and navigates with next, skip, dots and replay", () 
   expect(scrollIntoView.mock.instances[3].id).toBe("discover");
 });
 
-test("toggles password and submits the preview without retaining the password", () => {
+test("toggles password and logs in without retaining the password", async () => {
   render(<MemoryRouter><Routes><Route path="/" element={<Intro />} /><Route path="/homepage" element={<h1>Demo home</h1>} /></Routes></MemoryRouter>);
   const password = screen.getByLabelText("Password");
   fireEvent.change(screen.getByLabelText("Email address"), {
@@ -55,7 +56,7 @@ test("toggles password and submits the preview without retaining the password", 
   fireEvent.click(screen.getByRole("button", { name: "Hide password" }));
   expect(password).toHaveAttribute("type", "password");
   fireEvent.click(screen.getByRole("button", { name: "Log in" }));
-  expect(screen.getByRole("heading", { name: "Demo home" })).toBeInTheDocument();
+  expect(await screen.findByRole("heading", { name: "Demo home" })).toBeInTheDocument();
   expect(screen.queryByLabelText("Password")).not.toBeInTheDocument();
 });
 
@@ -86,4 +87,11 @@ test("respects reduced motion during navigation", () => {
     block: "start",
   });
   expect(container.querySelector(".ripple")).not.toBeInTheDocument();
+});
+
+
+test("direct login opens the login chapter without replaying the introduction", () => {
+  render(<MemoryRouter><Intro startAtLogin /></MemoryRouter>);
+  expect(scrollIntoView.mock.instances[0].id).toBe("login");
+  expect(scrollIntoView).toHaveBeenCalledWith({ behavior: "instant", block: "start" });
 });

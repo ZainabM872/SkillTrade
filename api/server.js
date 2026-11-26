@@ -2,6 +2,7 @@
 const http = require('node:http');
 const fs = require('node:fs');
 const { Pool } = require('pg');
+const { createAuthRoutes } = require('./auth/routes');
 
 const pool = new Pool({
   host: process.env.PGHOST || 'db',
@@ -270,11 +271,15 @@ async function createListing(req, res) {
   }
 }
 
+const { handleAuthRequest } = createAuthRoutes({ pool });
+
 const server = http.createServer(async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Cache-Control', 'no-store');
 
   const url = new URL(req.url, 'http://localhost');
+
+  if (await handleAuthRequest(req, res, url.pathname)) return;
 
   if (url.pathname === '/api/listings' && req.method === 'GET') {
     return getListings(res);
@@ -287,9 +292,16 @@ const server = http.createServer(async (req, res) => {
   sendJson(res, 404, { error: 'Not found.' });
 });
 
-server.listen(Number(process.env.PORT || 3001), '0.0.0.0', () => {
-  console.log('SkillTrade API is running.');
-});
+// Add only our login-session table; existing tables and records are left unchanged.
+pool.query(fs.readFileSync(require('node:path').join(__dirname, 'auth/schema.sql'), 'utf8'))
+  .then(() => server.listen(Number(process.env.PORT || 3001), '0.0.0.0', () => {
+    console.log('SkillTrade API is running.');
+  }))
+  .catch(error => {
+    console.error('Could not prepare login sessions:', error.message);
+    pool.end();
+    process.exitCode = 1;
+  });
 
 process.on('SIGTERM', () => {
   server.close(() => pool.end());

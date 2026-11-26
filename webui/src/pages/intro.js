@@ -2,20 +2,45 @@ import React, { useEffect, useRef, useState } from "react";
 import "../styles/intro.css";
 import { useNavigate } from "react-router-dom";
 
-function LoginForm() {
+export function LoginForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const message = "Demo login only. No account is authenticated.";
-  function submit(event) {
+  const [message, setMessage] = useState("");
+  const [saving, setSaving] = useState(false);
+  async function submit(event) {
     event.preventDefault();
-    event.currentTarget.reset();
-    navigate("/homepage");
+    if (saving) return;
+    const form = event.currentTarget;
+    const fields = new FormData(form);
+    setSaving(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json", "X-SkillTrade-Request": "1" },
+        body: JSON.stringify({ email: fields.get("email"), password: fields.get("password") }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setMessage(data.error || "Couldn’t log in. Please try again.");
+        return;
+      }
+      form.reset();
+      navigate("/homepage");
+    } catch {
+      setMessage("Couldn’t reach the login service. Please try again.");
+    } finally {
+      setSaving(false);
+    }
   }
   return (
     <form onSubmit={submit}>
       <label htmlFor="intro-email">Email address</label>
       <input
         id="intro-email"
+        name="email"
+        disabled={saving}
         type="email"
         placeholder="you@example.com"
         autoComplete="email"
@@ -25,6 +50,8 @@ function LoginForm() {
       <div className="password-field">
         <input
           id="intro-password"
+          name="password"
+          disabled={saving}
           type={showPassword ? "text" : "password"}
           placeholder="Enter your password"
           autoComplete="current-password"
@@ -40,10 +67,10 @@ function LoginForm() {
           {showPassword ? "Hide" : "Show"}
         </button>
       </div>
-      <button className="primary" type="submit">
-        Log in
+      <button className="primary" type="submit" disabled={saving}>
+        {saving ? "Logging in…" : "Log in"}
       </button>
-      <div className="message" role="status">
+      <div className="message" role={message ? "alert" : "status"}>
         {message}
       </div>
     </form>
@@ -224,7 +251,7 @@ const labels = [
   "Login",
 ];
 
-export default function Intro() {
+export default function Intro({ startAtLogin = false }) {
   const root = useRef(null);
   const [current, setCurrent] = useState(0);
   const [ripples, setRipples] = useState([]);
@@ -308,6 +335,7 @@ export default function Intro() {
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
     motion.addEventListener("change", schedule);
+    if (startAtLogin) chapters[3].scrollIntoView({ behavior: "instant", block: "start" });
     update();
     return () => {
       observer.disconnect();
@@ -318,7 +346,7 @@ export default function Intro() {
       pendingTimers.forEach(clearTimeout);
       pendingTimers.clear();
     };
-  }, []);
+  }, [startAtLogin]);
 
   return (
     <div className="skilltrade-intro" ref={root}>
