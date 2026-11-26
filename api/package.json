@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "start": "node server.js",
-        "test": "node --test auth/routes.test.js"
+        "test": "node --test ratings/*.test.js auth/*.test.js"
     },
     "dependencies": {
         "argon2": "0.45.2",

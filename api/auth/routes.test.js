@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const http = require('node:http');
 const argon2 = require('argon2');
 const { createAuthRoutes } = require('./routes');
+const { createRatingRoutes } = require('../ratings/routes');
 
 const password = 'only-a-test-password';
 const passwordHash = argon2.hash(password);
@@ -34,9 +35,11 @@ async function setup(t, options = {}) {
     },
   };
   const auth = createAuthRoutes({ pool, secureCookies: true });
+  const ratings = createRatingRoutes({ pool, authenticate: auth.authenticate });
   const server = http.createServer(async (req, res) => {
     const path = new URL(req.url, 'http://localhost').pathname;
     if (await auth.handleAuthRequest(req, res, path)) return;
+    if (await ratings(req, res, path)) return;
     res.writeHead(404); res.end();
   });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
@@ -98,12 +101,25 @@ test('missing, malformed and expired sessions cannot authenticate', async t => {
   }
 });
 
-test('cross-site form requests cannot log in or log out', async t => {
+test('cross-site form requests cannot log in, log out, or write a rating', async t => {
   const { request } = await setup(t);
   for (const path of ['/api/auth/login', '/api/auth/logout']) {
     assert.equal((await request(path, { method: 'POST', protectedWrite: false })).status, 403);
   }
+  const login = await request('/api/auth/login', { body: { email: 'sam@example.com', password } });
+  const cookie = login.cookie.split(';')[0];
+  assert.equal((await request('/api/sessions/1/rating', { method: 'PUT', cookie, body: { rating: 4 }, protectedWrite: false })).status, 403);
+});
 
+test('login cookie authenticates the rating API, and logout removes that access', async t => {
+  const { request, queries } = await setup(t);
+  const login = await request('/api/auth/login', { body: { email: 'sam@example.com', password } });
+  const cookie = login.cookie.split(';')[0];
+  const result = await request('/api/sessions/1/rating', { method: 'PUT', cookie, body: { rating: 5 } });
+  assert.equal(result.status, 200);
+  assert.deepEqual(queries.find(q => q.sql.includes('INSERT INTO skilltrade.reviews')).values, ['1', '2', '1', 5, '']);
+  await request('/api/auth/logout', { method: 'POST', cookie });
+  assert.equal((await request('/api/sessions/1/rating', { method: 'PUT', cookie, body: { rating: 5 } })).status, 401);
 });
 
 test('malformed and oversized requests do not create sessions', async t => {

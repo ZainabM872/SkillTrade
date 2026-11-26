@@ -1,47 +1,86 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import "../styles/rate-session.css";
 
-// This key belongs to the example session on the completed-session page.
-const STORAGE_KEY = "skilltrade.sessionRating.taylor-korean-2026-11-04.v1";
 const ratingLabels = ["Poor", "Fair", "Good", "Very good", "Excellent"];
 
-function readSavedRating(storageKey) {
-  try {
-    const saved = JSON.parse(localStorage.getItem(storageKey));
-    if (saved && Number.isInteger(saved.rating) && saved.rating >= 1 && saved.rating <= 5) {
-      return {
-        rating: saved.rating,
-        comment: typeof saved.comment === "string" ? saved.comment.slice(0, 500) : "",
-      };
-    }
-  } catch {
-    // An empty form still works if browser storage is unavailable or damaged.
-  }
-  return null;
+async function readApi(url, options = {}) {
+  const response = await fetch(url, { credentials: "same-origin", ...options });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || "Couldn’t load or save your rating. Please try again.");
+  return data;
 }
 
+// Remount when the session changes so one session's draft cannot appear in another.
 export default function RateSession() {
   const location = useLocation();
+  const queryId = new URLSearchParams(location.search).get("sessionId");
+  const stateId = location.state?.sessionId ?? location.state?.session?.session_id;
+  const sessionId = queryId ?? (stateId == null ? "" : String(stateId));
+  return <RatingPage key={sessionId} sessionId={sessionId} />;
+}
+
+function RatingPage({ sessionId }) {
+  const location = useLocation();
+  const navigate = useNavigate();
   const activeSession = location.state?.session;
-  const session = activeSession || {
-    partner: "Taylor Reed", firstName: "Taylor", initials: "TR", skill: "Conversational Korean",
-  };
-  // Keep each session's feedback separate from the existing Korean-session rating.
-  const storageKey = activeSession ? `skilltrade.sessionRating.${session.ratingId || `${session.partner}.${session.skill}`}.v1` : STORAGE_KEY;
-  const returnPath = location.state?.ratingReturnPath || (activeSession ? "/session-started" : "/completed-session-details");
+  const [session, setSession] = useState(null);
+  const [sessions, setSessions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+  const [retry, setRetry] = useState(0);
+  const returnPath = location.state?.ratingReturnPath || (activeSession ? "/session-started" : sessionId ? "/sessions" : "/completed-session-details");
   const returnState = { ...location.state, finished: true };
-  const [savedRating, setSavedRating] = useState(() => readSavedRating(storageKey));
-  const [rating, setRating] = useState(savedRating ? savedRating.rating : 0);
-  const [comment, setComment] = useState(savedRating ? savedRating.comment : "");
+  const [savedRating, setSavedRating] = useState(null);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
   const [hoverRating, setHoverRating] = useState(0);
-  const [submitted, setSubmitted] = useState(Boolean(savedRating));
+  const [submitted, setSubmitted] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [saveError, setSaveError] = useState("");
   const firstStar = useRef(null);
   const successHeading = useRef(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      setLoading(true);
+      setLoadError("");
+      try {
+        if (!sessionId) {
+          const data = await readApi("/api/rating-sessions");
+          if (!cancelled) setSessions(data.sessions);
+        } else {
+          if (!/^[1-9]\d{0,18}$/.test(sessionId) || (sessionId.length === 19 && sessionId > "9223372036854775807")) {
+            throw new Error("Choose a completed session using its database session ID.");
+          }
+          const details = await readApi(`/api/rating-sessions/${sessionId}`);
+          const data = await readApi(`/api/sessions/${sessionId}/rating`);
+          if (cancelled) return;
+          const item = details.session;
+          setSession({
+            partner: item.partner, firstName: item.partner.split(" ")[0],
+            initials: item.partner.split(" ").map(part => part[0]).slice(0, 2).join(""),
+            skill: item.skill, format: item.mode === "online" ? "Online" : "In person",
+            durationMinutes: item.duration_minutes,
+            scheduledLabel: new Date(item.start_time).toLocaleString(),
+          });
+          setSavedRating(data.review);
+          setRating(data.review?.rating || 0);
+          setComment(data.review?.comment || "");
+          setSubmitted(Boolean(data.review));
+        }
+      } catch (problem) {
+        if (!cancelled) setLoadError(problem.message || "Couldn’t load your session. Please try again.");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    load();
+    return () => { cancelled = true; };
+  }, [sessionId, retry]);
 
   useEffect(() => {
     const previousTitle = document.title;
@@ -52,7 +91,7 @@ export default function RateSession() {
   useEffect(() => {
     if (submitted) successHeading.current?.focus();
     else firstStar.current?.focus();
-  }, [submitted]);
+  }, [submitted, loading]);
 
   function chooseRating(value) {
     setRating(value);
@@ -63,7 +102,7 @@ export default function RateSession() {
 
   async function submitRating(event) {
     event.preventDefault();
-    if (saving) return;
+    if (saving || loading || !session || loadError) return;
     if (!rating) {
       setError("Please choose a rating before submitting.");
       firstStar.current?.focus();
@@ -72,16 +111,18 @@ export default function RateSession() {
 
     setSaving(true);
     setSaveError("");
-    // Let the button show its saving state before writing to browser storage.
-    await new Promise((resolve) => setTimeout(resolve, 0));
     const feedback = { rating, comment: comment.trim() };
     try {
-      localStorage.setItem(storageKey, JSON.stringify(feedback));
-      setSavedRating(feedback);
-      setComment(feedback.comment);
+      const data = await readApi(`/api/sessions/${sessionId}/rating`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", "X-SkillTrade-Request": "1" },
+        body: JSON.stringify(feedback),
+      });
+      setSavedRating(data.review);
+      setComment(data.review.comment || "");
       setSubmitted(true);
-    } catch {
-      setSaveError("Your rating couldn’t be saved. Your feedback is still here—please try again.");
+    } catch (problem) {
+      setSaveError(`${problem.message || "Your rating couldn’t be saved."} Your feedback is still here—please try again.`);
     } finally {
       setSaving(false);
     }
@@ -93,13 +134,41 @@ export default function RateSession() {
     setSaveError("");
   }
 
+  if (loading || loadError || !session) {
+    return (
+      <div className="rate-session-page">
+        <NavBar initials="SM" points={120} />
+        <main className="rs-main">
+          <Link className="flow-back" to={returnPath} state={returnState} aria-label={returnPath === "/sessions" ? "Back to sessions" : "Back to completed session"}>← {returnPath === "/sessions" ? "Back to sessions" : "Back to completed session"}</Link>
+          <div className="rs-heading"><p className="eyebrow">A MOMENT TO REFLECT</p><h1>Rate your session</h1></div>
+          <section className="review-panel">
+            {loading ? <p role="status">Loading your completed sessions…</p> : loadError ? <>
+              <p role="alert">{loadError}</p>
+              <button className="secondary" onClick={() => setRetry(value => value + 1)}>Try again</button>
+              <Link className="flow-back" to="/login">Log in</Link>
+            </> : <>
+              <h2>Choose a completed session</h2>
+              <p>Select the session you’d like to rate. Only completed sessions saved to your account appear here.</p>
+              {sessions.length ? <ul className="rating-session-list">{sessions.map(item => (
+                <li key={item.session_id}><button className="secondary" onClick={() => navigate(`/rate-session?sessionId=${item.session_id}`, { state: location.state })}>
+                  {item.skill} with {item.partner} · {new Date(item.start_time).toLocaleString()}
+                </button></li>
+              ))}</ul> : <p>No completed sessions are available to rate yet.</p>}
+            </>}
+          </section>
+          <Link className="rs-reliability-link" to="/reliability-faq">How reliability works</Link>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="rate-session-page">
       <NavBar initials="SM" points={120} />
 
       <main className="rs-main">
         <Link className="flow-back" to="/help">Help</Link>
-        <Link className="flow-back" to={returnPath} state={returnState} aria-label="Back to completed session">← Back to completed session</Link>
+        <Link className="flow-back" to={returnPath} state={returnState} aria-label={returnPath === "/sessions" ? "Back to sessions" : "Back to completed session"}>← {returnPath === "/sessions" ? "Back to sessions" : "Back to completed session"}</Link>
         <div className="rs-heading">
           <p className="eyebrow">A MOMENT TO REFLECT</p>
           <h1>Rate your session</h1>
@@ -113,9 +182,10 @@ export default function RateSession() {
                 <p className="eyebrow">FEEDBACK SAVED</p>
                 <h2 ref={successHeading} tabIndex={-1}>Thanks for sharing.</h2>
                 <p>You rated your session with {session.firstName} {savedRating.rating} out of 5{savedRating.comment ? " and added a comment." : "."}</p>
-                <p className="success-note">Your rating is saved on this device. It hasn’t been sent to {session.firstName} or published.</p>
+                <p className="success-note">Your rating is saved to your account.</p>
+                {savedRating.status === "hidden" && <p>This review has been hidden by a moderator and cannot be edited.</p>}
                 <div className="rs-success-actions">
-                  <button type="button" className="secondary" onClick={editRating}>Edit your rating</button>
+                  <button type="button" className="secondary" onClick={editRating} disabled={savedRating.status === "hidden"}>Edit your rating</button>
                   <Link className="primary" to={returnPath} state={returnState}>Back to session</Link>
                 </div>
               </div>
@@ -171,7 +241,7 @@ export default function RateSession() {
                   <button className="primary" type="submit" disabled={saving} aria-busy={saving}>
                     {saving ? "Saving your rating…" : "Submit rating"}
                   </button>
-                  <p className="local-note">This preview saves your rating in this browser only.</p>
+                  <p className="local-note">Your rating is saved securely to your account.</p>
                   <p role="status" className="rating-error">{saveError}</p>
                 </div>
               </form>
@@ -185,8 +255,8 @@ export default function RateSession() {
                 <div className="initials" aria-hidden="true">{session.initials}</div>
                 <div><h2>{session.skill}</h2><p>with {session.partner}</p></div>
               </div>
-              <div className="session-description">{activeSession ? session.placeName : "November 4, 2026 · 2:00 PM–3:00 PM"}</div>
-              <div className="session-meta"><span>{activeSession ? session.format || "In person" : "Online"}</span><span>{session.durationMinutes || 60} minutes</span></div>
+              <div className="session-description">{session.scheduledLabel}</div>
+              <div className="session-meta"><span>{session.format}</span><span>{session.durationMinutes || 60} minutes</span></div>
             </section>
             <section className="reliability-card" aria-labelledby="rating-reliability-title">
               <div className="reliability-heading">

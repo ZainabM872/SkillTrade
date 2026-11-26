@@ -52,6 +52,58 @@ Listing details and login are connected. Availability and saving booking
 requests are not connected yet. The page labels the booking action as a preview.
 No Azure deployment is included in this change.
 
+## Rating backend (real booking connection pending)
+
+The rating module uses the existing `skilltrade.reviews` table; it does not change
+listing, booking, login, attendance, points, or moderation features.
+
+- `GET /api/sessions/:sessionId/rating` reads the signed-in participant's review,
+  or returns `{ "review": null }` if they have not rated it.
+- `PUT /api/sessions/:sessionId/rating` accepts `{ "rating": 4, "comment": "Helpful" }`.
+  Rating must be an integer from 1 to 5; the optional comment has a 500-character limit.
+- Only active accounts may use these routes. Only participants may access their
+  session. Saving requires a completed session. The server chooses the reviewee;
+  requests cannot supply reviewer/reviewee IDs. Repeating PUT updates the same
+  review. Moderator-hidden reviews cannot be edited through this endpoint.
+
+Authentication now comes from the login-session cookie described below. The
+server passes its verified `authenticate(req)` function into the rating module.
+For PUT requests include `X-SkillTrade-Request: 1`, JSON content type, and the
+same-origin cookie. Identity never comes from a request body or an unverified header.
+
+The React rating page now reads and saves reviews through these authenticated
+endpoints. It never imports browser-local ratings or maps a listing/example ID to
+a real session. A failed save keeps the draft and does not show success.
+
+### Session IDs without changing the booking flow
+
+- Open `/rate-session` to choose one of your completed database sessions.
+- Open `/rate-session?sessionId=1` to load a specific session, including on refresh.
+- Navigation can also pass `state: { sessionId: '1' }` or
+  `state: { session: { session_id: '1' } }`. The URL ID takes priority.
+- `GET /api/rating-sessions` lists the authenticated participant's completed
+  sessions; `GET /api/rating-sessions/:id` loads one. Both endpoints are read-only
+  and get the partner/title/date from PostgreSQL. Missing, incomplete, and
+  other-account sessions cannot be selected or rated.
+- The meeting-location page forwards `booking.session_id` when provided. It no
+  longer treats `booking.listing_id` as the review's session identifier.
+
+Booking creation and session completion are unchanged. Clicking Finish in the
+existing demo does not complete a database session. If no database session ID is
+passed from that demo, the rating page shows the completed-session chooser instead
+of silently saving feedback against a different session. Anshi can later pass the
+actual returned `session_id` at the connection point above without changing this API.
+No Anshi-owned booking/session screens, booking writes, attendance rules, or points
+are modified.
+
+Run `npm test --prefix api` for the rating HTTP tests. They use a fake database and
+verified-user test double to cover validation, access checks, edits, hidden reviews,
+rollback, and database errors without changing any shared data. The optional PostgreSQL test also checks login
+and rating persistence together.
+The direct authenticated rating flow works with existing completed database
+sessions. The booking flow still needs to persist and complete its own sessions.
+
+
 ## Login authentication
 
 The existing intro/login form now posts to `POST /api/auth/login` with JSON
@@ -106,6 +158,9 @@ the API files, Argon2 dependency, and updated frontend. The existing same-origin
 
 ### Tests
 
-Run `npm test --prefix api` for login HTTP tests using real Argon2 verification
-and a fake database. Tests cover incorrect credentials, account restrictions,
-cookie protection, session rotation, expiry, logout, throttling, and service errors.
+`npm test --prefix api` runs HTTP tests with real Argon2 password verification and
+a fake database. `auth/postgres.test.js` additionally exercises the real login →
+rating → reload/edit → logout path only when `SKILLTRADE_TEST_DATABASE` names a
+disposable seeded database matching `skilltrade_auth_test_<digits>`. Never point
+that test at a shared database; it changes the disposable Sam account's password.
+The test is skipped by default.

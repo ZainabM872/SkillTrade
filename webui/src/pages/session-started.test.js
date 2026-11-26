@@ -14,7 +14,12 @@ afterAll(() => {
   delete HTMLDialogElement.prototype.showModal;
   delete HTMLDialogElement.prototype.close;
 });
-beforeEach(() => localStorage.clear());
+const originalFetch = global.fetch;
+beforeEach(() => {
+  localStorage.clear();
+  global.fetch = jest.fn().mockResolvedValue({ ok: true, json: async () => ({ sessions: [] }) });
+});
+afterEach(() => { global.fetch = originalFetch; });
 function renderFlow(entry = "/session-started") {
   return render(
     <MemoryRouter initialEntries={[entry]}>
@@ -81,13 +86,10 @@ test.each([
   expect(screen.getByText("Meet at the entrance.")).toBeInTheDocument();
   await finish();
   userEvent.click(screen.getByRole("link", { name: "Rate your session" }));
-  expect(screen.getByRole("heading", { name: `How was your session with ${firstName}?` })).toBeInTheDocument();
-  expect(screen.getByRole("heading", { name: skill })).toBeInTheDocument();
-  userEvent.click(screen.getByRole("radio", { name: "5 stars — Excellent" }));
-  userEvent.click(screen.getByRole("button", { name: "Submit rating" }));
-  await screen.findByRole("heading", { name: "Thanks for sharing." });
+  expect(await screen.findByRole("heading", { name: "Choose a completed session" })).toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Submit rating" })).not.toBeInTheDocument();
   expect(JSON.parse(localStorage.getItem(taylorKey)).rating).toBe(2);
-  expect(JSON.parse(localStorage.getItem(`skilltrade.sessionRating.${partner}.${skill}.v1`)).rating).toBe(5);
-  userEvent.click(screen.getByRole("link", { name: "Back to session" }));
+  expect(localStorage.getItem(`skilltrade.sessionRating.${partner}.${skill}.v1`)).toBeNull();
+  userEvent.click(screen.getByRole("link", { name: "Back to completed session" }));
   expect(screen.getByRole("button", { name: "Session finished" })).toBeDisabled();
 });

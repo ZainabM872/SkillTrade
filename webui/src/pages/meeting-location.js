@@ -91,7 +91,8 @@ export default function MeetingLocation() {
     role: "Teacher",
     skill,
     durationMinutes: booking?.duration_minutes || 60, points: booking?.point_cost ?? 15,
-    ratingId: booking?.listing_id, format: "In person",
+    // A listing can have many sessions; only forward an actual booking session ID.
+    session_id: booking?.session_id, format: "In person",
     scheduledLabel: booking?.date ? `${booking.date} · ${booking.time}` : undefined,
     placeName: selectedPlace.name,
     mapSubtitle: booking ? "Example meeting spot" : "University of Calgary · Indoors",

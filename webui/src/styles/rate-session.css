@@ -373,3 +373,6 @@
 }
 
 .rate-session-page .rs-reliability-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 12px; color: var(--purple); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+
+.rating-session-list { list-style: none; padding: 0; display: grid; gap: 12px; }
+.rating-session-list button { width: 100%; text-align: left; white-space: normal; }

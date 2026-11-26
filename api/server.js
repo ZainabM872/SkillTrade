@@ -2,7 +2,9 @@
 const http = require('node:http');
 const fs = require('node:fs');
 const { Pool } = require('pg');
-const { createAuthRoutes } = require('./auth/routes');
+const { createRatingRoutes } = require('./ratings/routes');
+const { createRatingSessionRoutes } = require('./ratings/sessions');
+const { createAuthRoutes, isProtectedWrite } = require('./auth/routes');
 
 const pool = new Pool({
   host: process.env.PGHOST || 'db',
@@ -271,7 +273,9 @@ async function createListing(req, res) {
   }
 }
 
-const { handleAuthRequest } = createAuthRoutes({ pool });
+const { authenticate, handleAuthRequest } = createAuthRoutes({ pool });
+const handleRatingRequest = createRatingRoutes({ pool, authenticate, isProtectedWrite });
+const handleRatingSessionRequest = createRatingSessionRoutes({ pool, authenticate });
 
 const server = http.createServer(async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
@@ -280,6 +284,8 @@ const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost');
 
   if (await handleAuthRequest(req, res, url.pathname)) return;
+  if (await handleRatingSessionRequest(req, res, url.pathname)) return;
+  if (await handleRatingRequest(req, res, url.pathname)) return;
 
   if (url.pathname === '/api/listings' && req.method === 'GET') {
     return getListings(res);

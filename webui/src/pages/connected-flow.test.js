@@ -24,7 +24,7 @@ afterAll(() => {
 const originalFetch = global.fetch;
 beforeEach(() => {
   localStorage.clear();
-  global.fetch = jest.fn().mockResolvedValue({ ok: true, json: async () => [{ ...listing, listing_id: 7 }] });
+  global.fetch = jest.fn(async url => ({ ok: true, json: async () => url === "/api/rating-sessions" ? { sessions: [] } : [{ ...listing, listing_id: 7 }] }));
 });
 afterEach(() => { global.fetch = originalFetch; });
 function flow(entry) {
@@ -65,12 +65,10 @@ test("booking carries the chosen listing through meeting, arrival, completion, a
   userEvent.click(screen.getByRole("button", { name: "Finish session" }));
   userEvent.click(screen.getByRole("button", { name: "Yes, finish session" }));
   userEvent.click(await screen.findByRole("link", { name: "Rate your session" }));
-  expect(screen.getByRole("heading", { name: "How was your session with Casey?" })).toBeInTheDocument();
-  expect(screen.getByRole("heading", { name: "Ceramics" })).toBeInTheDocument();
-  userEvent.click(screen.getByRole("radio", { name: "4 stars — Very good" }));
-  userEvent.click(screen.getByRole("button", { name: "Submit rating" }));
-  await screen.findByRole("heading", { name: "Thanks for sharing." });
-  expect(JSON.parse(localStorage.getItem("skilltrade.sessionRating.7.v1")).rating).toBe(4);
+  expect(await screen.findByRole("heading", { name: "Choose a completed session" })).toBeInTheDocument();
+  expect(screen.getByText("No completed sessions are available to rate yet.")).toBeInTheDocument();
+  expect(screen.queryByRole("button", { name: "Submit rating" })).not.toBeInTheDocument();
+  expect(localStorage.getItem("skilltrade.sessionRating.7.v1")).toBeNull();
 });
 
 test.each(["I’ve arrived", "Share location"])("session details connects %s to the correct participant", async (action) => {
